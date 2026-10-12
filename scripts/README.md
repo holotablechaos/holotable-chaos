@@ -58,7 +58,7 @@ python -m unittest discover -s scripts/tests -v
 
 ## SWGoH events calendar
 
-The calendar importer reads the publicly documented SWGoH Events iCalendar feed (`https://swgohevents.com/ical`) using Python's standard library. It updates `content/events.json` and only the marked calendar section of `resources/index.html`. It displays the last successful feed refresh time. The existing hand-maintained snapshot is retained until a complete usable feed has been processed successfully.
+The calendar importer reads the publicly documented SWGoH Events iCalendar feed (`https://swgohevents.com/ical`) using Python's standard library. SWGoH Events documents this URL for subscribing to upcoming events in calendar applications. The importer updates `content/events.json` and only the marked calendar section of `resources/index.html`. The page displays the last successful feed refresh time. The existing saved snapshot remains unchanged if the feed is unavailable, malformed, incomplete, or has no usable upcoming events.
 
 Preview a live refresh without changing files, then run the actual refresh when desired:
 
@@ -75,4 +75,6 @@ python scripts/sync_events_calendar.py --render-saved
 python -m unittest discover -s scripts/tests -v
 ```
 
-Events are identified by their iCalendar UID (and recurrence ID when present), sorted by start date, and updated in place when dates change. Empty, malformed, incomplete, or unreachable feeds leave both the saved event catalog and Resources page unchanged and report a clear error. The importer is hosting-independent. After the hosting platform is selected, its scheduler can run the refresh and pass updated static files through that site's normal publishing process; no scheduler or deployment workflow is configured now.
+Events are identified by their iCalendar UID (and recurrence ID when present), sorted by start date, and updated in place when titles or dates change. Empty, malformed, incomplete, or unreachable feeds leave both saved files unchanged and report a clear error. The importer remains hosting-independent.
+
+The GitHub Pages workflow runs a refresh daily at 10:23 UTC and also refreshes before a manually started workflow run. It runs the offline calendar tests before making a live request. On success it commits only `content/events.json` and `resources/index.html`, then the same workflow deploys the refreshed site. A failed test, fetch, parse, or commit prevents the deploy step, leaving the currently published site untouched. No additional secret is needed by the calendar importer; the refresh job uses GitHub's repository token with `contents: write`, while Pages deployment keeps its existing permissions and configuration.

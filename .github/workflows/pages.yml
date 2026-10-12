@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "23 10 * * *"
 
 permissions:
   contents: read
@@ -15,7 +17,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  refresh_events:
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Test the calendar importer
+        run: python3 -m unittest discover -s scripts/tests -p test_sync_events_calendar.py -v
+      - name: Refresh the saved calendar from SWGoH Events
+        run: python3 scripts/sync_events_calendar.py
+      - name: Commit and push calendar changes
+        run: |
+          if git diff --quiet -- content/events.json resources/index.html; then
+            echo "Calendar files are unchanged."
+          else
+            git add -- content/events.json resources/index.html
+            git -c user.name="github-actions[bot]" \
+                -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+                commit -m "Refresh SWGoH events calendar"
+            git push origin HEAD:main
+          fi
+
   deploy:
+    needs: refresh_events
+    if: ${{ always() && (needs.refresh_events.result == 'success' || needs.refresh_events.result == 'skipped') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -23,6 +53,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          ref: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'main' || github.sha }}
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:

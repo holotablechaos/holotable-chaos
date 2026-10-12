@@ -17,9 +17,9 @@ Only the 25 website HTML pages, `styles.css`, the four browser JavaScript files,
 
 ## GitHub Pages workflow
 
-`.github/workflows/pages.yml` runs on pushes to `main` and can also be started manually from the repository's Actions page. It stages `_site/`, uploads that directory as a Pages artifact, and deploys the artifact using GitHub's Pages Actions. It does not schedule or run either importer. If the repository uses a default branch with a name other than `main`, update the workflow's push branch before relying on automatic deployment.
+`.github/workflows/pages.yml` runs on pushes to `main`, can be started manually, and refreshes the SWGoH events calendar daily at 10:23 UTC. The scheduled and manual runs test the calendar importer, fetch the documented SWGoH Events iCalendar feed, and commit only `content/events.json` and the marked calendar section in `resources/index.html`. The same workflow then stages `_site/`, uploads it as a Pages artifact, and deploys it. If the importer fails, deployment is skipped. The Buzzsprout importer is not scheduled or run by this workflow. If the repository uses a default branch with a name other than `main`, update the workflow branch and refresh checkout references before relying on automatic updates.
 
-Before using it, create the public GitHub repository, push the reviewed project, and select **GitHub Actions** as the Pages publishing source in repository settings. This project preparation has not created a repository, connected a remote, pushed files, or enabled publishing.
+The public GitHub repository and Pages deployment are already active. The calendar refresh uses the workflow's built-in repository token and needs no additional credential. The existing Pages deployment configuration is retained; the new refresh job receives only `contents: write`, while the deployment job keeps the existing Pages permissions.
 
 ## Public-repository exclusions
 
