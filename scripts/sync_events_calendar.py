@@ -110,6 +110,15 @@ def _is_permanent_baylan_event(event: dict[str, Any]) -> bool:
     )
 
 
+def _display_event_title(event: dict[str, Any]) -> str:
+    """Remove a category suffix when the source duplicates it in SUMMARY."""
+    title = event["title"].strip()
+    category = event.get("category", "").strip()
+    if category:
+        title = re.sub(rf"\s+[-–—]\s+{re.escape(category)}\s*$", "", title, flags=re.IGNORECASE).strip()
+    return title
+
+
 def parse_ics(feed_bytes: bytes, today: date | None = None) -> list[dict[str, Any]]:
     """Parse a calendar feed and return validated upcoming VEVENT entries."""
     if len(feed_bytes) > MAX_FEED_BYTES:
@@ -269,7 +278,7 @@ def render_calendar(payload: dict[str, Any], now: datetime | None = None) -> str
         date_label = start.strftime("%b %d").upper()
         if end and end > start:
             date_label += "–" + end.strftime("%b %d").upper()
-        title = _escape_html(event["title"])
+        title = _escape_html(_display_event_title(event))
         if event.get("url", "").startswith(("https://", "http://")):
             title_html = f'<a href="{_escape_html(event["url"])}" target="_blank" rel="noopener noreferrer">{title}</a>'
         else:

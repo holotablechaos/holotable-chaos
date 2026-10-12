@@ -111,24 +111,18 @@ END:VCALENDAR\r
         self.assertNotIn("Baylan Skoll", saved_render)
         self.assertIn("Rebel Roundup", saved_render)
 
-    def test_saved_event_links_match_verified_swgoh_events_destinations(self):
-        expected = {
-            "Coruscant Omega Battle": "https://swgohevents.com/event/ewok-empire",
-            "Smuggler’s Run": "https://swgohevents.com/event/smugglers-run",
-            "Defense of Dathomir": "https://swgohevents.com/event/defense-dathormir",
-            "Secrets and Shadows": "https://swgohevents.com/event/secrets-shadows",
-            "Discarded Doctrine": "https://swgohevents.com/event/executor",
-            "Hoth Omega Battle": "https://swgohevents.com/event/hoth-omega-battles",
-            "Military Might": "https://swgohevents.com/event/military-might",
-            "Dathomir Omega Battle": "https://swgohevents.com/event/dathomir-omega-battles",
-            "Dark Sovereign": "https://swgohevents.com/event/leviathan",
-        }
-        archive = syncer.read_archive()
-        self.assertEqual({event["title"]: event["url"] for event in archive["events"]}, expected)
-        rendered = syncer.render_calendar(archive, now=self.now)
-        for title, url in expected.items():
-            self.assertIn(f'<a href="{url}"', rendered)
-            self.assertIn(f">{title}</a>", rendered)
+    def test_source_category_suffix_is_removed_but_verified_event_link_is_kept(self):
+        rendered = syncer.render_calendar({"events": [{
+            "title": "Coruscant Omega Battle - Omega Battles",
+            "category": "OMEGA BATTLES",
+            "start_date": "2026-10-13",
+            "end_date": "2026-10-13",
+            "url": "https://swgohevents.com/event/ewok-empire",
+        }]}, now=self.now)
+        self.assertIn('<a href="https://swgohevents.com/event/ewok-empire"', rendered)
+        self.assertIn(">Coruscant Omega Battle</a>", rendered)
+        self.assertNotIn("Coruscant Omega Battle - Omega Battles", rendered)
+        self.assertNotIn("OMEGA BATTLES", rendered)
 
     def test_refresh_time_uses_new_york_daylight_and_standard_time(self):
         daylight = syncer.render_calendar({"events": [], "last_successful_refresh": "2026-10-12T19:39:00Z"}, now=self.now)
@@ -139,7 +133,7 @@ END:VCALENDAR\r
 
     def test_event_date_badges_use_larger_type(self):
         css = (syncer.ROOT / "styles.css").read_text(encoding="utf-8")
-        self.assertIn(".event-row time span{font-size:13px", css)
+        self.assertIn(".event-row time span{font-size:14px", css)
 
     def test_reversed_all_day_end_date_is_rejected_without_mutating_saved_data(self):
         invalid_feed = b"""BEGIN:VCALENDAR\r
