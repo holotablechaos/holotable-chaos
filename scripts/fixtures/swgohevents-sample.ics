@@ -1,0 +1,33 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SWGoH Events//Calendar//EN
+X-WR-CALNAME:SWGoH Events
+BEGIN:VEVENT
+UID:event-20261013-defense@example.test
+DTSTAMP:20261012T130000Z
+DTSTART;VALUE=DATE:20261013
+DTEND;VALUE=DATE:20261014
+SUMMARY:Defense of Dathomir
+CATEGORIES:Heroic Battle
+DESCRIPTION:Mother Talzin Shards\nComplete the battle for rewards.
+URL:https://swgohevents.com/event/defense-of-dathomir
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-20261015-executor@example.test
+DTSTAMP:20261012T130000Z
+DTSTART;TZID=America/Los_Angeles:20261015T120000
+DTEND;TZID=America/Los_Angeles:20261016T120000
+SUMMARY:Discarded Doctrine
+CATEGORIES:Journey Guide Fleet Mastery
+DESCRIPTION:Executor event.
+URL:https://swgohevents.com/event/executor
+END:VEVENT
+BEGIN:VEVENT
+UID:event-20261012-expired@example.test
+DTSTAMP:20261012T130000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:Old event
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Join Holotable Chaos community segments: apply for a roster review, Question of the Week, and Chaos of the Week." />
+    <title>Community — Holotable Chaos</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="index.html" aria-current="page">Community</a><a href="../about/index.html">About</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="page-intro">
+        <p class="eyebrow"><span></span> THE COMMUNITY / TAKE PART</p>
+        <h1>Bring your <em>chaos.</em></h1>
+        <p>Holotable Chaos is better with the community in the conversation. Explore the recurring segments and take part in the roster review.</p>
+      </section>
+      <section class="community-page-grid" aria-label="Holotable Chaos community segments">
+        <article class="community-card community-card-featured" id="roster-review">
+          <div class="community-card-heading"><span class="card-kicker">FEATURED SEGMENT</span><span class="community-signal" aria-hidden="true">01</span></div>
+          <h2>Roster Review</h2>
+          <p>Apply to have your Star Wars: Galaxy of Heroes roster reviewed by the Holotable Chaos crew. Tell us about your goals and current projects so we can prepare.</p>
+          <a class="button button-primary" href="../roster-review/index.html">Apply for Roster Review <span aria-hidden="true">→</span></a>
+        </article>
+        <!-- QOTW_COMMUNITY_START -->
+          <article class="community-card qotw-community-card" id="question-of-the-week"><div class="community-card-heading"><span class="card-kicker">LISTENER QUESTION</span><span class="qotw-status">OPEN</span></div><h2>Question of the Week</h2><p class="qotw-preview"><strong>QotW #18</strong><br />If you could get a refund on one zeta ability upgrade whose would it be?</p><a class="card-link" href="question-of-the-week.html">View the question and archive <span>↗</span></a></article>
+          <!-- QOTW_COMMUNITY_END -->
+        <article class="community-card chaos-community-card" id="chaos-of-the-week">
+          <div class="community-card-heading"><span class="card-kicker">COMMUNITY STORIES</span><span class="qotw-status">OPEN</span></div>
+          <h2>Chaos of the Week</h2>
+          <p>Send the crew an idea for a chaotic, funny, or frustrating SWGoH segment. There’s no fixed topic or weekly prompt—share any Holotable chaos worth talking about.</p>
+          <a class="button button-primary" href="chaos-of-the-week.html">Submit a Chaos of the Week idea <span aria-hidden="true">→</span></a>
+        </article>
+      </section>
+      <section class="community-feedback-section" id="general-questions-feedback" aria-labelledby="general-questions-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">GET IN TOUCH</p><h2 id="general-questions-title">General questions <em>&amp; feedback.</em></h2></div>
+          <p>Have a question, suggestion, or feedback about the podcast or website? Send a note to the crew here.</p>
+        </div>
+        <div class="roster-form-card feedback-form-card">
+          <p class="form-notice" id="feedback-submission-explainer">Preparing this message opens your email application with a draft. Review it and send the email yourself; the website does not receive or store messages.</p>
+          <form id="general-feedback-form" aria-describedby="feedback-submission-explainer">
+            <div class="roster-form-grid">
+              <div class="form-field">
+                <label for="feedback-name">Name or in-game name <span class="optional-label">(optional)</span></label>
+                <input id="feedback-name" name="name" type="text" maxlength="120" autocomplete="name" />
+              </div>
+              <div class="form-field">
+                <label for="feedback-email">Email address <span class="optional-label">(optional)</span></label>
+                <input id="feedback-email" name="email" type="email" maxlength="254" autocomplete="email" />
+              </div>
+              <div class="form-field form-field-full">
+                <label for="feedback-type">Message type <span aria-hidden="true">*</span></label>
+                <select id="feedback-type" name="messageType" required aria-required="true">
+                  <option value="" selected disabled>Select a message type</option>
+                  <option>General Question</option>
+                  <option>Podcast Feedback</option>
+                  <option>Website Feedback</option>
+                  <option>Suggestion</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="feedback-subject">Subject <span aria-hidden="true">*</span></label>
+                <input id="feedback-subject" name="subject" type="text" maxlength="180" required aria-required="true" />
+              </div>
+              <div class="form-field form-field-full">
+                <label for="feedback-message">Message <span aria-hidden="true">*</span></label>
+                <textarea id="feedback-message" name="message" rows="7" maxlength="10000" required aria-required="true"></textarea>
+              </div>
+            </div>
+            <p class="form-error-summary" id="feedback-form-error" role="alert" aria-live="assertive" hidden></p>
+            <button class="button button-primary form-submit" type="submit">Prepare email <span aria-hidden="true">→</span></button>
+            <p class="form-footnote">Required fields are marked with *. You’ll still need to send the email yourself.</p>
+          </form>
+          <section class="roster-confirmation" id="feedback-confirmation" aria-labelledby="feedback-confirmation-title" aria-live="polite" hidden>
+            <p class="eyebrow">EMAIL DRAFT READY</p>
+            <h2 id="feedback-confirmation-title">Your message is ready.</h2>
+            <p>Your email app should open with your message filled in. Review the draft and send it yourself; Holotable Chaos has not received it until you send it.</p>
+            <p class="confirmation-recipient"><strong>To:</strong> <a href="mailto:holotablechaos@gmail.com">holotablechaos@gmail.com</a></p>
+            <a class="button button-primary email-draft-link" id="feedback-email-draft" href="#" target="_blank" rel="noopener noreferrer">Open email app <span aria-hidden="true">↗</span></a>
+            <details class="email-fallback" open>
+              <summary>If your email app didn’t open, email holotablechaos@gmail.com manually</summary>
+              <p><strong>To:</strong> holotablechaos@gmail.com<br /><strong>Email subject:</strong> Holotable Chaos — General Questions &amp; Feedback<br />Include your selected message type and subject in the email body.</p>
+              <label for="feedback-email-copy">Copyable email body</label>
+              <textarea id="feedback-email-copy" rows="14" readonly aria-label="Copyable general question or feedback email"></textarea>
+              <button class="button button-outline" id="feedback-copy-button" type="button">Copy email details</button>
+              <p class="copy-status" id="feedback-copy-status" role="status" aria-live="polite"></p>
+            </details>
+            <button class="edit-application-link" id="feedback-edit-message" type="button">Edit message</button>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
+    <script src="general-feedback.js"></script>
+  </body>
+</html>

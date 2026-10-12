@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Share your ideas for a Holotable Chaos Chaos of the Week segment." />
+    <title>Chaos of the Week — Holotable Chaos</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="index.html">Community</a><a href="../about/index.html">About</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="page-intro">
+        <p class="eyebrow"><span></span> THE COMMUNITY / COMMUNITY STORIES</p>
+        <h1>Chaos of the <em>week.</em></h1>
+        <p>Got a chaotic, funny, or frustrating SWGoH moment? Send the crew an idea for a Chaos of the Week segment. It can be any kind of Holotable chaos—there’s no fixed prompt.</p>
+      </section>
+      <section class="page-content roster-form-layout chaos-form-layout" aria-label="Chaos of the Week idea submission">
+        <div class="roster-form-card">
+          <p class="card-kicker">SEND THE CREW AN IDEA</p>
+          <p class="form-notice" id="chaos-submission-explainer">Preparing your submission opens your email application with a draft. Review it and send the email yourself; the website does not receive or store submissions.</p>
+          <form id="chaos-of-the-week-form" aria-describedby="chaos-submission-explainer">
+            <div class="roster-form-grid">
+              <div class="form-field form-field-full">
+                <label for="chaos-in-game-name">In-game name <span class="optional-label">(optional)</span></label>
+                <input id="chaos-in-game-name" name="inGameName" type="text" maxlength="100" autocomplete="nickname" />
+              </div>
+              <div class="form-field form-field-full">
+                <label for="chaos-idea">Submission title or idea <span aria-hidden="true">*</span></label>
+                <input id="chaos-idea" name="idea" type="text" maxlength="180" required aria-required="true" aria-describedby="chaos-idea-help" />
+                <p class="field-help" id="chaos-idea-help">A short name or summary for your Chaos of the Week idea.</p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="chaos-details">Explanation / details <span class="optional-label">(optional)</span></label>
+                <textarea id="chaos-details" name="details" rows="6" maxlength="5000" aria-describedby="chaos-details-help"></textarea>
+                <p class="field-help" id="chaos-details-help">Share any context that would help the crew understand the moment.</p>
+              </div>
+            </div>
+            <p class="form-error-summary" id="chaos-form-error" role="alert" aria-live="assertive" hidden></p>
+            <button class="button button-primary form-submit" type="submit">Prepare email submission <span aria-hidden="true">→</span></button>
+            <p class="form-footnote">The title or idea is required. You’ll still need to send the email yourself.</p>
+          </form>
+          <section class="roster-confirmation" id="chaos-confirmation" aria-labelledby="chaos-confirmation-title" aria-live="polite" hidden>
+            <p class="eyebrow">EMAIL DRAFT READY</p>
+            <h2 id="chaos-confirmation-title">Your idea is ready.</h2>
+            <p>Your email app should open with your submission filled in. Review the draft and send it yourself. Holotable Chaos has not received it until you send the email.</p>
+            <p class="confirmation-recipient"><strong>To:</strong> <a href="mailto:holotablechaos@gmail.com">holotablechaos@gmail.com</a></p>
+            <a class="button button-primary email-draft-link" id="chaos-email-draft" href="#" target="_blank" rel="noopener noreferrer">Open email app <span aria-hidden="true">↗</span></a>
+            <details class="email-fallback" open>
+              <summary>If your email app didn’t open, copy these details into a new email</summary>
+              <p><strong>To:</strong> holotablechaos@gmail.com<br /><strong>Subject:</strong> Holotable Chaos — Chaos of the Week Submission</p>
+              <label for="chaos-email-copy">Email body</label>
+              <textarea id="chaos-email-copy" rows="12" readonly aria-label="Copyable Chaos of the Week email"></textarea>
+              <button class="button button-outline" id="chaos-copy-button" type="button">Copy email details</button>
+              <p class="copy-status" id="chaos-copy-status" role="status" aria-live="polite"></p>
+            </details>
+            <button class="edit-application-link" id="chaos-edit-submission" type="button">Edit submission</button>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
+    <script src="chaos-of-the-week.js"></script>
+  </body>
+</html>

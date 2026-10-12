@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Apply for a Holotable Chaos Star Wars: Galaxy of Heroes roster review." />
+    <title>Roster Review Application — Holotable Chaos</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="page-intro">
+        <p class="eyebrow"><span></span> THE COMMUNITY / ROSTER REVIEW</p>
+        <h1>Show us your <em>roster.</em></h1>
+        <p>Tell us where your account is now and what you’re working toward. The crew can use these details to prepare a useful roster review.</p>
+      </section>
+      <section class="page-content roster-form-layout" aria-label="Roster review application">
+        <div class="roster-form-card">
+          <p class="card-kicker">APPLICATION DETAILS</p>
+          <p class="form-notice" id="submission-explainer">Submitting this form opens your email app with a prepared message. Please review and send the email yourself; nothing is submitted automatically.</p>
+          <form id="roster-review-form" novalidate aria-describedby="submission-explainer">
+            <div class="roster-form-grid">
+              <div class="form-field">
+                <label for="in-game-name">In-game name <span aria-hidden="true">*</span></label>
+                <input id="in-game-name" name="inGameName" type="text" autocomplete="nickname" required aria-required="true" aria-describedby="in-game-name-error" />
+                <p class="field-error" id="in-game-name-error" hidden></p>
+              </div>
+              <div class="form-field">
+                <label for="ally-code">Ally Code <span aria-hidden="true">*</span></label>
+                <input id="ally-code" name="allyCode" type="text" inputmode="numeric" autocomplete="off" placeholder="Example: 123-456-789" required aria-required="true" aria-describedby="ally-code-help ally-code-error" />
+                <p class="field-help" id="ally-code-help">Enter the ally code shown in your game profile.</p>
+                <p class="field-error" id="ally-code-error" hidden></p>
+              </div>
+              <div class="form-field">
+                <label for="galactic-power">Galactic Power (millions) <span aria-hidden="true">*</span></label>
+                <input id="galactic-power" name="galacticPower" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Example: 4.56" required aria-required="true" aria-describedby="galactic-power-help galactic-power-error" />
+                <p class="field-help" id="galactic-power-help">Enter GP in millions. Whole numbers and one or two decimal places are accepted (for example, 4, 4.5, or 4.56).</p>
+                <p class="field-error" id="galactic-power-error" hidden></p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="goals">Goals <span aria-hidden="true">*</span></label>
+                <textarea id="goals" name="goals" rows="4" required aria-required="true" aria-describedby="goals-error"></textarea>
+                <p class="field-error" id="goals-error" hidden></p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="current-projects">Current projects <span class="optional-label">(optional)</span></label>
+                <textarea id="current-projects" name="currentProjects" rows="3" aria-describedby="current-projects-help"></textarea>
+                <p class="field-help" id="current-projects-help">Characters, ships, or game modes you’re focusing on.</p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="next-major-goal">Next major goal <span aria-hidden="true">*</span></label>
+                <textarea id="next-major-goal" name="nextMajorGoal" rows="3" required aria-required="true" aria-describedby="next-major-goal-error"></textarea>
+                <p class="field-error" id="next-major-goal-error" hidden></p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="additional-context">Additional context <span class="optional-label">(optional)</span></label>
+                <textarea id="additional-context" name="additionalContext" rows="4"></textarea>
+              </div>
+            </div>
+            <p class="form-error-summary" id="form-error-summary" role="alert" aria-live="assertive" hidden></p>
+            <button class="button button-primary form-submit" type="submit">Prepare email application <span aria-hidden="true">→</span></button>
+            <p class="form-footnote">Fields marked with * are required. You’ll still need to send the email from your email app.</p>
+          </form>
+
+          <section class="roster-confirmation" id="roster-confirmation" aria-labelledby="confirmation-title" aria-live="polite" hidden>
+            <p class="eyebrow">EMAIL DRAFT READY</p>
+            <h2 id="confirmation-title">Your application is ready.</h2>
+            <p>Your email app should open with the application filled in. Review the draft and send it yourself. Holotable Chaos has not received it until you send the email.</p>
+            <p class="confirmation-recipient"><strong>To:</strong> <a href="mailto:holotablechaos@gmail.com">holotablechaos@gmail.com</a></p>
+            <a class="button button-primary email-draft-link" id="open-email-draft" href="#" target="_blank" rel="noopener noreferrer">Open email app <span aria-hidden="true">↗</span></a>
+            <details class="email-fallback">
+              <summary>If your email app didn’t open, copy your application</summary>
+              <label for="application-copy">Application details</label>
+              <textarea id="application-copy" rows="14" readonly></textarea>
+              <button class="button button-outline" id="copy-application" type="button">Copy application details</button>
+              <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+            </details>
+            <button class="edit-application-link" id="edit-application" type="button">Edit my application</button>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
+    <script src="form.js"></script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Holotable Chaos: A SWGoH Podcast</title>
+    <item>
+      <title>Episode 18: A Sample New Holotable</title>
+      <description><![CDATA[Jonny and Gavin cover the latest sample update, fleet plans, and community questions.]]></description>
+      <link>https://www.buzzsprout.com/2606659/episodes/18000018</link>
+      <guid isPermaLink="false">buzzsprout-18000018</guid>
+      <pubDate>Thu, 08 Oct 2026 12:00:00 -0400</pubDate>
+      <enclosure url="https://www.buzzsprout.com/2606659/episodes/18000018-a-sample-new-holotable.mp3" length="12345678" type="audio/mpeg" />
+      <itunes:episode>18</itunes:episode>
+      <itunes:duration>00:34:12</itunes:duration>
+      <itunes:image href="https://example.com/episode-18.jpg" />
+    </item>
+    <item>
+      <title>Episode 19: A Minimal Feed Item</title>
+      <guid isPermaLink="false">buzzsprout-19000019</guid>
+      <pubDate>Fri, 09 Oct 2026 12:00:00 -0400</pubDate>
+      <itunes:episode>19</itunes:episode>
+    </item>
+    <item>
+      <title>Droid Destruction, What We Know So Far</title>
+      <description><![CDATA[Feed copy for episode 17 must not replace its manually maintained notes.]]></description>
+      <link>https://www.buzzsprout.com/2606659/episodes/17000017</link>
+      <guid isPermaLink="false">buzzsprout-17000017</guid>
+      <pubDate>Mon, 05 Oct 2026 12:00:00 -0400</pubDate>
+      <enclosure url="https://www.buzzsprout.com/2606659/episodes/17000017-droid-destruction.mp3" length="12345678" type="audio/mpeg" />
+      <itunes:episode>17</itunes:episode>
+    </item>
+    <item>
+      <title>Episode 18: A Sample New Holotable</title>
+      <description>Duplicate RSS item, should not duplicate the episode.</description>
+      <guid isPermaLink="false">buzzsprout-18000018</guid>
+      <itunes:episode>18</itunes:episode>
+    </item>
+  </channel>
+</rss>
