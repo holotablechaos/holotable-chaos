@@ -14,6 +14,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
@@ -96,6 +97,19 @@ def _event_is_upcoming(event: dict[str, Any], current_day: date) -> bool:
     return date.fromisoformat(last_day) >= current_day
 
 
+def _is_permanent_baylan_event(event: dict[str, Any]) -> bool:
+    """Exclude the permanent Baylan Skoll Epic Confrontation from scheduled events."""
+    normalized_title = re.sub(r"[^a-z0-9]+", " ", event.get("title", "").casefold()).strip()
+    if normalized_title in {"baylan skoll", "baylan skoll epic confrontation"}:
+        return True
+    parsed_url = urlsplit(event.get("url", ""))
+    return (
+        parsed_url.hostname is not None
+        and parsed_url.hostname.casefold() in {"swgohevents.com", "www.swgohevents.com"}
+        and parsed_url.path.rstrip("/").casefold() == "/event/baylan-skoll"
+    )
+
+
 def parse_ics(feed_bytes: bytes, today: date | None = None) -> list[dict[str, Any]]:
     """Parse a calendar feed and return validated upcoming VEVENT entries."""
     if len(feed_bytes) > MAX_FEED_BYTES:
@@ -147,8 +161,12 @@ def parse_ics(feed_bytes: bytes, today: date | None = None) -> list[dict[str, An
             raise FeedError(f"Calendar event {position + 1} is missing a UID, SUMMARY, or DTSTART.")
         uid = _unescape_ical(uid_prop[1])
         title = _unescape_ical(summary_prop[1])
+        url_prop = value_of("URL")
+        event_url = _unescape_ical(url_prop[1]) if url_prop else ""
         if not uid or not title:
             raise FeedError(f"Calendar event {position + 1} has a blank UID or title.")
+        if _is_permanent_baylan_event({"title": title, "url": event_url}):
+            continue
         try:
             start_date, start_datetime, all_day = _parse_ical_datetime(start_prop[1], start_prop[0])
             end_prop = value_of("DTEND")
@@ -174,7 +192,6 @@ def parse_ics(feed_bytes: bytes, today: date | None = None) -> list[dict[str, An
         identity = uid + ("#" + recurrence_suffix if recurrence_suffix else "")
         category_values = [_unescape_ical(value) for _, value in props.get("CATEGORIES", []) if value]
         description_prop = value_of("DESCRIPTION")
-        url_prop = value_of("URL")
         status_prop = value_of("STATUS")
         events.append({
             "uid": identity,
@@ -187,7 +204,7 @@ def parse_ics(feed_bytes: bytes, today: date | None = None) -> list[dict[str, An
             "category": ", ".join(category_values),
             "reward": "",
             "description": _unescape_ical(description_prop[1]) if description_prop else "",
-            "url": _unescape_ical(url_prop[1]) if url_prop else "",
+            "url": event_url,
             "status": _unescape_ical(status_prop[1]).upper() if status_prop else "CONFIRMED",
         })
 
@@ -241,7 +258,10 @@ def render_calendar(payload: dict[str, Any], now: datetime | None = None) -> str
     current_day = current.astimezone(timezone.utc).date() if current.tzinfo else current.date()
     # Saved snapshots can outlive their last refresh. Filter at render time as well
     # as import time so expired entries never remain in the upcoming list.
-    events = [event for event in payload["events"] if _event_is_upcoming(event, current_day)]
+    events = [
+        event for event in payload["events"]
+        if not _is_permanent_baylan_event(event) and _event_is_upcoming(event, current_day)
+    ]
     lines: list[str] = []
     for event in events:
         start = date.fromisoformat(event["start_date"])
@@ -249,27 +269,21 @@ def render_calendar(payload: dict[str, Any], now: datetime | None = None) -> str
         date_label = start.strftime("%b %d").upper()
         if end and end > start:
             date_label += "–" + end.strftime("%b %d").upper()
-        category_reward = " · ".join(value for value in (event.get("category", ""), event.get("reward", "")) if value)
-        description = event.get("description", "")
-        detail = category_reward or description
-        if category_reward and description and description.casefold() not in category_reward.casefold():
-            detail += " · " + description
-        status = event.get("status", "CONFIRMED")
-        if status in {"CANCELLED", "TENTATIVE"}:
-            detail = (detail + " · " if detail else "") + status.title()
         title = _escape_html(event["title"])
         if event.get("url", "").startswith(("https://", "http://")):
-            title_html = f'<a href="{_escape_html(event["url"])}" target="_blank" rel="noopener noreferrer">{title} <span aria-hidden="true">↗</span></a>'
+            title_html = f'<a href="{_escape_html(event["url"])}" target="_blank" rel="noopener noreferrer">{title}</a>'
         else:
             title_html = title
         datetime_attr = event.get("start_datetime") or start.isoformat()
-        detail_html = f'<p>{_escape_html(detail)}</p>' if detail else ""
-        lines.append(f'<article class="event-row"><time datetime="{_escape_html(datetime_attr)}"><span>{_escape_html(date_label)}</span></time><div><h3>{title_html}</h3>{detail_html}</div></article>')
+        lines.append(f'<article class="event-row"><time datetime="{_escape_html(datetime_attr)}"><span>{_escape_html(date_label)}</span></time><div><h3>{title_html}</h3></div></article>')
 
     successful = payload.get("last_successful_refresh")
     if successful:
         stamp = datetime.fromisoformat(successful.replace("Z", "+00:00"))
-        label = stamp.strftime("%b %d, %Y %H:%M UTC")
+        if stamp.tzinfo is None:
+            stamp = stamp.replace(tzinfo=timezone.utc)
+        local_stamp = stamp.astimezone(ZoneInfo("America/New_York"))
+        label = local_stamp.strftime("%b %d, %Y %I:%M %p %Z")
         refresh = f'<p class="episode-description calendar-refresh">Last successful feed refresh: <time datetime="{_escape_html(successful)}">{_escape_html(label)}</time>.</p>'
     else:
         snapshot = payload.get("snapshot_as_of")

@@ -4,14 +4,14 @@
   "last_successful_refresh": null,
   "snapshot_as_of": "2026-10-12",
   "events": [
-    {"uid": null, "title": "Coruscant Omega Battle", "start_date": "2026-10-12", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Smuggler’s Run", "start_date": "2026-10-12", "end_date": null, "all_day": true, "category": "Resource Event", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Defense of Dathomir", "start_date": "2026-10-13", "end_date": null, "all_day": true, "category": "Heroic Battle", "reward": "Mother Talzin Shards", "description": "", "url": ""},
-    {"uid": null, "title": "Secrets and Shadows", "start_date": "2026-10-14", "end_date": null, "all_day": true, "category": "Assault Battles", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Discarded Doctrine", "start_date": "2026-10-15", "end_date": null, "all_day": true, "category": "Journey Guide Fleet Mastery", "reward": "Executor", "description": "", "url": ""},
-    {"uid": null, "title": "Hoth Omega Battle", "start_date": "2026-10-16", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Military Might", "start_date": "2026-10-17", "end_date": null, "all_day": true, "category": "Assault Battles", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Dathomir Omega Battle", "start_date": "2026-10-19", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": ""},
-    {"uid": null, "title": "Dark Sovereign", "start_date": "2026-10-20", "end_date": null, "all_day": true, "category": "Journey Guide Fleet Mastery", "reward": "Leviathan", "description": "", "url": ""}
+    {"uid": null, "title": "Coruscant Omega Battle", "start_date": "2026-10-12", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": "https://swgohevents.com/event/ewok-empire"},
+    {"uid": null, "title": "Smuggler’s Run", "start_date": "2026-10-12", "end_date": null, "all_day": true, "category": "Resource Event", "reward": "", "description": "", "url": "https://swgohevents.com/event/smugglers-run"},
+    {"uid": null, "title": "Defense of Dathomir", "start_date": "2026-10-13", "end_date": null, "all_day": true, "category": "Heroic Battle", "reward": "Mother Talzin Shards", "description": "", "url": "https://swgohevents.com/event/defense-dathormir"},
+    {"uid": null, "title": "Secrets and Shadows", "start_date": "2026-10-14", "end_date": null, "all_day": true, "category": "Assault Battles", "reward": "", "description": "", "url": "https://swgohevents.com/event/secrets-shadows"},
+    {"uid": null, "title": "Discarded Doctrine", "start_date": "2026-10-15", "end_date": null, "all_day": true, "category": "Journey Guide Fleet Mastery", "reward": "Executor", "description": "", "url": "https://swgohevents.com/event/executor"},
+    {"uid": null, "title": "Hoth Omega Battle", "start_date": "2026-10-16", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": "https://swgohevents.com/event/hoth-omega-battles"},
+    {"uid": null, "title": "Military Might", "start_date": "2026-10-17", "end_date": null, "all_day": true, "category": "Assault Battles", "reward": "", "description": "", "url": "https://swgohevents.com/event/military-might"},
+    {"uid": null, "title": "Dathomir Omega Battle", "start_date": "2026-10-19", "end_date": null, "all_day": true, "category": "Omega Battles", "reward": "", "description": "", "url": "https://swgohevents.com/event/dathomir-omega-battles"},
+    {"uid": null, "title": "Dark Sovereign", "start_date": "2026-10-20", "end_date": null, "all_day": true, "category": "Journey Guide Fleet Mastery", "reward": "Leviathan", "description": "", "url": "https://swgohevents.com/event/leviathan"}
   ]
 }

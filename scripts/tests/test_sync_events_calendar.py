@@ -59,6 +59,106 @@ class EventsCalendarSyncTests(unittest.TestCase):
         self.assertIn("Rebel Roundup", rendered)
         self.assertIn("Last successful feed refresh", rendered)
 
+    def test_render_shows_only_event_date_and_linked_title(self):
+        payload = {
+            "last_successful_refresh": "2026-10-11T12:00:00Z",
+            "events": [{
+                "title": "Rebel Roundup",
+                "start_date": "2026-10-28",
+                "end_date": "2026-10-29",
+                "url": "https://swgohevents.com/event/rebel-roundup",
+                "category": "Assault Battles",
+                "reward": "Special reward",
+                "description": "Lengthy description with requirements and tiers.",
+                "status": "TENTATIVE",
+            }],
+        }
+        rendered = syncer.render_calendar(payload, now=self.now)
+        self.assertIn("OCT 28–OCT 29", rendered)
+        self.assertIn('<a href="https://swgohevents.com/event/rebel-roundup"', rendered)
+        self.assertIn(">Rebel Roundup</a>", rendered)
+        self.assertNotIn("Assault Battles", rendered)
+        self.assertNotIn("Special reward", rendered)
+        self.assertNotIn("Lengthy description", rendered)
+        self.assertNotIn("Tentative", rendered)
+
+    def test_permanent_baylan_event_is_excluded_even_with_extreme_duration(self):
+        feed = self.work / "permanent-baylan.ics"
+        feed.write_text("""BEGIN:VCALENDAR\r
+VERSION:2.0\r
+BEGIN:VEVENT\r
+UID:permanent-baylan@example.test\r
+DTSTART;VALUE=DATE:20261028\r
+DTEND;VALUE=DATE:21350101\r
+SUMMARY:Baylan Skoll - Epic Confrontation\r
+URL:https://swgohevents.com/event/baylan-skoll\r
+END:VEVENT\r
+BEGIN:VEVENT\r
+UID:normal-event@example.test\r
+DTSTART;VALUE=DATE:20261029\r
+DTEND;VALUE=DATE:20261030\r
+SUMMARY:Rebel Roundup\r
+URL:https://swgohevents.com/event/rebel-roundup\r
+END:VEVENT\r
+END:VCALENDAR\r
+""", encoding="utf-8")
+        events = syncer.parse_ics(feed.read_bytes(), today=date(2026, 10, 12))
+        self.assertEqual([event["title"] for event in events], ["Rebel Roundup"])
+        saved_render = syncer.render_calendar({"events": [
+            {"title": "Baylan Skoll", "url": "https://swgohevents.com/event/baylan-skoll", "start_date": "2026-10-28", "end_date": "2134-12-31"},
+            {"title": "Rebel Roundup", "url": "https://swgohevents.com/event/rebel-roundup", "start_date": "2026-10-29", "end_date": "2026-10-29"},
+        ]}, now=self.now)
+        self.assertNotIn("Baylan Skoll", saved_render)
+        self.assertIn("Rebel Roundup", saved_render)
+
+    def test_saved_event_links_match_verified_swgoh_events_destinations(self):
+        expected = {
+            "Coruscant Omega Battle": "https://swgohevents.com/event/ewok-empire",
+            "Smuggler’s Run": "https://swgohevents.com/event/smugglers-run",
+            "Defense of Dathomir": "https://swgohevents.com/event/defense-dathormir",
+            "Secrets and Shadows": "https://swgohevents.com/event/secrets-shadows",
+            "Discarded Doctrine": "https://swgohevents.com/event/executor",
+            "Hoth Omega Battle": "https://swgohevents.com/event/hoth-omega-battles",
+            "Military Might": "https://swgohevents.com/event/military-might",
+            "Dathomir Omega Battle": "https://swgohevents.com/event/dathomir-omega-battles",
+            "Dark Sovereign": "https://swgohevents.com/event/leviathan",
+        }
+        archive = syncer.read_archive()
+        self.assertEqual({event["title"]: event["url"] for event in archive["events"]}, expected)
+        rendered = syncer.render_calendar(archive, now=self.now)
+        for title, url in expected.items():
+            self.assertIn(f'<a href="{url}"', rendered)
+            self.assertIn(f">{title}</a>", rendered)
+
+    def test_refresh_time_uses_new_york_daylight_and_standard_time(self):
+        daylight = syncer.render_calendar({"events": [], "last_successful_refresh": "2026-10-12T19:39:00Z"}, now=self.now)
+        standard = syncer.render_calendar({"events": [], "last_successful_refresh": "2026-01-12T19:39:00Z"}, now=self.now)
+        self.assertIn("Oct 12, 2026 03:39 PM EDT", daylight)
+        self.assertIn("Jan 12, 2026 02:39 PM EST", standard)
+        self.assertIn('datetime="2026-10-12T19:39:00Z"', daylight)
+
+    def test_event_date_badges_use_larger_type(self):
+        css = (syncer.ROOT / "styles.css").read_text(encoding="utf-8")
+        self.assertIn(".event-row time span{font-size:13px", css)
+
+    def test_reversed_all_day_end_date_is_rejected_without_mutating_saved_data(self):
+        invalid_feed = b"""BEGIN:VCALENDAR\r
+VERSION:2.0\r
+BEGIN:VEVENT\r
+UID:invalid-date@example.test\r
+DTSTART;VALUE=DATE:20261028\r
+DTEND;VALUE=DATE:20261024\r
+SUMMARY:Invalid date event\r
+END:VEVENT\r
+END:VCALENDAR\r
+"""
+        feed = self.work / "reversed.ics"
+        feed.write_bytes(invalid_feed)
+        before = (self.archive.read_bytes(), self.page.read_bytes())
+        with self.assertRaisesRegex(syncer.FeedError, "end precedes its start"):
+            syncer.sync(feed_file=feed, archive_path=self.archive, page_path=self.page, now=self.now, today=date(2026, 10, 12))
+        self.assertEqual((self.archive.read_bytes(), self.page.read_bytes()), before)
+
     def test_sync_deduplicates_by_stable_uid_and_updates_changed_dates(self):
         syncer.sync(feed_file=FIXTURES / "swgohevents-sample.ics", archive_path=self.archive, page_path=self.page, now=self.now, today=date(2026, 10, 12))
         first = json.loads(self.archive.read_text(encoding="utf-8"))
@@ -66,7 +166,7 @@ class EventsCalendarSyncTests(unittest.TestCase):
         self.assertEqual(len(first_ids), 2)
         self.assertEqual(first["last_successful_refresh"], "2026-10-12T14:30:00Z")
         first_render = self.page.read_text(encoding="utf-8")
-        self.assertIn("Oct 12, 2026 14:30 UTC", first_render)
+        self.assertIn("Oct 12, 2026 10:30 AM EDT", first_render)
         self.assertIn("Defense of Dathomir", first_render)
 
         changed_feed = self.work / "changed.ics"
