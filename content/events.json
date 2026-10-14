@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-13T10:41:23Z",
+  "last_successful_refresh": "2026-10-14T10:54:24Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "8754c0e6943c3a6dd881eee0e0454a64",
-      "title": "Defense of Dathomir - Heroic Battle",
-      "start_date": "2026-10-13",
-      "end_date": "2026-10-13",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "HEROIC BATTLE",
-      "reward": "",
-      "description": "https://swgohevents.com/event/defense-dathormir",
-      "url": "https://swgohevents.com/event/defense-dathormir",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "183524fb9a6f7f92e47b411d747c382c",
+      "uid": "b381408f03dcfd6edc8caf452b5dc50d",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-10-14",
       "end_date": "2026-10-14",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "cc72b5c873f67376154d6b40213803f3",
+      "uid": "cabe271e8b7675d8d96ead326a829872",
       "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
       "start_date": "2026-10-15",
       "end_date": "2026-10-15",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7fe926bb3668e96a340bf3e59ec4c582",
+      "uid": "b0ae0677408e9cace89eddf1238fae46",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-10-16",
       "end_date": "2026-10-16",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "862206c83b31488eba4428561abc95a3",
+      "uid": "f808732aae36e4a749456c20e0e8cab6",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-10-17",
       "end_date": "2026-10-17",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "22f21d534b64f5aaac9b4e68a20f526d",
+      "uid": "7d131f5202ae23a4ff77748d96e03d2a",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-10-19",
       "end_date": "2026-10-19",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "bb7078af92cef7a8a2511d89c7beb32b",
+      "uid": "8baf8ef6cc4945ca47d9ed5480f40a17",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-10-20",
       "end_date": "2026-10-20",
@@ -103,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "08304af0d2223b84632679435ad4c736",
+      "uid": "4cab6673ff63cfd43493ca2e093c2b77",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
