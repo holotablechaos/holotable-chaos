@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-16T10:54:00Z",
+  "last_successful_refresh": "2026-10-17T10:46:39Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "6db9200889abca92c2492a64ef55c3c8",
-      "title": "Hoth Omega Battle - Omega Battles",
-      "start_date": "2026-10-16",
-      "end_date": "2026-10-16",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/hoth-omega-battles\n\nRequires: First Order & Scoundrels",
-      "url": "https://swgohevents.com/event/hoth-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "174f9aa8b4f0191244383a88768a1779",
+      "uid": "ec2290d2e87bc32663d17ec117153fc4",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-10-17",
       "end_date": "2026-10-17",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6680fc3ecd292988eb54bdf7ebda697a",
+      "uid": "fecd6426410ef1587d8c8523660fdafa",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-10-19",
       "end_date": "2026-10-19",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7ca69d94c012dfe5545e03a197a23b91",
+      "uid": "7df066e8706c14055cce04ee5105cee8",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-10-20",
       "end_date": "2026-10-20",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "255c9f584b94e1d6703fc455da204682",
+      "uid": "a2eec5543f0882a221ab1a8abd6f5fe9",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c335a48a0ef6e281f0fb749909d5d2ae",
+      "uid": "fe671be852c50003a0e830e1b8f85e16",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -86,6 +72,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/ground-war\n\nRequires Jedi, Ewoks, or Ugnaught",
       "url": "https://swgohevents.com/event/ground-war",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "0e3347b6c0bc6e3980e7d8283f288495",
+      "title": "Galactic Bounties I - Special Event",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "SPECIAL EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/galactic-bounties",
+      "url": "https://swgohevents.com/event/galactic-bounties",
       "status": "CONFIRMED"
     }
   ]
