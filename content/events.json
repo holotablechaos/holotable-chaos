@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-17T10:46:39Z",
+  "last_successful_refresh": "2026-10-18T10:47:12Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "ec2290d2e87bc32663d17ec117153fc4",
-      "title": "Military Might - Assault Battles",
-      "start_date": "2026-10-17",
-      "end_date": "2026-10-17",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/military-might\n\nRequires Rebels or Clones",
-      "url": "https://swgohevents.com/event/military-might",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "fecd6426410ef1587d8c8523660fdafa",
+      "uid": "800df6aa6efce72c36d9b76159e59602",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-10-19",
       "end_date": "2026-10-19",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7df066e8706c14055cce04ee5105cee8",
+      "uid": "c63e4885253f6a78fadecde2e031d3c5",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-10-20",
       "end_date": "2026-10-20",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a2eec5543f0882a221ab1a8abd6f5fe9",
+      "uid": "34239f3d95d9116f82fcd2cfa9212ee7",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -61,7 +47,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "fe671be852c50003a0e830e1b8f85e16",
+      "uid": "4fd2d52e12b573bfb53a95ac2da371f7",
+      "title": "Smuggler's Run II - Resource Event",
+      "start_date": "2026-10-21",
+      "end_date": "2026-10-21",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-ii",
+      "url": "https://swgohevents.com/event/smugglers-run-ii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "c5e448ef768b5f880059ee8f878d482b",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -75,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0e3347b6c0bc6e3980e7d8283f288495",
+      "uid": "17212bd56752ae195ebcbd08639ece00",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -86,6 +86,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/galactic-bounties",
       "url": "https://swgohevents.com/event/galactic-bounties",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "9ff8f242dd9f8f014abf80177a3a1728",
+      "title": "Endor Omega Battle - Omega Battles",
+      "start_date": "2026-10-26",
+      "end_date": "2026-10-26",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "OMEGA BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/endor-omega-battles\n\nRequires: Sith & Droids",
+      "url": "https://swgohevents.com/event/endor-omega-battles",
       "status": "CONFIRMED"
     }
   ]
