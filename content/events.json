@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-18T10:47:12Z",
+  "last_successful_refresh": "2026-10-19T10:53:25Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "800df6aa6efce72c36d9b76159e59602",
+      "uid": "3b0e571b089755c4ddc8a467f2cc752c",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-10-19",
       "end_date": "2026-10-19",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c63e4885253f6a78fadecde2e031d3c5",
+      "uid": "4441813dedcb756568e4ed260ec25531",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-10-20",
       "end_date": "2026-10-20",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "34239f3d95d9116f82fcd2cfa9212ee7",
+      "uid": "4f1e1d6560b8e8ce495d816f02c95c6a",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "4fd2d52e12b573bfb53a95ac2da371f7",
+      "uid": "f93c0ce3bb7136ef18827f5c09a624ab",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -61,7 +61,35 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c5e448ef768b5f880059ee8f878d482b",
+      "uid": "aeffc47a4136ca74f4218e3bd17c593f",
+      "title": "Contraband Cargo - Resource Event",
+      "start_date": "2026-10-22",
+      "end_date": "2026-10-22",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/contraband-cargo",
+      "url": "https://swgohevents.com/event/contraband-cargo",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "a90d5a7ebe04300885d3b554802a7834",
+      "title": "Credit Heist - Resource Event",
+      "start_date": "2026-10-22",
+      "end_date": "2026-10-22",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/credit-heist\n\nOccurs roughly every 10-16 days, however, there is no official cadence.\n\nRequires Scoundrels",
+      "url": "https://swgohevents.com/event/credit-heist",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "dc757aeb182e8c8c4952fac81aa4c73e",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -75,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "17212bd56752ae195ebcbd08639ece00",
+      "uid": "ea53027d7a44387dda1ca832a5c68c72",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -89,7 +117,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "9ff8f242dd9f8f014abf80177a3a1728",
+      "uid": "b0a8e0fe87c5ef4bf555fa29d45af4f2",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
