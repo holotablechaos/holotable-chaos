@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-19T10:53:25Z",
+  "last_successful_refresh": "2026-10-20T10:52:46Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "3b0e571b089755c4ddc8a467f2cc752c",
-      "title": "Dathomir Omega Battle - Omega Battles",
-      "start_date": "2026-10-19",
-      "end_date": "2026-10-19",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/dathomir-omega-battles\n\nRequires: Jedi & Tusken Characters",
-      "url": "https://swgohevents.com/event/dathomir-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "4441813dedcb756568e4ed260ec25531",
+      "uid": "eb0072be8ed9b42a673a59f310fe01c8",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-10-20",
       "end_date": "2026-10-20",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "4f1e1d6560b8e8ce495d816f02c95c6a",
+      "uid": "2bdd8e7e65de5559283a99ae7b34b7a4",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f93c0ce3bb7136ef18827f5c09a624ab",
+      "uid": "a5bbc54b67ecde2d8f910e500ecfac7b",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-10-21",
       "end_date": "2026-10-21",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "aeffc47a4136ca74f4218e3bd17c593f",
+      "uid": "74ef8b11c05f86d174731656ba3b725e",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-10-22",
       "end_date": "2026-10-22",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a90d5a7ebe04300885d3b554802a7834",
+      "uid": "2afa9cbff6b1844abc136dceca2c411a",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-10-22",
       "end_date": "2026-10-22",
@@ -89,7 +75,35 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "dc757aeb182e8c8c4952fac81aa4c73e",
+      "uid": "2d1b319844b0c69abc3bc360db7a8453",
+      "title": "Smuggler's Run III - Resource Event",
+      "start_date": "2026-10-23",
+      "end_date": "2026-10-23",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-iii",
+      "url": "https://swgohevents.com/event/smugglers-run-iii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "dd295d5f9c879e03bb1041fc7757f0f0",
+      "title": "Training Droid Smuggling - Resource Event",
+      "start_date": "2026-10-23",
+      "end_date": "2026-10-23",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/training-droid-smuggling",
+      "url": "https://swgohevents.com/event/training-droid-smuggling",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "b98b5752966199368cbcd89f68c2c197",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -103,7 +117,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ea53027d7a44387dda1ca832a5c68c72",
+      "uid": "076cc3ea047820f1bab1ffaa1cea3c8c",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -117,7 +131,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "b0a8e0fe87c5ef4bf555fa29d45af4f2",
+      "uid": "9fc66015a9fd01f63b0bfa028dad2a72",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
