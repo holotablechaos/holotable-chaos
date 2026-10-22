@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-21T10:55:12Z",
+  "last_successful_refresh": "2026-10-22T10:54:05Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "b0a598dd65708f7b6f92ec85725f77c7",
-      "title": "Rebel Roundup - Assault Battles",
-      "start_date": "2026-10-21",
-      "end_date": "2026-10-21",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/rebel-roundup\n\nRequires Bounty Hunters or Imperial Troopers",
-      "url": "https://swgohevents.com/event/rebel-roundup",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "9dad093f0e55518c2c58103b43b59156",
-      "title": "Smuggler's Run II - Resource Event",
-      "start_date": "2026-10-21",
-      "end_date": "2026-10-21",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run-ii",
-      "url": "https://swgohevents.com/event/smugglers-run-ii",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "d7ebca0d081fd11fa3e3d7c971cf1bdf",
+      "uid": "f409b84e147d5d740e4f9577cb67e269",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-10-22",
       "end_date": "2026-10-22",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3e44e803fad5151b02fdaa8876a32911",
+      "uid": "cac10b77eafc18b7b2fe0153a989a420",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-10-22",
       "end_date": "2026-10-22",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f93b0337eaad7bcc087fe5581f663e2f",
+      "uid": "9b4d45f0fe1f182828160d561d77f7b1",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-10-23",
       "end_date": "2026-10-23",
@@ -75,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "06fdba5a5cb1ad9eb34bded5da1cad5e",
+      "uid": "d3c6104a47b27c86184d5c7f810e392c",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-10-23",
       "end_date": "2026-10-23",
@@ -89,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a74e1cbf9e9d0de6d9a50a6864658d81",
+      "uid": "00bacd595cc9245336785b3f2a0abeeb",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -103,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "11cbf22d1e563545d2fc838c627e4e98",
+      "uid": "a48f71edd2fd488bd4d846c325540205",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -117,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "61ccfb6070bb972f375be756d1bdca9c",
+      "uid": "ae76dd44a03a5f0c7db2f3609f000688",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -131,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6a74060a60511c10e0a0ba0a9749115d",
+      "uid": "45b44d67ded835d2f7082320dc5ab154",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
