@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-22T10:54:05Z",
+  "last_successful_refresh": "2026-10-23T10:52:51Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "f409b84e147d5d740e4f9577cb67e269",
-      "title": "Contraband Cargo - Resource Event",
-      "start_date": "2026-10-22",
-      "end_date": "2026-10-22",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/contraband-cargo",
-      "url": "https://swgohevents.com/event/contraband-cargo",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "cac10b77eafc18b7b2fe0153a989a420",
-      "title": "Credit Heist - Resource Event",
-      "start_date": "2026-10-22",
-      "end_date": "2026-10-22",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/credit-heist\n\nOccurs roughly every 10-16 days, however, there is no official cadence.\n\nRequires Scoundrels",
-      "url": "https://swgohevents.com/event/credit-heist",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "9b4d45f0fe1f182828160d561d77f7b1",
+      "uid": "e8569b5b7f4ffefc136edac0bc7dc868",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-10-23",
       "end_date": "2026-10-23",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "d3c6104a47b27c86184d5c7f810e392c",
+      "uid": "5bda9a21d45c30e2d727d3f350a9ddb2",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-10-23",
       "end_date": "2026-10-23",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "00bacd595cc9245336785b3f2a0abeeb",
+      "uid": "35485fce13dcb112ffa594c63f9d6e83",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -75,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a48f71edd2fd488bd4d846c325540205",
+      "uid": "1e50890acabc544cf90eb787125b7533",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -89,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ae76dd44a03a5f0c7db2f3609f000688",
+      "uid": "6877cd3337a9e39cf1cc52fe3589c5f4",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -103,7 +75,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "45b44d67ded835d2f7082320dc5ab154",
+      "uid": "87dfc038eeda5f9e706158574c72d289",
+      "title": "Smuggler's Run - Resource Event",
+      "start_date": "2026-10-26",
+      "end_date": "2026-10-26",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run",
+      "url": "https://swgohevents.com/event/smugglers-run",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "c266bc6e9ecf420c3b99ed79fd38cebe",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
@@ -114,6 +100,34 @@
       "reward": "",
       "description": "https://swgohevents.com/event/ghosts-dathomir\n\nRequires: Any Characters. Level 20",
       "url": "https://swgohevents.com/event/ghosts-dathomir",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "338d8499e3f1119e91dda3d258f44932",
+      "title": "Places of Power - Assault Battles",
+      "start_date": "2026-10-31",
+      "end_date": "2026-10-31",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
+      "url": "https://swgohevents.com/event/places-power",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "625da117cbff7919922d90b98ae97899",
+      "title": "Stardust Transmission - Journey Guide Fleet Mastery",
+      "start_date": "2026-10-31",
+      "end_date": "2026-10-31",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "JOURNEY GUIDE FLEET MASTERY",
+      "reward": "",
+      "description": "https://swgohevents.com/event/profundity\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 4, 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Profundity at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Profundity during one event. If you are grinding Profundity over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nAdmiral Raddus Relic 9\nCassian Andor Relic 8\nDash Rendar Relic 7\nMon Mothma Relic 5\nBistan Relic 5\nJyn Erso Relic 5\nHera Syndulla Relic 5\n\n\nTier 1\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (4-stars)\nCassian's U-wing (4-stars)\nBistan's U-wing (4-stars)\nWedge Antilles' X-wing (4-stars)\nBiggs Darklighter's X-wing (4-stars)\nRebel Y-wing (4-stars)\nGhost (4-stars)\n\n\nTier 2\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (5-stars)\nCassian's U-wing (5-stars)\nBistan's U-wing (5-stars)\nWedge Antilles' X-wing (5-stars)\nBiggs Darklighter's X-wing (5-stars)\nRebel Y-wing (5-stars)\nGhost (5-stars)\n\n\nTier 3\nRewards: 20 Profundity Shards\nPlayable once\n\nOutrider (6-stars)\nCassian's U-wing (6-stars)\nBistan's U-wing (6-stars)\nWedge Antilles' X-wing (6-stars)\nBiggs Darklighter's X-wing (6-stars)\nRebel Y-wing (6-stars)\nGhost (6-stars)\n\n\nTier 4\nRewards: 40 Profundity Shards\nPlayable once\n\nOutrider (7-stars)\nCassian's U-wing (7-stars)\nBistan's U-wing (7-stars)\nWedge Antilles' X-wing (7-stars)\nBiggs Darklighter's X-wing (7-stars)\nRebel Y-wing (7-stars)\nGhost (7-stars)\n\n\nBonus Tier\nRewards: 10 Profundity Shards\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nProfundity (4-stars)\nOutrider\nCassian's U-wing\nBistan's U-wing\nWedge Antilles' X-wing\nBiggs Darklighter's X-wing\nRebel Y-wing\nGhost",
+      "url": "https://swgohevents.com/event/profundity",
       "status": "CONFIRMED"
     }
   ]
