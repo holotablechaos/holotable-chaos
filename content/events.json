@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-23T10:52:51Z",
+  "last_successful_refresh": "2026-10-24T10:50:32Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "e8569b5b7f4ffefc136edac0bc7dc868",
-      "title": "Smuggler's Run III - Resource Event",
-      "start_date": "2026-10-23",
-      "end_date": "2026-10-23",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run-iii",
-      "url": "https://swgohevents.com/event/smugglers-run-iii",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "5bda9a21d45c30e2d727d3f350a9ddb2",
-      "title": "Training Droid Smuggling - Resource Event",
-      "start_date": "2026-10-23",
-      "end_date": "2026-10-23",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/training-droid-smuggling",
-      "url": "https://swgohevents.com/event/training-droid-smuggling",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "35485fce13dcb112ffa594c63f9d6e83",
+      "uid": "aedabf6a224bdb0eb6f2bfd93ca33075",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "1e50890acabc544cf90eb787125b7533",
+      "uid": "d3d16461695f1052ae7264e01cc14328",
       "title": "Galactic Bounties I - Special Event",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6877cd3337a9e39cf1cc52fe3589c5f4",
+      "uid": "01fa7ead43869dd02bce890b36270ade",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -75,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "87dfc038eeda5f9e706158574c72d289",
+      "uid": "18ba79c0d00c3a2689a4ef8924302b8e",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -89,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c266bc6e9ecf420c3b99ed79fd38cebe",
+      "uid": "69abcc85516de608d8498eb78ac3862b",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
@@ -103,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "338d8499e3f1119e91dda3d258f44932",
+      "uid": "9e533ecba20167596836cb5c91f4857e",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -117,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "625da117cbff7919922d90b98ae97899",
+      "uid": "974558063dbe2acbe3360e992dcb182d",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
