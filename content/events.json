@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-25T10:50:12Z",
+  "last_successful_refresh": "2026-10-26T11:00:21Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "c71e7f0ff0802d3523d815bab7c03193",
-      "title": "Galactic Bounties I - Special Event",
-      "start_date": "2026-10-25",
-      "end_date": "2026-10-25",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "SPECIAL EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/galactic-bounties",
-      "url": "https://swgohevents.com/event/galactic-bounties",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "8f6fc89f003abe75c4d6dee8fa1e1e48",
+      "uid": "fbf3e644c235f9d47297819f64d370a6",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "4178d20c4586800068cf05cb0f6187cd",
+      "uid": "fb20d520229a319c83a151fe4225e6af",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-10-26",
       "end_date": "2026-10-26",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0a878a69f6b4e518ab225d6f62a171c4",
+      "uid": "7e6e2caa5e7226061aa28a6d63418399",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "eabc87487fc2f2dea3ee616d02385d6c",
+      "uid": "973b116dd038fe4edc1fb42d7131a65c",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "006efe7d1be13856760d9fbf05d6b3f7",
+      "uid": "ba656dff3705121a065a376bcd5c546a",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
