@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-26T11:00:21Z",
+  "last_successful_refresh": "2026-10-27T10:58:01Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "fbf3e644c235f9d47297819f64d370a6",
-      "title": "Endor Omega Battle - Omega Battles",
-      "start_date": "2026-10-26",
-      "end_date": "2026-10-26",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/endor-omega-battles\n\nRequires: Sith & Droids",
-      "url": "https://swgohevents.com/event/endor-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "fb20d520229a319c83a151fe4225e6af",
-      "title": "Smuggler's Run - Resource Event",
-      "start_date": "2026-10-26",
-      "end_date": "2026-10-26",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run",
-      "url": "https://swgohevents.com/event/smugglers-run",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "7e6e2caa5e7226061aa28a6d63418399",
+      "uid": "31f1b6af8ad13b0e9d88f308ce74ab60",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
@@ -47,7 +19,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "973b116dd038fe4edc1fb42d7131a65c",
+      "uid": "cd240443e77b7ce780dba29263bc1d1c",
+      "title": "Contraband Cargo - Resource Event",
+      "start_date": "2026-10-30",
+      "end_date": "2026-10-30",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/contraband-cargo",
+      "url": "https://swgohevents.com/event/contraband-cargo",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "8cb89247e88c05fb5c7f9cdc5af4f32a",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ba656dff3705121a065a376bcd5c546a",
+      "uid": "42f81f5f9ca6d25b423f2fe2e0d2e428",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
