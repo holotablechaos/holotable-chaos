@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-27T10:58:01Z",
+  "last_successful_refresh": "2026-10-28T11:03:42Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "31f1b6af8ad13b0e9d88f308ce74ab60",
+      "uid": "be17d58954cbd13f84230581a420ab03",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-10-29",
       "end_date": "2026-10-29",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "cd240443e77b7ce780dba29263bc1d1c",
+      "uid": "22e06c6f424fb7b9542f5655996d9c3c",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "8cb89247e88c05fb5c7f9cdc5af4f32a",
+      "uid": "ba78ed76fbbf24fc11f075bddb9bbf79",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "42f81f5f9ca6d25b423f2fe2e0d2e428",
+      "uid": "59f983299abb7db2c0735cebb208ef8a",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
