@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-29T11:05:05Z",
+  "last_successful_refresh": "2026-10-30T11:01:38Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "cbc6a236b14d225d320a0aff45cf4743",
-      "title": "Ghosts of Dathomir - Heroic Battle",
-      "start_date": "2026-10-29",
-      "end_date": "2026-10-29",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "HEROIC BATTLE",
-      "reward": "",
-      "description": "https://swgohevents.com/event/ghosts-dathomir\n\nRequires: Any Characters. Level 20",
-      "url": "https://swgohevents.com/event/ghosts-dathomir",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "f44a3bf111226111aa7a9c8576028bfe",
+      "uid": "1865070d27756c14b39ee3b61d7a13f3",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-10-30",
       "end_date": "2026-10-30",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "22c258516b5496e4d9598ef6e306e340",
+      "uid": "9750fd86335a70b23872c273c4fb188f",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "105c6f4fcc3254b97e7ecc3ba5b19d9f",
+      "uid": "94312d802b00d67424bfbb4e86c96c6c",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0880760f55025bdb7d4d8c30d0f8a804",
+      "uid": "bf7aef576bb98fd2e3b3cf30b82d2e81",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-01",
       "end_date": "2026-11-01",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6d7adb13f9ffd16d2d3ecf342cdbebab",
+      "uid": "9b5d156303fb12c34afcfc3ec5e5e4ff",
       "title": "Bespin Omega Battle - Omega Battles",
       "start_date": "2026-11-02",
       "end_date": "2026-11-02",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0b8a8d6d58a06a169adc01c6a6747890",
+      "uid": "6b39c11f7e35e06db9c13bf72f376b36",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
