@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-31T10:54:24Z",
+  "last_successful_refresh": "2026-10-31T23:52:15Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "24d8ca8b04b287b8c7e03448e8de3599",
+      "uid": "bbcba0ffa8e09d3bb1e6b675023dabb1",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "928d0abf81d524623682aff4b0eeb1c8",
+      "uid": "cc7283cdf960be1d2087b2f7f934b44e",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "afd058aa6863463d3a3f9133c43286ff",
+      "uid": "63b1dab2936c46195ec9c5fd772b5cda",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-01",
       "end_date": "2026-11-01",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "8a601d7b4f970834e63e7a56d88ca6dc",
+      "uid": "c4282fbef11e0b2b6829d66ff9a5909f",
       "title": "Bespin Omega Battle - Omega Battles",
       "start_date": "2026-11-02",
       "end_date": "2026-11-02",
@@ -61,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6629d68d9ba79877cbccad4c725a54ee",
+      "uid": "638ff260bbb1ff1f09f18cf9260e9643",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-03",
       "end_date": "2026-11-03",
@@ -75,7 +75,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "83dc0cd1a8a3388f661d0dabaf6d9b98",
+      "uid": "255d32acca8812b5b1c0a30f4a0ec222",
+      "title": "Smuggler's Run II - Resource Event",
+      "start_date": "2026-11-04",
+      "end_date": "2026-11-04",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-ii",
+      "url": "https://swgohevents.com/event/smugglers-run-ii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "5def50c2551bdff794172ccc87fe8ff0",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -86,6 +100,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/imperial-fleet-omega-battles\n\nRequires: Resistance & Clone Characters",
       "url": "https://swgohevents.com/event/imperial-fleet-omega-battles",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "4476c53acf51abcb29b932e75cdee957",
+      "title": "Coruscant Omega Battle - Omega Battles",
+      "start_date": "2026-11-09",
+      "end_date": "2026-11-09",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "OMEGA BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/ewok-empire\n\nRequires: Ewok & Empire",
+      "url": "https://swgohevents.com/event/ewok-empire",
       "status": "CONFIRMED"
     }
   ]
