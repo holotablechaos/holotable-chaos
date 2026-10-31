@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-30T11:01:38Z",
+  "last_successful_refresh": "2026-10-31T10:54:24Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "1865070d27756c14b39ee3b61d7a13f3",
-      "title": "Contraband Cargo - Resource Event",
-      "start_date": "2026-10-30",
-      "end_date": "2026-10-30",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/contraband-cargo",
-      "url": "https://swgohevents.com/event/contraband-cargo",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "9750fd86335a70b23872c273c4fb188f",
+      "uid": "24d8ca8b04b287b8c7e03448e8de3599",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "94312d802b00d67424bfbb4e86c96c6c",
+      "uid": "928d0abf81d524623682aff4b0eeb1c8",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "bf7aef576bb98fd2e3b3cf30b82d2e81",
+      "uid": "afd058aa6863463d3a3f9133c43286ff",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-01",
       "end_date": "2026-11-01",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "9b5d156303fb12c34afcfc3ec5e5e4ff",
+      "uid": "8a601d7b4f970834e63e7a56d88ca6dc",
       "title": "Bespin Omega Battle - Omega Battles",
       "start_date": "2026-11-02",
       "end_date": "2026-11-02",
@@ -75,7 +61,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6b39c11f7e35e06db9c13bf72f376b36",
+      "uid": "6629d68d9ba79877cbccad4c725a54ee",
+      "title": "Training Droid Smuggling - Resource Event",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-03",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/training-droid-smuggling",
+      "url": "https://swgohevents.com/event/training-droid-smuggling",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "83dc0cd1a8a3388f661d0dabaf6d9b98",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
