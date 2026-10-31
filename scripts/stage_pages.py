@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import posixpath
 import re
@@ -13,7 +14,7 @@ import tempfile
 from dataclasses import dataclass
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
 
 MAX_PAGES_BYTES = 1_000_000_000
 MARKER = ".nojekyll"
@@ -78,6 +79,8 @@ class StagePlan:
     output: Path
     files: tuple[str, ...]
     total_bytes: int
+    html_pages: int
+    audio_files: int
 
 
 def _expected_source_for_episode(root: Path, episode: int) -> str:
@@ -92,7 +95,12 @@ def _expected_source_for_episode(root: Path, episode: int) -> str:
             f"{page.relative_to(root).as_posix()} must contain exactly one audio source; found {len(parser.sources)}"
         )
     raw = parser.sources[0]
-    if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", raw) or raw.startswith(("/", "\\")):
+    parsed = urlsplit(raw)
+    if parsed.scheme:
+        if parsed.scheme == "https" and parsed.hostname in {"buzzsprout.com", "www.buzzsprout.com"}:
+            return ""
+        raise ValueError(f"Episode {episode} has an unsupported external audio URL: {raw}")
+    if raw.startswith(("/", "\\")):
         raise ValueError(f"Episode {episode} audio must be a local relative file path")
     joined = PurePosixPath("podcast/episodes") / unquote(raw).replace("\\", "/")
     normalized = PurePosixPath(posixpath.normpath(joined.as_posix())).as_posix()
@@ -107,23 +115,46 @@ def make_plan(root: Path, output: Path) -> StagePlan:
     if output != (root / "_site").resolve():
         raise ValueError("Output must be the project-root _site/ directory")
 
-    required = (*PAGES, *ASSETS, *AUDIO_FILES)
+    archive_path = root / "content" / "episodes.json"
+    try:
+        archive = json.loads(archive_path.read_text(encoding="utf-8"))
+        records = archive["episodes"]
+        episode_numbers = {int(record["episode_number"]) for record in records}
+    except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
+        raise ValueError(f"Cannot determine archived episode pages from {archive_path}: {exc}") from exc
+    if any(number < 1 for number in episode_numbers):
+        raise ValueError("The episode archive contains an invalid episode number")
+    discovered_pages = {
+        path.relative_to(root).as_posix()
+        for path in (root / "podcast" / "episodes").glob("episode-*.html")
+        if re.fullmatch(r"episode-\d+\.html", path.name)
+    }
+    episode_pages = tuple(sorted(
+        discovered_pages | {f"podcast/episodes/episode-{number}.html" for number in episode_numbers},
+        key=lambda path: int(re.search(r"episode-(\d+)\.html$", path).group(1)),
+    ))
+    base_pages = tuple(path for path in PAGES if not re.fullmatch(r"podcast/episodes/episode-\d+\.html", path))
+    pages = (*base_pages, *episode_pages)
+
+    audio_files = list(AUDIO_FILES)
+    for page in episode_pages:
+        episode = int(re.search(r"episode-(\d+)\.html$", page).group(1))
+        actual = _expected_source_for_episode(root, episode)
+        if episode <= 17:
+            expected = AUDIO_FILES[episode - 1]
+            if actual != expected:
+                raise ValueError(f"Episode {episode} references {actual!r}, but the approved path is {expected!r}")
+        elif actual:
+            if not actual.startswith("Holotable Chaos/") or not actual.lower().endswith(".mp3"):
+                raise ValueError(f"Episode {episode} local audio must be an MP3 under Holotable Chaos/: {actual}")
+            if actual not in audio_files:
+                audio_files.append(actual)
+
+    audio_files = list(dict.fromkeys(audio_files))
+    required = (*pages, *ASSETS, *audio_files)
     missing = [name for name in required if not (root / Path(name)).is_file()]
     if missing:
         raise FileNotFoundError("Required website file(s) are missing:\n  - " + "\n  - ".join(missing))
-
-    allowed_audio = set(AUDIO_FILES)
-    for episode in range(1, 18):
-        actual = _expected_source_for_episode(root, episode)
-        if actual not in allowed_audio:
-            raise ValueError(
-                f"Episode {episode} references audio outside the explicit MP3 allowlist: {actual}"
-            )
-        expected = AUDIO_FILES[episode - 1]
-        if actual != expected:
-            raise ValueError(
-                f"Episode {episode} references {actual!r}, but the approved path is {expected!r}"
-            )
 
     total = sum((root / Path(name)).stat().st_size for name in required)
     if total >= MAX_PAGES_BYTES:
@@ -139,7 +170,7 @@ def make_plan(root: Path, output: Path) -> StagePlan:
             raise ValueError("Refusing to replace _site/: contents do not match this helper's prior output")
         if any(p.is_symlink() for p in output.rglob("*")):
             raise ValueError("Refusing to replace _site/: it contains a symbolic link")
-    return StagePlan(root, output, required, total)
+    return StagePlan(root, output, required, total, len(pages), len(audio_files))
 
 
 def stage(plan: StagePlan) -> int:
@@ -174,13 +205,13 @@ def main(argv: list[str] | None = None) -> int:
         plan = make_plan(root, output)
         count = len(plan.files) + 1
         if args.check:
-            print(f"Check passed: {len(PAGES)} HTML pages, {len(ASSETS)} runtime assets, {len(AUDIO_FILES)} episode MP3s")
+            print(f"Check passed: {plan.html_pages} HTML pages, {len(ASSETS)} runtime assets, {plan.audio_files} episode MP3s")
             print(f"Planned output: {count} files, {plan.total_bytes:,} bytes ({plan.total_bytes / 1024**2:.2f} MiB)")
             print("No files written.")
         else:
             written = stage(plan)
             print(f"Built {plan.output}: {written} files, {plan.total_bytes:,} bytes ({plan.total_bytes / 1024**2:.2f} MiB)")
-            print("Included exactly 17 allowlisted episode MP3s; maintenance and editing files were excluded.")
+            print(f"Included {plan.audio_files} required episode MP3s; maintenance and editing files were excluded.")
         return 0
     except (OSError, ValueError) as exc:
         print(f"Staging failed: {exc}", file=sys.stderr)

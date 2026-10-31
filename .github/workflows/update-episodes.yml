@@ -1,0 +1,46 @@
+name: Update Podcast Episodes
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: buzzsprout-episode-updates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Test the RSS importer
+        run: python3 -m unittest discover -s scripts/tests -p test_sync_buzzsprout.py -v
+
+      - name: Import new Buzzsprout episodes
+        run: python3 scripts/sync_buzzsprout.py
+
+      - name: Verify the updated site can be staged
+        run: python3 scripts/stage_pages.py --check
+
+      - name: Commit and push episode updates
+        run: |
+          git add -- content/episodes.json podcast/index.html podcast/episodes/episode-*.html
+          if git diff --cached --quiet; then
+            echo "No new episode changes to publish."
+            echo "No episode changes were found; nothing was published." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "Import Buzzsprout podcast episodes"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "Episode changes were committed and pushed; the Pages workflow will deploy them." >> "$GITHUB_STEP_SUMMARY"
