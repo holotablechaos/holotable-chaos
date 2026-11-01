@@ -43,8 +43,8 @@
           <p>Have a question, suggestion, or feedback about the podcast or website? Send a note to the crew here.</p>
         </div>
         <div class="roster-form-card feedback-form-card">
-          <p class="form-notice" id="feedback-submission-explainer">Preparing this message opens your email application with a draft. Review it and send the email yourself; the website does not receive or store messages.</p>
-          <form id="general-feedback-form" aria-describedby="feedback-submission-explainer">
+          <p class="form-notice" id="feedback-submission-explainer">This form prepares an email draft. After preparing it, choose Open email app, then review and send the message yourself. The website does not receive or store messages.</p>
+          <form id="general-feedback-form" aria-describedby="feedback-submission-explainer" novalidate>
             <div class="roster-form-grid">
               <div class="form-field">
                 <label for="feedback-name">Name or in-game name <span class="optional-label">(optional)</span></label>
@@ -78,10 +78,10 @@
             <button class="button button-primary form-submit" type="submit">Prepare email <span aria-hidden="true">→</span></button>
             <p class="form-footnote">Required fields are marked with *. You’ll still need to send the email yourself.</p>
           </form>
-          <section class="roster-confirmation" id="feedback-confirmation" aria-labelledby="feedback-confirmation-title" aria-live="polite" hidden>
+          <section class="roster-confirmation" id="feedback-confirmation" aria-labelledby="feedback-confirmation-title" aria-live="polite" tabindex="-1" hidden>
             <p class="eyebrow">EMAIL DRAFT READY</p>
             <h2 id="feedback-confirmation-title">Your message is ready.</h2>
-            <p>Your email app should open with your message filled in. Review the draft and send it yourself; Holotable Chaos has not received it until you send it.</p>
+            <p>Select Open email app to open a prefilled draft. Review the draft and send it yourself; Holotable Chaos has not received it until you send it.</p>
             <p class="confirmation-recipient"><strong>To:</strong> <a href="mailto:holotablechaos@gmail.com">holotablechaos@gmail.com</a></p>
             <a class="button button-primary email-draft-link" id="feedback-email-draft" href="#" target="_blank" rel="noopener noreferrer">Open email app <span aria-hidden="true">↗</span></a>
             <details class="email-fallback" open>

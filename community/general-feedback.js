@@ -48,9 +48,12 @@
     const copyField = document.getElementById("feedback-email-copy");
     const emailDraft = document.getElementById("feedback-email-draft");
     const status = document.getElementById("feedback-copy-status");
+    const submitButton = form.querySelector('button[type="submit"]');
+    let preparing = false;
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
+      if (preparing) return;
       const values = Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.value]));
       if (!validateMessage(values)) {
         error.textContent = "Choose a message type and enter a subject and message. Check the email address if you provided one.";
@@ -59,22 +62,27 @@
           : !fields.subject.value.trim() ? fields.subject
             : !fields.message.value.trim() ? fields.message
               : !fields.email.checkValidity() ? fields.email : null;
+        firstInvalid?.setAttribute("aria-invalid", "true");
         firstInvalid?.focus();
         return;
       }
 
+      Object.values(fields).forEach((field) => field.removeAttribute("aria-invalid"));
       error.hidden = true;
       copyField.value = formatMessage(values);
       emailDraft.href = buildMailto(values);
+      preparing = true;
+      if (submitButton) submitButton.disabled = true;
       form.hidden = true;
       confirmation.hidden = false;
       confirmation.focus();
-      emailDraft.click();
     });
 
     document.getElementById("feedback-edit-message").addEventListener("click", () => {
       confirmation.hidden = true;
       form.hidden = false;
+      preparing = false;
+      if (submitButton) submitButton.disabled = false;
       fields.subject.focus();
     });
 

@@ -32,8 +32,7 @@
   search.addEventListener("input", filterEpisodes);
   topic.addEventListener("change", filterEpisodes);
   clear.addEventListener("click", () => {
-    search.value = "";
-    topic.value = "";
+    form.reset();
     filterEpisodes();
     search.focus();
   });

@@ -12,6 +12,11 @@ import sync_buzzsprout as syncer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
+PROMO_COPY = (
+    "Want your roster reviewed, have a Question of the Week answer, or a Chaos of the Week submission? "
+    "Send your ally code, questions, and stories to holotablechaos@gmail.com, check out the website for "
+    "SWGoH resources and past episodes, or join the Holotable Chaos Discord."
+)
 
 
 class BuzzsproutSyncTests(unittest.TestCase):
@@ -252,6 +257,43 @@ class BuzzsproutSyncTests(unittest.TestCase):
         self.assertIn('href="episode-42.html">← Newer episode', middle)
         self.assertIn('href="episode-15.html">Older episode →', middle)
         self.assertNotIn('episode-10.html', middle)
+
+    def test_episode_generator_removes_only_the_standard_promotional_footer(self):
+        page = syncer._episode_page({
+            "episode_number": 20,
+            "title": "A New Episode",
+            "description": f"The full episode description stays. {PROMO_COPY}",
+            "audio_url": "https://example.test/new-episode.mp3",
+        })
+        self.assertIn("The full episode description stays.", page)
+        self.assertNotIn("Want your roster reviewed", page)
+        self.assertNotIn("check out the website for SWGoH resources", page)
+        self.assertIn('src="https://example.test/new-episode.mp3"', page)
+
+    def test_existing_episode_page_cleanup_preserves_description_and_navigation(self):
+        self.pages.mkdir(parents=True)
+        path = self.pages / "episode-18.html"
+        path.write_text(f'''<html><body><main>
+          <section class="page-content"><article class="episode-card"><audio controls><source src="https://example.test/18.mp3" /></audio></article>
+          <section class="episode-notes"><p>Manually maintained description. {PROMO_COPY}</p></section>
+          <nav class="episode-navigation" aria-label="Episode navigation"><a href="episode-19.html">← Newer episode</a><a href="episode-17.html">Older episode →</a></nav></section>
+          </main></body></html>''', encoding="utf-8")
+        episodes = [
+            {"episode_number": 19, "source": "buzzsprout"},
+            {"episode_number": 18, "source": "buzzsprout"},
+            {"episode_number": 17, "source": "manual"},
+        ]
+        self.assertEqual(syncer.update_episode_navigation(episodes, self.pages), 1)
+        updated = path.read_text(encoding="utf-8")
+        self.assertIn("Manually maintained description.", updated)
+        self.assertNotIn("Want your roster reviewed", updated)
+        self.assertIn('href="episode-19.html"', updated)
+        self.assertIn('href="episode-17.html"', updated)
+
+    def test_all_existing_episode_pages_are_free_of_the_promotional_footer(self):
+        pages = sorted((PROJECT_ROOT / "podcast" / "episodes").glob("episode-*.html"))
+        matching = [page.name for page in pages if "Want your roster reviewed, have a Question of the Week answer" in page.read_text(encoding="utf-8")]
+        self.assertEqual(matching, [])
 
     def test_same_date_new_import_numbering_is_independent_of_feed_position(self):
         base = json.loads(self.archive.read_text(encoding="utf-8"))

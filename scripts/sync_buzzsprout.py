@@ -34,6 +34,12 @@ MANAGED_END = "<!-- BUZZSPROUT_IMPORTS_END -->"
 EPISODE_NAV_START = "<!-- HOLOTABLE_EPISODE_NAV_START -->"
 EPISODE_NAV_END = "<!-- HOLOTABLE_EPISODE_NAV_END -->"
 UNWANTED_TITLE_PREFIX = re.compile(r"^\s*about\s+episode\s+15\b", re.IGNORECASE)
+EPISODE_PROMO_COPY = re.compile(
+    r"\s*Want your roster reviewed,\s*have a Question of the Week answer,\s*or a Chaos of the Week submission\?"
+    r"\s*Send your ally code,\s*questions,\s*and stories to\s+holotablechaos@gmail\.com\s*,?\s*"
+    r"check out the website for SWGoH resources and past episodes,\s*or join the Holotable Chaos Discord\s*\.?",
+    re.IGNORECASE,
+)
 NS = {
     "itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd",
     "content": "http://purl.org/rss/1.0/modules/content/",
@@ -175,6 +181,11 @@ def _clean_summary(description: str) -> str:
     if len(description) <= 210:
         return description
     return description[:207].rsplit(" ", 1)[0].rstrip(" .,;:") + "…"
+
+
+def _episode_display_description(description: str) -> str:
+    """Remove the standard show-submission footer from episode page copy."""
+    return EPISODE_PROMO_COPY.sub("", str(description or "")).strip()
 
 
 def _is_unwanted_episode(episode: dict[str, Any]) -> bool:
@@ -365,7 +376,7 @@ def validate_index(path: Path = PODCAST_INDEX) -> None:
 def _episode_page(episode: dict[str, Any]) -> str:
     number = int(episode["episode_number"])
     title = episode.get("title") or f"Episode {number}"
-    description = episode.get("description") or "Listen to the latest Holotable Chaos episode."
+    description = _episode_display_description(episode.get("description")) or "Listen to the latest Holotable Chaos episode."
     safe_title = html.escape(title)
     safe_description = html.escape(description, quote=True)
     audio_url = html.escape(episode.get("audio_url", ""), quote=True)
@@ -442,7 +453,7 @@ def _episode_navigation(episode: dict[str, Any], episodes: list[dict[str, Any]])
 
 
 def update_episode_navigation(episodes: list[dict[str, Any]], episodes_dir: Path = EPISODES_DIR) -> int:
-    """Update only managed/adjacent navigation in saved pages, preserving page copy."""
+    """Update adjacent navigation and remove the standard promo footer, preserving other copy."""
     changed = 0
     by_number = {int(episode["episode_number"]): episode for episode in episodes}
     page_numbers = set(by_number)
@@ -452,6 +463,8 @@ def update_episode_navigation(episodes: list[dict[str, Any]], episodes_dir: Path
             continue
         current = path.read_text(encoding="utf-8")
         episode = by_number.get(number)
+        current, promo_changed = EPISODE_PROMO_COPY.subn("", current)
+        promo_changed = promo_changed > 0
         layout_changed = False
         if episode.get("source") == "buzzsprout":
             current, layout_changed = _move_description_below_player(current, number)
@@ -496,7 +509,7 @@ def update_episode_navigation(episodes: list[dict[str, Any]], episodes_dir: Path
                 updated = current[:content_end] + nav + current[content_end:]
             else:
                 updated = current
-        if updated != current or layout_changed:
+        if updated != current or layout_changed or promo_changed:
             _write_atomic(path, updated)
             changed += 1
     return changed

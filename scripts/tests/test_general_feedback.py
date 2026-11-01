@@ -57,6 +57,52 @@ class GeneralFeedbackTests(unittest.TestCase):
         self.assertIn("Subject: Audio & pacing?", parsed["body"][0])
         self.assertIn("Great episode!\nOne thought: use more examples (maybe).", parsed["body"][0])
 
+    def test_feedback_requires_an_explicit_email_app_action_and_prevents_repeat_prepare(self):
+        script = (ROOT / "community" / "general-feedback.js").read_text(encoding="utf-8")
+        page = (ROOT / "community" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("let preparing = false", script)
+        self.assertIn("if (preparing) return", script)
+        self.assertNotIn("emailDraft.click()", script)
+        self.assertIn('id="general-feedback-form" aria-describedby="feedback-submission-explainer" novalidate', page)
+        self.assertIn("Select Open email app to open a prefilled draft", page)
+        self.assertIn("the website does not receive or store messages", page)
+
+    def test_form_validation_prepares_one_visible_draft_without_auto_launching(self):
+        harness = r'''const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const vm = require("node:vm");
+class Element {
+  constructor(value = "") { this.value = value; this.hidden = true; this.disabled = false; this.listeners = {}; this.attributes = {}; this.href = "#"; this.clicked = 0; }
+  addEventListener(name, callback) { this.listeners[name] = callback; }
+  setAttribute(name, value) { this.attributes[name] = value; }
+  removeAttribute(name) { delete this.attributes[name]; }
+  focus() { this.focused = true; }
+  click() { this.clicked += 1; }
+  checkValidity() { return !this.value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value); }
+}
+const names = {name: new Element("Jon"), email: new Element("jon@example.com"), messageType: new Element("Website Feedback"), subject: new Element("Site suggestion"), message: new Element("The archive filters work well.")};
+const submit = new Element();
+const form = new Element(); form.hidden = false; form.elements = {namedItem: (name) => names[name]}; form.querySelector = () => submit;
+const ids = {"general-feedback-form": form, "feedback-form-error": new Element(), "feedback-confirmation": new Element(), "feedback-email-copy": new Element(), "feedback-email-draft": new Element(), "feedback-copy-status": new Element(), "feedback-edit-message": new Element(), "feedback-copy-button": new Element()};
+vm.runInNewContext(fs.readFileSync("community/general-feedback.js", "utf8"), {document: {getElementById: (id) => ids[id]}});
+names.subject.value = "";
+form.listeners.submit({preventDefault() {}});
+assert.equal(ids["feedback-form-error"].hidden, false);
+assert.equal(names.subject.attributes["aria-invalid"], "true");
+assert.equal(ids["feedback-confirmation"].hidden, true);
+names.subject.value = "Site suggestion";
+form.listeners.submit({preventDefault() {}});
+assert.equal(form.hidden, true);
+assert.equal(ids["feedback-confirmation"].hidden, false);
+assert(ids["feedback-email-draft"].href.startsWith("mailto:holotablechaos@gmail.com?"));
+assert.equal(ids["feedback-email-draft"].clicked, 0, "the email app link must be a visitor action, not a scripted popup");
+assert.equal(submit.disabled, true);
+form.listeners.submit({preventDefault() {}});
+assert.equal(ids["feedback-email-draft"].clicked, 0);
+console.log("feedback form interaction checks passed");'''
+        result = subprocess.run([NODE, "-e", harness], cwd=ROOT, check=True, capture_output=True, text=True)
+        self.assertIn("feedback form interaction checks passed", result.stdout)
+
     def test_fallback_instructions_mobile_styles_navigation_and_existing_features(self):
         page = (ROOT / "community" / "index.html").read_text(encoding="utf-8")
         home = (ROOT / "index.html").read_text(encoding="utf-8")
