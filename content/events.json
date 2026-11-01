@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-10-31T23:52:15Z",
+  "last_successful_refresh": "2026-11-01T10:57:43Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "bbcba0ffa8e09d3bb1e6b675023dabb1",
-      "title": "Places of Power - Assault Battles",
-      "start_date": "2026-10-31",
-      "end_date": "2026-10-31",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
-      "url": "https://swgohevents.com/event/places-power",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "cc7283cdf960be1d2087b2f7f934b44e",
-      "title": "Stardust Transmission - Journey Guide Fleet Mastery",
-      "start_date": "2026-10-31",
-      "end_date": "2026-10-31",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "JOURNEY GUIDE FLEET MASTERY",
-      "reward": "",
-      "description": "https://swgohevents.com/event/profundity\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 4, 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Profundity at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Profundity during one event. If you are grinding Profundity over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nAdmiral Raddus Relic 9\nCassian Andor Relic 8\nDash Rendar Relic 7\nMon Mothma Relic 5\nBistan Relic 5\nJyn Erso Relic 5\nHera Syndulla Relic 5\n\n\nTier 1\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (4-stars)\nCassian's U-wing (4-stars)\nBistan's U-wing (4-stars)\nWedge Antilles' X-wing (4-stars)\nBiggs Darklighter's X-wing (4-stars)\nRebel Y-wing (4-stars)\nGhost (4-stars)\n\n\nTier 2\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (5-stars)\nCassian's U-wing (5-stars)\nBistan's U-wing (5-stars)\nWedge Antilles' X-wing (5-stars)\nBiggs Darklighter's X-wing (5-stars)\nRebel Y-wing (5-stars)\nGhost (5-stars)\n\n\nTier 3\nRewards: 20 Profundity Shards\nPlayable once\n\nOutrider (6-stars)\nCassian's U-wing (6-stars)\nBistan's U-wing (6-stars)\nWedge Antilles' X-wing (6-stars)\nBiggs Darklighter's X-wing (6-stars)\nRebel Y-wing (6-stars)\nGhost (6-stars)\n\n\nTier 4\nRewards: 40 Profundity Shards\nPlayable once\n\nOutrider (7-stars)\nCassian's U-wing (7-stars)\nBistan's U-wing (7-stars)\nWedge Antilles' X-wing (7-stars)\nBiggs Darklighter's X-wing (7-stars)\nRebel Y-wing (7-stars)\nGhost (7-stars)\n\n\nBonus Tier\nRewards: 10 Profundity Shards\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nProfundity (4-stars)\nOutrider\nCassian's U-wing\nBistan's U-wing\nWedge Antilles' X-wing\nBiggs Darklighter's X-wing\nRebel Y-wing\nGhost",
-      "url": "https://swgohevents.com/event/profundity",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "63b1dab2936c46195ec9c5fd772b5cda",
+      "uid": "6ad05e7e32a870405104993ca5cbfaec",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-01",
       "end_date": "2026-11-01",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c4282fbef11e0b2b6829d66ff9a5909f",
+      "uid": "118eb4f5b893c15fa2874fa5b1471acd",
       "title": "Bespin Omega Battle - Omega Battles",
       "start_date": "2026-11-02",
       "end_date": "2026-11-02",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "638ff260bbb1ff1f09f18cf9260e9643",
+      "uid": "4a60c758c26a98e309d888619e81131b",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-03",
       "end_date": "2026-11-03",
@@ -75,7 +47,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "255d32acca8812b5b1c0a30f4a0ec222",
+      "uid": "7175e7f70da36c799cf73f06106330d5",
+      "title": "Places of Power - Assault Battles",
+      "start_date": "2026-11-04",
+      "end_date": "2026-11-04",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
+      "url": "https://swgohevents.com/event/places-power",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "6c73c9c7f5077361f77611eea6ed9ea0",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-11-04",
       "end_date": "2026-11-04",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "5def50c2551bdff794172ccc87fe8ff0",
+      "uid": "6efe6a1a86414b576b435412cdd92d91",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -103,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "4476c53acf51abcb29b932e75cdee957",
+      "uid": "2901a914e57a2e5af4e038a7b52c676d",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
