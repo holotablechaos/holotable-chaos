@@ -104,4 +104,16 @@ a:focus-visible,.button:focus-visible,button:focus-visible{outline:2px solid var
 .feedback-form-card{max-width:900px;margin:0 auto}
 .form-field select{display:block;width:100%;border:1px solid #7f95ad55;border-radius:2px;background:#071321;color:var(--ink);font:400 14px/1.5 'DM Sans',sans-serif;padding:12px 13px}
 .form-field select:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-color:var(--blue)}
+
+/* Podcast archive discovery */
+.episode-filters{display:grid;grid-template-columns:minmax(220px,1fr) minmax(190px,.7fr) auto;align-items:end;gap:14px;margin:28px 0 20px;padding:18px;background:linear-gradient(135deg,#0d1d2d,#091522);border:1px solid var(--line)}
+.episode-filter-field{min-width:0}
+.episode-filter-field label{display:block;margin-bottom:7px;color:var(--ink);font-size:12px;font-weight:600}
+.episode-filter-field input,.episode-filter-field select{display:block;width:100%;min-height:42px;border:1px solid #7f95ad55;border-radius:2px;background:#071321;color:var(--ink);font:400 13px 'DM Sans',sans-serif;padding:10px 12px}
+.episode-filter-field input:focus-visible,.episode-filter-field select:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-color:var(--blue)}
+.episode-filter-clear{min-height:42px;padding:9px 14px;border:1px solid #7f95ad55;background:transparent;color:#c2d2e3;font:600 12px 'DM Sans',sans-serif;cursor:pointer}
+.episode-filter-clear:hover{border-color:var(--blue);color:var(--blue)}
+.episode-filter-status{grid-column:1/-1;min-height:1.4em;margin:0;color:var(--muted);font-size:11px}
+.episode-card[hidden]{display:none!important}
+@media(max-width:760px){.episode-filters{grid-template-columns:1fr;gap:12px;padding:16px}.episode-filter-status{grid-column:auto}}
 .feedback-form-card .form-notice{margin-top:0}
