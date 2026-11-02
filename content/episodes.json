@@ -2,6 +2,21 @@
   "feed_url": "https://rss.buzzsprout.com/2606659.rss",
   "episodes": [
     {
+      "guid": "Buzzsprout-20052783",
+      "alternate_guids": [],
+      "episode_number": 20,
+      "title": "The Mod Guide | The Most Important Thing Everyone Ignores",
+      "description": "Mods can make or break your roster, but are you actually getting the most out of yours? This week on Holotable Chaos, we're breaking down one of the most important parts of SWGoH: modding. We discuss speed requirements, what to look for when buying mods, the importance of primary stats, and how to use SWGOH.GG to make better modding decisions. Want your roster reviewed, have a Question of the Week answer, or a Chaos of the Week submission? Send your ally code, questions, and stories to holotablechaos@gmail.com , check out the website for SWGoH resources and past episodes, or join the Holotable Chaos Discord .",
+      "summary": "Mods can make or break your roster, but are you actually getting the most out of yours? This week on Holotable Chaos, we're breaking down one of the most important parts of SWGoH: modding. We discuss speed…",
+      "published_at": "2026-11-02T05:00:00Z",
+      "audio_url": "https://www.buzzsprout.com/2606659/episodes/20052783-the-mod-guide-the-most-important-thing-everyone-ignores.mp3",
+      "audio_type": "audio/mpeg",
+      "duration": "1140",
+      "link": "",
+      "artwork_url": "https://storage.buzzsprout.com/zej9hlql3lwb7odqkdxiylz1g2eg?.jpg",
+      "source": "buzzsprout"
+    },
+    {
       "guid": "Buzzsprout-20003110",
       "alternate_guids": [],
       "episode_number": 19,
