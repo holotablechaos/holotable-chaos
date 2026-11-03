@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-02T11:16:04Z",
+  "last_successful_refresh": "2026-11-03T11:15:07Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "c749cc7f5e85d6bbba6bd6513b97cd7a",
-      "title": "Bespin Omega Battle - Omega Battles",
-      "start_date": "2026-11-02",
-      "end_date": "2026-11-02",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/bespin-omega-battles\n\nRequires: Rebels & Geonosian",
-      "url": "https://swgohevents.com/event/bespin-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "2c526c7f2da8de2f7dbd311aa68a131b",
+      "uid": "61b949884f5e7998b8daf694a734f781",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-03",
       "end_date": "2026-11-03",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7b67f18a419b281c887c0ab2c7d52495",
+      "uid": "c1ecb7a9c4045db1a5bbe356f2cb037a",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-11-04",
       "end_date": "2026-11-04",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "621a054c384bff48b85425fdc3eeb93d",
+      "uid": "5d797b50a4804bfdb35ac35615f41554",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-11-04",
       "end_date": "2026-11-04",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "29295674f5f3aaf296be13cdcdc0e00e",
+      "uid": "19669a70a8c69c79a261149bf6283092",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-05",
       "end_date": "2026-11-05",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ebfdc5f3b5632c3c52a5b905b916fbde",
+      "uid": "3ba3a8acb3395df0a337d5b512849825",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -89,7 +75,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6e87a1183157809777886aa55d0db475",
+      "uid": "efe5c6185e681b89495da3da56b8e74e",
+      "title": "Smuggler's Run III - Resource Event",
+      "start_date": "2026-11-06",
+      "end_date": "2026-11-06",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-iii",
+      "url": "https://swgohevents.com/event/smugglers-run-iii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "d18116a66940eb08f89375897c317776",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
