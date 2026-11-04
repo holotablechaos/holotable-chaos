@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-03T11:15:07Z",
+  "last_successful_refresh": "2026-11-04T11:28:36Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "61b949884f5e7998b8daf694a734f781",
-      "title": "Training Droid Smuggling - Resource Event",
-      "start_date": "2026-11-03",
-      "end_date": "2026-11-03",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/training-droid-smuggling",
-      "url": "https://swgohevents.com/event/training-droid-smuggling",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "c1ecb7a9c4045db1a5bbe356f2cb037a",
+      "uid": "59ee9de75b50c328cd6d40e920067006",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-11-04",
       "end_date": "2026-11-04",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "5d797b50a4804bfdb35ac35615f41554",
+      "uid": "c2c46873746b1a9ee12b3b12a997bb52",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-11-04",
       "end_date": "2026-11-04",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "19669a70a8c69c79a261149bf6283092",
+      "uid": "af888ef1bb60994339f3701a85d5156d",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-05",
       "end_date": "2026-11-05",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3ba3a8acb3395df0a337d5b512849825",
+      "uid": "e2c135379ba56fd15a89de5f921aa2dd",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "efe5c6185e681b89495da3da56b8e74e",
+      "uid": "4d5063c8ed63e36b6b6be95107264f9d",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "d18116a66940eb08f89375897c317776",
+      "uid": "c53178e5e2e4324d59e588c375a9dcd2",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
