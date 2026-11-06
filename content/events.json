@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-05T11:20:39Z",
+  "last_successful_refresh": "2026-11-06T11:17:32Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "a22aea48cb2ff9c78cfe111cb72e7537",
-      "title": "Contraband Cargo - Resource Event",
-      "start_date": "2026-11-05",
-      "end_date": "2026-11-05",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/contraband-cargo",
-      "url": "https://swgohevents.com/event/contraband-cargo",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "593e6a99618918c6a8df0e54e43e1f85",
+      "uid": "fddb54c2937da3b3333ddefe378a4a3d",
       "title": "Imperial Fleet Omega Battle - Omega Battles",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "b0a95c8cee9a027c46ff8e11f83d6318",
+      "uid": "8afc36006b0eb356e58d0d45d176efdd",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c68738444a11072b1516c475b8e25333",
+      "uid": "0d4a74804295573dac012a41ea120bb1",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-08",
       "end_date": "2026-11-08",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "bc68b7f1ae4cc4b50980b0b2b4f338cd",
+      "uid": "f7de339e40b126408d9c460034f1a164",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
@@ -75,7 +61,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "5a514845f401631b21c52a55b6fa48ed",
+      "uid": "ee87687ff656159dcb1c1fde1c99fa3e",
+      "title": "Smuggler's Run - Resource Event",
+      "start_date": "2026-11-09",
+      "end_date": "2026-11-09",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run",
+      "url": "https://swgohevents.com/event/smugglers-run",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "e817de81f7222d50bb3d7e084bdc3e82",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-11-13",
       "end_date": "2026-11-13",
@@ -86,6 +86,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/hoth-omega-battles\n\nRequires: First Order & Scoundrels",
       "url": "https://swgohevents.com/event/hoth-omega-battles",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "9d2c590f2da104d7d0a562d4ee551ec7",
+      "title": "Forest Moon - Assault Battles",
+      "start_date": "2026-11-14",
+      "end_date": "2026-11-14",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/forest-moon\n\nRequires Empire or Droids",
+      "url": "https://swgohevents.com/event/forest-moon",
       "status": "CONFIRMED"
     }
   ]
