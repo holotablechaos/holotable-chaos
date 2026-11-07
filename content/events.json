@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-06T11:17:32Z",
+  "last_successful_refresh": "2026-11-07T11:00:25Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "fddb54c2937da3b3333ddefe378a4a3d",
-      "title": "Imperial Fleet Omega Battle - Omega Battles",
-      "start_date": "2026-11-06",
-      "end_date": "2026-11-06",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/imperial-fleet-omega-battles\n\nRequires: Resistance & Clone Characters",
-      "url": "https://swgohevents.com/event/imperial-fleet-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "8afc36006b0eb356e58d0d45d176efdd",
-      "title": "Smuggler's Run III - Resource Event",
-      "start_date": "2026-11-06",
-      "end_date": "2026-11-06",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run-iii",
-      "url": "https://swgohevents.com/event/smugglers-run-iii",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "0d4a74804295573dac012a41ea120bb1",
+      "uid": "fecafcc7289b40af7965623531e8e85c",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-08",
       "end_date": "2026-11-08",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f7de339e40b126408d9c460034f1a164",
+      "uid": "82ee2d500c773e303a72bcfb63251879",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ee87687ff656159dcb1c1fde1c99fa3e",
+      "uid": "c99def4816dabaeb9c7653face38d759",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
@@ -75,7 +47,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "e817de81f7222d50bb3d7e084bdc3e82",
+      "uid": "8fc435a2a1bac3db35b1f0d44f0460ae",
+      "title": "Contraband Cargo - Resource Event",
+      "start_date": "2026-11-10",
+      "end_date": "2026-11-10",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/contraband-cargo",
+      "url": "https://swgohevents.com/event/contraband-cargo",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "5470dca380246ce9c2445cef8afb0d14",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-11-13",
       "end_date": "2026-11-13",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "9d2c590f2da104d7d0a562d4ee551ec7",
+      "uid": "877babe707ee8c932399d57a29e8b055",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
@@ -100,6 +86,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/forest-moon\n\nRequires Empire or Droids",
       "url": "https://swgohevents.com/event/forest-moon",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "a64fb8343791c121807c711d05fdbc91",
+      "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
+      "start_date": "2026-11-15",
+      "end_date": "2026-11-15",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "JOURNEY GUIDE FLEET MASTERY",
+      "reward": "",
+      "description": "https://swgohevents.com/event/executor\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 4, 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Executor at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Executor during one event. If you are grinding Executor over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nDarth Vader Relic 7\nAdmiral Piett Relic 8\nBoba Fett Relic 8\nTIE Fighter Pilot Relic 5\nBossk Relic 5\nIG88 Relic 5\nDengar Relic 5\n\n\nTier 1\nRewards: 10 Executor Shards\nPlayable once\n\nRazor Crest (5-stars)\nSlave I (4-stars)\nIG-2000 (4-stars)\nHound's Tooth (4-stars)\nTIE Advanced (4-stars)\nTIE Bomber (4-stars)\nImperial TIE Fighter (4-stars)\n\n\nTier 2\nRewards: 10 Executor Shards\nPlayable once\n\nRazor Crest (5-stars)\nSlave I (5-stars)\nIG-2000 (5-stars)\nHound's Tooth (5-stars)\nTIE Advanced (5-stars)\nTIE Bomber (5-stars)\nImperial TIE Fighter (5-stars)\n\n\nTier 3\nRewards: 20 Executor Shards\nPlayable once\n\nRazor Crest (6-stars)\nSlave I (6-stars)\nIG-2000 (6-stars)\nHound's Tooth (6-stars)\nTIE Advanced (6-stars)\nTIE Bomber (6-stars)\nImperial TIE Fighter (6-stars)\n\n\nTier 4\nRewards: 40 Executor Shards\nPlayable once\n\nRazor Crest (7-stars)\nSlave I (7-stars)\nIG-2000 (7-stars)\nHound's Tooth (7-stars)\nTIE Advanced (7-stars)\nTIE Bomber (7-stars)\nImperial TIE Fighter (7-stars)\n\n\nBonus Tier\nRewards: 10 Executor Shards\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nExecutor (4-stars)\nRazor Crest\nSlave I\nIG-2000\nHound's Tooth\nTIE Advanced\nTIE Bomber\nImperial TIE Fighter",
+      "url": "https://swgohevents.com/event/executor",
       "status": "CONFIRMED"
     }
   ]
