@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-08T11:01:46Z",
+  "last_successful_refresh": "2026-11-09T11:16:27Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "180f0285b7258a58d834469c66a1ce5a",
-      "title": "Training Droid Smuggling - Resource Event",
-      "start_date": "2026-11-08",
-      "end_date": "2026-11-08",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/training-droid-smuggling",
-      "url": "https://swgohevents.com/event/training-droid-smuggling",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "995ed21f90a66a7e166330129316d776",
+      "uid": "e86783242f4d0d55193ccb7c3d2fae32",
       "title": "Coruscant Omega Battle - Omega Battles",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "1a82bc34b705fc1f0d4381f7b1443181",
+      "uid": "ec1d0aa3979970a3ab6ee7b04140bf48",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-11-09",
       "end_date": "2026-11-09",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3a5e366f997aa2d7b0dee5965efee153",
+      "uid": "abf671e1997d6acdbdbe5c9462180af4",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-10",
       "end_date": "2026-11-10",
@@ -61,7 +47,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "1ad0259291af66984516228b7bffeda9",
+      "uid": "fb3c4dbe91854ece937bb4f686d41bd2",
+      "title": "Credit Heist - Resource Event",
+      "start_date": "2026-11-12",
+      "end_date": "2026-11-12",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/credit-heist\n\nOccurs roughly every 10-16 days, however, there is no official cadence.\n\nRequires Scoundrels",
+      "url": "https://swgohevents.com/event/credit-heist",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "234da365a455ac8fcb3a6137f8e79340",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-11-13",
       "end_date": "2026-11-13",
@@ -75,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "930a0dcdba92baecf73e78c5d1d2a8dd",
+      "uid": "bffab8c2e4837e88bfe8aa29de4757ea",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
@@ -89,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "cb62abbe585d1de7c5256989c80f29a4",
+      "uid": "6836fa6177ef67d9f325202e3a081bce",
       "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
       "start_date": "2026-11-15",
       "end_date": "2026-11-15",
@@ -103,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "fe5adec6ec3677de1e5fdfa1cb1e54d4",
+      "uid": "3460f9bec02d98fc634a00ce26eac37d",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-11-16",
       "end_date": "2026-11-16",
@@ -114,6 +114,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/dathomir-omega-battles\n\nRequires: Jedi & Tusken Characters",
       "url": "https://swgohevents.com/event/dathomir-omega-battles",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "d53840da14dcb64f98183548dbc87e9f",
+      "title": "Endor Escalation - Heroic Battle",
+      "start_date": "2026-11-17",
+      "end_date": "2026-11-17",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "HEROIC BATTLE",
+      "reward": "",
+      "description": "https://swgohevents.com/event/endor-escalation\n\nRequires: Ewoks",
+      "url": "https://swgohevents.com/event/endor-escalation",
       "status": "CONFIRMED"
     }
   ]
