@@ -2,6 +2,21 @@
   "feed_url": "https://rss.buzzsprout.com/2606659.rss",
   "episodes": [
     {
+      "guid": "Buzzsprout-20100868",
+      "alternate_guids": [],
+      "episode_number": 21,
+      "title": "Overcharge & Era Arena | What's Changing?",
+      "description": "Overcharge is here, and with it comes a new look at the future of Star Wars: Galaxy of Heroes! This week, we're breaking down the Overcharge update, taking a closer look at the new Era Arena game mode, and discussing Practice Mode and the latest quality-of-life changes. Question of the Week: Do you think Era Arena will be a better game mode than Squad Arena was? Want your roster reviewed, have a Question of the Week answer, or a Chaos of the Week submission? Send your ally code, questions, and stories to holotablechaos@gmail.com , check out the website for SWGoH resources and past episodes, or join the Holotable Chaos Discord .",
+      "summary": "Overcharge is here, and with it comes a new look at the future of Star Wars: Galaxy of Heroes! This week, we're breaking down the Overcharge update, taking a closer look at the new Era Arena game mode, and…",
+      "published_at": "2026-11-10T03:00:00Z",
+      "audio_url": "https://www.buzzsprout.com/2606659/episodes/20100868-overcharge-era-arena-what-s-changing.mp3",
+      "audio_type": "audio/mpeg",
+      "duration": "1607",
+      "link": "",
+      "artwork_url": "https://storage.buzzsprout.com/49g8u0b8op96iho5ngtjullhjpqw?.jpg",
+      "source": "buzzsprout"
+    },
+    {
       "guid": "Buzzsprout-20052783",
       "alternate_guids": [],
       "episode_number": 20,
