@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-09T11:16:27Z",
+  "last_successful_refresh": "2026-11-10T11:10:24Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "e86783242f4d0d55193ccb7c3d2fae32",
-      "title": "Coruscant Omega Battle - Omega Battles",
-      "start_date": "2026-11-09",
-      "end_date": "2026-11-09",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/ewok-empire\n\nRequires: Ewok & Empire",
-      "url": "https://swgohevents.com/event/ewok-empire",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "ec1d0aa3979970a3ab6ee7b04140bf48",
-      "title": "Smuggler's Run - Resource Event",
-      "start_date": "2026-11-09",
-      "end_date": "2026-11-09",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run",
-      "url": "https://swgohevents.com/event/smugglers-run",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "abf671e1997d6acdbdbe5c9462180af4",
+      "uid": "6f05f018364eeeb93fbd9dae17d555a2",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-10",
       "end_date": "2026-11-10",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "fb3c4dbe91854ece937bb4f686d41bd2",
+      "uid": "e176b818bf18a6f76d200c2287793e3c",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-12",
       "end_date": "2026-11-12",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "234da365a455ac8fcb3a6137f8e79340",
+      "uid": "4215fcf0e018bdc9913dce605af1c600",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-11-13",
       "end_date": "2026-11-13",
@@ -75,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "bffab8c2e4837e88bfe8aa29de4757ea",
+      "uid": "0cc1b61b494b0bb501dabb972c3f3040",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
@@ -89,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6836fa6177ef67d9f325202e3a081bce",
+      "uid": "b13d2b83d6f6c02111ef42a456fca99a",
       "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
       "start_date": "2026-11-15",
       "end_date": "2026-11-15",
@@ -103,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3460f9bec02d98fc634a00ce26eac37d",
+      "uid": "eca0402d18cdebfc96e0db0b4a1e22e5",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-11-16",
       "end_date": "2026-11-16",
@@ -117,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "d53840da14dcb64f98183548dbc87e9f",
+      "uid": "7def744fc13fc1864ec5ad8c10b3df4b",
       "title": "Endor Escalation - Heroic Battle",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -128,6 +100,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/endor-escalation\n\nRequires: Ewoks",
       "url": "https://swgohevents.com/event/endor-escalation",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "8810e7bc2f0e232cc33b7fe91568731d",
+      "title": "Secrets and Shadows - Assault Battles",
+      "start_date": "2026-11-18",
+      "end_date": "2026-11-18",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/secrets-shadows\n\nRequires: Phoenix or Nightsisters\n\nLevel 75+ recommended.",
+      "url": "https://swgohevents.com/event/secrets-shadows",
       "status": "CONFIRMED"
     }
   ]
