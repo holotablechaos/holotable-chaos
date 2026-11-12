@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-11T11:16:14Z",
+  "last_successful_refresh": "2026-11-12T11:21:37Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "e3bebc016e8a5ce201f322ad037e2883",
+      "uid": "ae63124774effc2fbc433bc99631fb21",
       "title": "Credit Heist - Resource Event",
       "start_date": "2026-11-12",
       "end_date": "2026-11-12",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "eec36735c9658e49536e3eb7d4001a81",
+      "uid": "1a2c21dead4f5cd68912d5a0d80b2c90",
       "title": "Hoth Omega Battle - Omega Battles",
       "start_date": "2026-11-13",
       "end_date": "2026-11-13",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "85071e80499f0a6bd75f1124bc3f2e5f",
+      "uid": "c260f5891167ef52522d94d56f633ac5",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0e47cf1c3715b9a1d16634ba8325daed",
+      "uid": "d1b5dd434a212ac997147c8c7602e935",
       "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
       "start_date": "2026-11-15",
       "end_date": "2026-11-15",
@@ -61,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "86e6e39d236eb0d6f8c2007b8ecdff24",
+      "uid": "3060ca868107f4198f3e30eb22a5e27c",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-11-16",
       "end_date": "2026-11-16",
@@ -75,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "098bfbecd045f3a970735d2a1248fc5a",
+      "uid": "a0265045f72d71c2d42c901f22c84fda",
       "title": "Endor Escalation - Heroic Battle",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -89,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "fa0cd088d58a1c5027f50102f4f73179",
+      "uid": "606802df7fc1b2cbc1237208daa5cfa9",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -103,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "5cd7a30de037581fe237d789a5730d2b",
+      "uid": "27f2f0979084d0371d4bd1bea73ce4db",
       "title": "Defense of Dathomir - Heroic Battle",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -114,6 +114,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/defense-dathormir",
       "url": "https://swgohevents.com/event/defense-dathormir",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "9f7a60a578b1286d8613a84cb6e94597",
+      "title": "Dark Sovereign - Journey Guide Fleet Mastery",
+      "start_date": "2026-11-20",
+      "end_date": "2026-11-20",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "JOURNEY GUIDE FLEET MASTERY",
+      "reward": "",
+      "description": "https://swgohevents.com/event/leviathan\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Leviathan at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Leviathan during one event. If you are grinding Leviathan over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs. The cost below includes 19 refreshes and 5 packs to hit 7 stars.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nDarth Revan (Relic 9)\nDarth Malak (Relic 9)\nSith Empire Trooper (Relic 7)\nSith Trooper (Relic 7)\nDarth Maul (Relic 7)\nHK-47 (Relic 7)\nBastila Shan (Relic 7)\nSith Assassin (Relic 5)\n50R-T (Relic 5)\nFury-class Interceptor (4-stars)\nMark VI Interceptor (4-stars)\nTIE Dagger (4-stars)\nB-28 Extinction-class Bomber (4-stars)\nScimitar (4-stars)\nSith Fighter (4-stars)\nEbon Hawk (4-stars)\n\n\nTier 1\nRewards: 10 Leviathan Shards\n- Battle against Grand Admiral Thrawn and the Chimaera\nPlayable once\n\nANY Capital Ship (4-Stars)\nFury-class Interceptor (4-stars)\nMark VI Interceptor (4-stars)\nTIE Dagger (4-stars)\nB-28 Extinction-class Bomber (4-stars)\nScimitar (4-stars)\nSith Fighter (4-stars)\nEbon Hawk (4-stars)\n\n\nTier 2\nRewards: 10 Leviathan Shards\n- Battle against Grand Moff Tarkin and the Executrix\nPlayable once\n\nANY Capital Ship (5-Stars)\nFury-class Interceptor (5-stars)\nMark VI Interceptor (5-stars)\nTIE Dagger (5-stars)\nB-28 Extinction-class Bomber (5-stars)\nScimitar (5-stars)\nSith Fighter (5-stars)\nEbon Hawk (5-stars)\n\n\nTier 3\nRewards: 20 Leviathan Shards\n- Battle against General Grievous and the Malevolence\nPlayable once\n\nANY Capital Ship (6-Stars)\nFury-class Interceptor (6-stars)\nMark VI Interceptor (6-stars)\nTIE Dagger (6-stars)\nB-28 Extinction-class Bomber (6-stars)\nScimitar (6-stars)\nSith Fighter (6-stars)\nEbon Hawk (6-stars)\n\n\nTier 4\nRewards: 40 Leviathan Shards\n- Battle against Admiral Piett and the Executor\nPlayable once\n\nFury-class Interceptor (7-stars)\nMark VI Interceptor (7-stars)\nTIE Dagger (7-stars)\nB-28 Extinction-class Bomber (7-stars)\nScimitar (7-stars)\nSith Fighter (7-stars)\nEbon Hawk (7-stars)\n\n\nBonus Tier\nRewards: 10 Leviathan Shards\n- Battle against Admiral Raddus and the Profundity\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nANY Capital Ship (7-Stars)\nFury-class Interceptor (7-Stars)\nMark VI Interceptor (7-Stars)\nTIE Dagger (7-Stars)\nB-28 Extinction-class Bomber (7-Stars)\nScimitar (7-Stars)\nSith Fighter (7-Stars)\nEbon Hawk (7-Stars)",
+      "url": "https://swgohevents.com/event/leviathan",
       "status": "CONFIRMED"
     }
   ]
