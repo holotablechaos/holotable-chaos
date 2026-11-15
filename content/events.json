@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-14T16:38:40Z",
+  "last_successful_refresh": "2026-11-15T17:16:38Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "61f5e40a26a0cb4c57f507816ae1e370",
-      "title": "Forest Moon - Assault Battles",
-      "start_date": "2026-11-14",
-      "end_date": "2026-11-14",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/forest-moon\n\nRequires Empire or Droids",
-      "url": "https://swgohevents.com/event/forest-moon",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "35a21f7d0074590929660766b72d0360",
+      "uid": "c8bf199fab00a1ff65b1e0852a91caa7",
       "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
       "start_date": "2026-11-15",
       "end_date": "2026-11-15",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "795f31618c14f9d289042d20a374ab12",
+      "uid": "41a6c178bb57ab1ac9c5234e352c15f7",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-11-16",
       "end_date": "2026-11-16",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c40af15860346ced6afde962aba872ac",
+      "uid": "0884e2699639ddf74939b7c19a8efa89",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "db50028222ff1fcc62bcd5b869f278a5",
+      "uid": "20f42f243bce69bd16b596dda954e524",
       "title": "Endor Escalation - Heroic Battle",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -75,7 +61,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "230be4c871acf3d478ea4e06a7db374d",
+      "uid": "94469844773c850bca26d45eb5df25f0",
+      "title": "Forest Moon - Assault Battles",
+      "start_date": "2026-11-18",
+      "end_date": "2026-11-18",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/forest-moon\n\nRequires Empire or Droids",
+      "url": "https://swgohevents.com/event/forest-moon",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "dd69e00d2d5df8af920952cc61c287d2",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -89,7 +89,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "b92af18987333b1393f69b3f877a607a",
+      "uid": "1c93fb8eed73237b8d8a8a4e4cb45c56",
+      "title": "Smuggler's Run II - Resource Event",
+      "start_date": "2026-11-18",
+      "end_date": "2026-11-18",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-ii",
+      "url": "https://swgohevents.com/event/smugglers-run-ii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "f3e9a2c29c65fdea1e76ef397922669a",
       "title": "Defense of Dathomir - Heroic Battle",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -103,7 +117,35 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3f0883e0ca8bad9b0eb79cd9e4609fc6",
+      "uid": "c74779fa1922e7b068ce878b7b911116",
+      "title": "Places of Power - Assault Battles",
+      "start_date": "2026-11-19",
+      "end_date": "2026-11-19",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
+      "url": "https://swgohevents.com/event/places-power",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "f7d90220d14d5a1dbf2fd24f257a3ca0",
+      "title": "Training Droid Smuggling - Resource Event",
+      "start_date": "2026-11-19",
+      "end_date": "2026-11-19",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/training-droid-smuggling",
+      "url": "https://swgohevents.com/event/training-droid-smuggling",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "ff2c0e6c09120a7f88972e65d4dad4c8",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -117,7 +159,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7eb6b3c87c615bb8808bc525bbd09b94",
+      "uid": "c9d6111efd85a8c1df9b2f7cee7ed014",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -128,6 +170,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/military-might\n\nRequires Rebels or Clones",
       "url": "https://swgohevents.com/event/military-might",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "4c0003d0e3fcff80fc4de357d0dd8bdb",
+      "title": "Endor Omega Battle - Omega Battles",
+      "start_date": "2026-11-23",
+      "end_date": "2026-11-23",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "OMEGA BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/endor-omega-battles\n\nRequires: Sith & Droids",
+      "url": "https://swgohevents.com/event/endor-omega-battles",
       "status": "CONFIRMED"
     }
   ]
