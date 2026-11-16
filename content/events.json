@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-15T17:16:38Z",
+  "last_successful_refresh": "2026-11-16T20:33:59Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "c8bf199fab00a1ff65b1e0852a91caa7",
-      "title": "Discarded Doctrine - Journey Guide Fleet Mastery",
-      "start_date": "2026-11-15",
-      "end_date": "2026-11-15",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "JOURNEY GUIDE FLEET MASTERY",
-      "reward": "",
-      "description": "https://swgohevents.com/event/executor\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 4, 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Executor at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Executor during one event. If you are grinding Executor over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nDarth Vader Relic 7\nAdmiral Piett Relic 8\nBoba Fett Relic 8\nTIE Fighter Pilot Relic 5\nBossk Relic 5\nIG88 Relic 5\nDengar Relic 5\n\n\nTier 1\nRewards: 10 Executor Shards\nPlayable once\n\nRazor Crest (5-stars)\nSlave I (4-stars)\nIG-2000 (4-stars)\nHound's Tooth (4-stars)\nTIE Advanced (4-stars)\nTIE Bomber (4-stars)\nImperial TIE Fighter (4-stars)\n\n\nTier 2\nRewards: 10 Executor Shards\nPlayable once\n\nRazor Crest (5-stars)\nSlave I (5-stars)\nIG-2000 (5-stars)\nHound's Tooth (5-stars)\nTIE Advanced (5-stars)\nTIE Bomber (5-stars)\nImperial TIE Fighter (5-stars)\n\n\nTier 3\nRewards: 20 Executor Shards\nPlayable once\n\nRazor Crest (6-stars)\nSlave I (6-stars)\nIG-2000 (6-stars)\nHound's Tooth (6-stars)\nTIE Advanced (6-stars)\nTIE Bomber (6-stars)\nImperial TIE Fighter (6-stars)\n\n\nTier 4\nRewards: 40 Executor Shards\nPlayable once\n\nRazor Crest (7-stars)\nSlave I (7-stars)\nIG-2000 (7-stars)\nHound's Tooth (7-stars)\nTIE Advanced (7-stars)\nTIE Bomber (7-stars)\nImperial TIE Fighter (7-stars)\n\n\nBonus Tier\nRewards: 10 Executor Shards\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nExecutor (4-stars)\nRazor Crest\nSlave I\nIG-2000\nHound's Tooth\nTIE Advanced\nTIE Bomber\nImperial TIE Fighter",
-      "url": "https://swgohevents.com/event/executor",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "41a6c178bb57ab1ac9c5234e352c15f7",
+      "uid": "383112045ef8c47b3bc3a847c098852d",
       "title": "Dathomir Omega Battle - Omega Battles",
       "start_date": "2026-11-16",
       "end_date": "2026-11-16",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0884e2699639ddf74939b7c19a8efa89",
+      "uid": "5e8903306cd7d150a4db322e9af996d3",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "20f42f243bce69bd16b596dda954e524",
+      "uid": "bb13819220dcd0e3f747dda7d68d9b59",
       "title": "Endor Escalation - Heroic Battle",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "94469844773c850bca26d45eb5df25f0",
+      "uid": "a01b82d05d00a3c1ea26dff9b07f48b8",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "dd69e00d2d5df8af920952cc61c287d2",
+      "uid": "f46150d99b5b5bef5f25f6e97ef683ee",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "1c93fb8eed73237b8d8a8a4e4cb45c56",
+      "uid": "17d8be4cf177623e11e59190e14e4f47",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -103,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f3e9a2c29c65fdea1e76ef397922669a",
+      "uid": "83755091919c79e996bc1a4e51e3521b",
       "title": "Defense of Dathomir - Heroic Battle",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -117,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c74779fa1922e7b068ce878b7b911116",
+      "uid": "336cf415620af91e82c2b5f93417780a",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -131,7 +117,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f7d90220d14d5a1dbf2fd24f257a3ca0",
+      "uid": "1e660153ac6e4b36d64843799a5a51d8",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -145,7 +131,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ff2c0e6c09120a7f88972e65d4dad4c8",
+      "uid": "77c4ac6a3a48e1a674c777208bf0d253",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -159,7 +145,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c9d6111efd85a8c1df9b2f7cee7ed014",
+      "uid": "88432d0c683f834a018f75ba6ef6391b",
+      "title": "Smuggler's Run III - Resource Event",
+      "start_date": "2026-11-20",
+      "end_date": "2026-11-20",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/smugglers-run-iii",
+      "url": "https://swgohevents.com/event/smugglers-run-iii",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "0ada8dbe477e3b7a39e16547e1bd6d24",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -173,7 +173,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "4c0003d0e3fcff80fc4de357d0dd8bdb",
+      "uid": "80aa8830c96eaf976897fa9072b5b6fb",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -184,6 +184,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/endor-omega-battles\n\nRequires: Sith & Droids",
       "url": "https://swgohevents.com/event/endor-omega-battles",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "855ba406a376945f9631be58abf65350",
+      "title": "Rebel Roundup - Assault Battles",
+      "start_date": "2026-11-25",
+      "end_date": "2026-11-25",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/rebel-roundup\n\nRequires Bounty Hunters or Imperial Troopers",
+      "url": "https://swgohevents.com/event/rebel-roundup",
       "status": "CONFIRMED"
     }
   ]
