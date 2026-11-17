@@ -2,6 +2,21 @@
   "feed_url": "https://rss.buzzsprout.com/2606659.rss",
   "episodes": [
     {
+      "guid": "Buzzsprout-20136198",
+      "alternate_guids": [],
+      "episode_number": 22,
+      "title": "10 Years of Rogue One | A New Era Begins",
+      "description": "Rogue One is celebrating 10 years, and a new era is coming to Star Wars: Galaxy of Heroes! This week, we're breaking down the new Rogue One era, taking a look at the incoming characters, the new Coliseum bosses, and what the changes could mean for Era Arena. Question of the Week: With Rogue One celebrating its 10th anniversary, what is your favorite moment from the movie? Want your roster reviewed, have a Question of the Week answer, or a Chaos of the Week submission? Send your ally code, questions, and stories to holotablechaos@gmail.com , check out the website for SWGoH resources and past episodes, or join the Holotable Chaos Discord.",
+      "summary": "Rogue One is celebrating 10 years, and a new era is coming to Star Wars: Galaxy of Heroes! This week, we're breaking down the new Rogue One era, taking a look at the incoming characters, the new Coliseum…",
+      "published_at": "2026-11-17T02:00:00Z",
+      "audio_url": "https://www.buzzsprout.com/2606659/episodes/20136198-10-years-of-rogue-one-a-new-era-begins.mp3",
+      "audio_type": "audio/mpeg",
+      "duration": "913",
+      "link": "",
+      "artwork_url": "https://storage.buzzsprout.com/1pc1leqp204zryr931s6uey4ubz1?.jpg",
+      "source": "buzzsprout"
+    },
+    {
       "guid": "Buzzsprout-20100868",
       "alternate_guids": [],
       "episode_number": 21,
