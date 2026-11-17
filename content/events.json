@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-16T20:33:59Z",
+  "last_successful_refresh": "2026-11-17T19:14:31Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "383112045ef8c47b3bc3a847c098852d",
-      "title": "Dathomir Omega Battle - Omega Battles",
-      "start_date": "2026-11-16",
-      "end_date": "2026-11-16",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/dathomir-omega-battles\n\nRequires: Jedi & Tusken Characters",
-      "url": "https://swgohevents.com/event/dathomir-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "5e8903306cd7d150a4db322e9af996d3",
+      "uid": "c606cff756a63297a3d5c056ef87c3a5",
       "title": "Contraband Cargo - Resource Event",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "bb13819220dcd0e3f747dda7d68d9b59",
+      "uid": "f15a7cd3221dc31be6236923fefeb1e1",
       "title": "Endor Escalation - Heroic Battle",
       "start_date": "2026-11-17",
       "end_date": "2026-11-17",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a01b82d05d00a3c1ea26dff9b07f48b8",
+      "uid": "7a3e2c553a797da338c4ce3eb311c425",
       "title": "Forest Moon - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f46150d99b5b5bef5f25f6e97ef683ee",
+      "uid": "a51bf96f96f0b171204d8183a6625523",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -75,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "17d8be4cf177623e11e59190e14e4f47",
+      "uid": "77f871cd48acfc422927b8939826c296",
       "title": "Smuggler's Run II - Resource Event",
       "start_date": "2026-11-18",
       "end_date": "2026-11-18",
@@ -89,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "83755091919c79e996bc1a4e51e3521b",
+      "uid": "b9338d557817559fccd955e605d1062c",
       "title": "Defense of Dathomir - Heroic Battle",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -103,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "336cf415620af91e82c2b5f93417780a",
+      "uid": "35fc931a943dde521fd167cf9fd04e10",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -117,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "1e660153ac6e4b36d64843799a5a51d8",
+      "uid": "5aa871f31f2e7d13cdff785c01ef08bc",
       "title": "Training Droid Smuggling - Resource Event",
       "start_date": "2026-11-19",
       "end_date": "2026-11-19",
@@ -131,7 +117,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "77c4ac6a3a48e1a674c777208bf0d253",
+      "uid": "eacdc1baab0855c3ca91f8864c4cceb1",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -145,7 +131,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "88432d0c683f834a018f75ba6ef6391b",
+      "uid": "7d0bc998714a7f8c0bec6a749c9fa282",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -159,7 +145,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "0ada8dbe477e3b7a39e16547e1bd6d24",
+      "uid": "9037a34ee099496bf58aa13c10cf809f",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -173,7 +159,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "80aa8830c96eaf976897fa9072b5b6fb",
+      "uid": "a7416ec410529e558bf00ccf5161abe2",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -187,7 +173,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "855ba406a376945f9631be58abf65350",
+      "uid": "da30e6adb0e10925540ffd7dfefebc2c",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -198,6 +184,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/rebel-roundup\n\nRequires Bounty Hunters or Imperial Troopers",
       "url": "https://swgohevents.com/event/rebel-roundup",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "74dccee52e3c43419b134a78fc27159c",
+      "title": "Ghosts of Dathomir - Heroic Battle",
+      "start_date": "2026-11-26",
+      "end_date": "2026-11-26",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "HEROIC BATTLE",
+      "reward": "",
+      "description": "https://swgohevents.com/event/ghosts-dathomir\n\nRequires: Any Characters. Level 20",
+      "url": "https://swgohevents.com/event/ghosts-dathomir",
       "status": "CONFIRMED"
     }
   ]
