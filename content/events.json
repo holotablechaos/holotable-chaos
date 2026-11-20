@@ -1,53 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-19T19:03:22Z",
+  "last_successful_refresh": "2026-11-20T18:39:50Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "1516b5dd922a967478390f43c18b8439",
-      "title": "Defense of Dathomir - Heroic Battle",
-      "start_date": "2026-11-19",
-      "end_date": "2026-11-19",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "HEROIC BATTLE",
-      "reward": "",
-      "description": "https://swgohevents.com/event/defense-dathormir",
-      "url": "https://swgohevents.com/event/defense-dathormir",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "a570e66448166792de1819683f9b5d29",
-      "title": "Places of Power - Assault Battles",
-      "start_date": "2026-11-19",
-      "end_date": "2026-11-19",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
-      "url": "https://swgohevents.com/event/places-power",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "8bbbce7b2f448265bd0957b7a457b60d",
-      "title": "Training Droid Smuggling - Resource Event",
-      "start_date": "2026-11-19",
-      "end_date": "2026-11-19",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/training-droid-smuggling",
-      "url": "https://swgohevents.com/event/training-droid-smuggling",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "edcf4855612d1f0dec8cadf325d10d5a",
+      "uid": "a13413243e9c595dc83704263554e4f5",
       "title": "Dark Sovereign - Journey Guide Fleet Mastery",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -61,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f90919561962d15caca74240180ff4f2",
+      "uid": "a597c1b3943b0f0ffa052e921591ec4f",
       "title": "Secrets and Shadows - Assault Battles",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -75,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f94dde2fe5048c5404b7a17be27f194a",
+      "uid": "22901b3daef043d96772259fee27f3a8",
       "title": "Smuggler's Run III - Resource Event",
       "start_date": "2026-11-20",
       "end_date": "2026-11-20",
@@ -89,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "28de3bb937bdcf629d17fdc55bd5ff5d",
+      "uid": "73b0a821855a37448b25bc1549d453e7",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -103,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "dbad189e17da7d998ff905b9703763c4",
+      "uid": "124bef073e4fb2bd205d4f6b424998f1",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -117,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "2cea9eb90b81768c9d876cbedf0ff6f7",
+      "uid": "10d0d6ae2bf035159d1d906d25d07837",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -131,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "46446f51c602c915bcdcc3e324c505a1",
+      "uid": "ecc6c27297ec2fff1d6374166698ef1d",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -145,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "f069106bbf3e18436341ddc0f3c8c2c9",
+      "uid": "a6fa714f8758ee329276e8564be4e174",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-11-26",
       "end_date": "2026-11-26",
@@ -159,7 +117,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "210e68714a759d719792ef2f9fbd2e92",
+      "uid": "afd7d8ff23dea51c123be18c7f2c1c3f",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
