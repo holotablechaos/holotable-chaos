@@ -1,53 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-20T18:39:50Z",
+  "last_successful_refresh": "2026-11-21T17:38:46Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "a13413243e9c595dc83704263554e4f5",
-      "title": "Dark Sovereign - Journey Guide Fleet Mastery",
-      "start_date": "2026-11-20",
-      "end_date": "2026-11-20",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "JOURNEY GUIDE FLEET MASTERY",
-      "reward": "",
-      "description": "https://swgohevents.com/event/leviathan\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Leviathan at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Leviathan during one event. If you are grinding Leviathan over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs. The cost below includes 19 refreshes and 5 packs to hit 7 stars.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nDarth Revan (Relic 9)\nDarth Malak (Relic 9)\nSith Empire Trooper (Relic 7)\nSith Trooper (Relic 7)\nDarth Maul (Relic 7)\nHK-47 (Relic 7)\nBastila Shan (Relic 7)\nSith Assassin (Relic 5)\n50R-T (Relic 5)\nFury-class Interceptor (4-stars)\nMark VI Interceptor (4-stars)\nTIE Dagger (4-stars)\nB-28 Extinction-class Bomber (4-stars)\nScimitar (4-stars)\nSith Fighter (4-stars)\nEbon Hawk (4-stars)\n\n\nTier 1\nRewards: 10 Leviathan Shards\n- Battle against Grand Admiral Thrawn and the Chimaera\nPlayable once\n\nANY Capital Ship (4-Stars)\nFury-class Interceptor (4-stars)\nMark VI Interceptor (4-stars)\nTIE Dagger (4-stars)\nB-28 Extinction-class Bomber (4-stars)\nScimitar (4-stars)\nSith Fighter (4-stars)\nEbon Hawk (4-stars)\n\n\nTier 2\nRewards: 10 Leviathan Shards\n- Battle against Grand Moff Tarkin and the Executrix\nPlayable once\n\nANY Capital Ship (5-Stars)\nFury-class Interceptor (5-stars)\nMark VI Interceptor (5-stars)\nTIE Dagger (5-stars)\nB-28 Extinction-class Bomber (5-stars)\nScimitar (5-stars)\nSith Fighter (5-stars)\nEbon Hawk (5-stars)\n\n\nTier 3\nRewards: 20 Leviathan Shards\n- Battle against General Grievous and the Malevolence\nPlayable once\n\nANY Capital Ship (6-Stars)\nFury-class Interceptor (6-stars)\nMark VI Interceptor (6-stars)\nTIE Dagger (6-stars)\nB-28 Extinction-class Bomber (6-stars)\nScimitar (6-stars)\nSith Fighter (6-stars)\nEbon Hawk (6-stars)\n\n\nTier 4\nRewards: 40 Leviathan Shards\n- Battle against Admiral Piett and the Executor\nPlayable once\n\nFury-class Interceptor (7-stars)\nMark VI Interceptor (7-stars)\nTIE Dagger (7-stars)\nB-28 Extinction-class Bomber (7-stars)\nScimitar (7-stars)\nSith Fighter (7-stars)\nEbon Hawk (7-stars)\n\n\nBonus Tier\nRewards: 10 Leviathan Shards\n- Battle against Admiral Raddus and the Profundity\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nANY Capital Ship (7-Stars)\nFury-class Interceptor (7-Stars)\nMark VI Interceptor (7-Stars)\nTIE Dagger (7-Stars)\nB-28 Extinction-class Bomber (7-Stars)\nScimitar (7-Stars)\nSith Fighter (7-Stars)\nEbon Hawk (7-Stars)",
-      "url": "https://swgohevents.com/event/leviathan",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "a597c1b3943b0f0ffa052e921591ec4f",
-      "title": "Secrets and Shadows - Assault Battles",
-      "start_date": "2026-11-20",
-      "end_date": "2026-11-20",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "ASSAULT BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/secrets-shadows\n\nRequires: Phoenix or Nightsisters\n\nLevel 75+ recommended.",
-      "url": "https://swgohevents.com/event/secrets-shadows",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "22901b3daef043d96772259fee27f3a8",
-      "title": "Smuggler's Run III - Resource Event",
-      "start_date": "2026-11-20",
-      "end_date": "2026-11-20",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run-iii",
-      "url": "https://swgohevents.com/event/smugglers-run-iii",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "73b0a821855a37448b25bc1549d453e7",
+      "uid": "450d855f0ec409ff6d9b41d529d2ca71",
       "title": "Military Might - Assault Battles",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
@@ -61,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "124bef073e4fb2bd205d4f6b424998f1",
+      "uid": "dd3852d673d543980bbcceb497cc6d4c",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -75,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "10d0d6ae2bf035159d1d906d25d07837",
+      "uid": "2e9d9e16932a78d5f670a8dc0c5ab108",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -89,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ecc6c27297ec2fff1d6374166698ef1d",
+      "uid": "aedb1703b1fe3dedd882b6f2654d4364",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -103,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a6fa714f8758ee329276e8564be4e174",
+      "uid": "89e4334b85a0ffcc55f0ddcd87176a47",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-11-26",
       "end_date": "2026-11-26",
@@ -117,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "afd7d8ff23dea51c123be18c7f2c1c3f",
+      "uid": "32cd68a2a6608c15c74481ffab7bd7cd",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
@@ -128,6 +86,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/ground-war\n\nRequires Jedi, Ewoks, or Ugnaught",
       "url": "https://swgohevents.com/event/ground-war",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "c52204c56624de1abaea6d1eaa0442ce",
+      "title": "Galactic Bounties II - Special Event",
+      "start_date": "2026-11-29",
+      "end_date": "2026-11-29",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "SPECIAL EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/galactic-bounties-ii\n\nGuides\n\nDeadly Tier guide",
+      "url": "https://swgohevents.com/event/galactic-bounties-ii",
       "status": "CONFIRMED"
     }
   ]
