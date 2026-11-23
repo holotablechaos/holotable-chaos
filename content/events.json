@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-22T17:54:21Z",
+  "last_successful_refresh": "2026-11-23T22:05:58Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "18b2b7592834af54d0bf171ed1b6ad06",
+      "uid": "4dca6b0fd3256245ce42f8aceaeb0b23",
       "title": "Endor Omega Battle - Omega Battles",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "b3e5792a9bed90f080b3064538b76117",
+      "uid": "d99107ce310a0d659a3fcb94f074b61f",
       "title": "Smuggler's Run - Resource Event",
       "start_date": "2026-11-23",
       "end_date": "2026-11-23",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c7d2f58d902fc6614a11782b934654a5",
+      "uid": "1087a683f6ebc222cc43df148548c509",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "38acaa2d50cca9a4e63cabe3922a3745",
+      "uid": "7eb77143194d366868ba1ec4e29f9c42",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-11-26",
       "end_date": "2026-11-26",
@@ -61,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "931fd60f33c0206dea97617f41aa86fe",
+      "uid": "c07598f272b288995d0e51186cb3bb8d",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
@@ -75,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "51a01bb5995163df34b6d5f740bfe250",
+      "uid": "3b30f572bedecc437e0d1d8a65814569",
       "title": "Galactic Bounties II - Special Event",
       "start_date": "2026-11-29",
       "end_date": "2026-11-29",
@@ -89,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a474f0157ed2852a9bbb2f0c697b0fde",
+      "uid": "a01d5071dc3634fe13884b43660e2b94",
       "title": "Jakku Omega Battle - Omega Battles",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -103,7 +103,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "e8b3deb1de027d41f7115c5d8f5c43d4",
+      "uid": "7e38d90a70d4866e1c087bdf13bd4558",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
