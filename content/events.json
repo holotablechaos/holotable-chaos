@@ -1,39 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-23T22:05:58Z",
+  "last_successful_refresh": "2026-11-24T20:42:37Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "4dca6b0fd3256245ce42f8aceaeb0b23",
-      "title": "Endor Omega Battle - Omega Battles",
-      "start_date": "2026-11-23",
-      "end_date": "2026-11-23",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "OMEGA BATTLES",
-      "reward": "",
-      "description": "https://swgohevents.com/event/endor-omega-battles\n\nRequires: Sith & Droids",
-      "url": "https://swgohevents.com/event/endor-omega-battles",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "d99107ce310a0d659a3fcb94f074b61f",
-      "title": "Smuggler's Run - Resource Event",
-      "start_date": "2026-11-23",
-      "end_date": "2026-11-23",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "RESOURCE EVENT",
-      "reward": "",
-      "description": "https://swgohevents.com/event/smugglers-run",
-      "url": "https://swgohevents.com/event/smugglers-run",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "1087a683f6ebc222cc43df148548c509",
+      "uid": "6395a3e96c79cd5c9ba0abe0c4749e15",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -47,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7eb77143194d366868ba1ec4e29f9c42",
+      "uid": "18fd2a3bfcf870c82ae399d5e500811f",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-11-26",
       "end_date": "2026-11-26",
@@ -61,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "c07598f272b288995d0e51186cb3bb8d",
+      "uid": "e886b6b8b2e233474bbfb0724d9192c1",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
@@ -75,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3b30f572bedecc437e0d1d8a65814569",
+      "uid": "71b5a76541b48b4526903fa6785181d3",
       "title": "Galactic Bounties II - Special Event",
       "start_date": "2026-11-29",
       "end_date": "2026-11-29",
@@ -89,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "a01d5071dc3634fe13884b43660e2b94",
+      "uid": "ffc6c6c25d5205eac9696362087101f9",
       "title": "Jakku Omega Battle - Omega Battles",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -103,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "7e38d90a70d4866e1c087bdf13bd4558",
+      "uid": "6082481f90b9a62c3f8ec5e64ee49e25",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -114,6 +86,20 @@
       "reward": "",
       "description": "https://swgohevents.com/event/profundity\n\nUnlocks at 4 stars\n\nEvent requires you to complete 4 tiers with 4, 5, 6, 7 star ships. Once you complete the 4 tiers you unlock the Profundity at 4 stars. This also unlocks a bonus tier that rewards 10 ship blueprints that is replayable every time the event returns. The bonus event can be refreshed 19 times for 999 crystals each time. Packs will be available after meeting the character requirements at 1250 crystals for 10 blueprints (with no limit on purchases).\n\nThe event is expected to run 1 time per month but may change its frequency in the future\n\nCost to Star\n\nBelow is the cost to star Profundity during one event. If you are grinding Profundity over several events then this won't be relevant. This assumes you will refresh the event as many times as needed before buying packs.\n\n4 star - 0 crystals\n5 star - 5,994 crystals\n6 star - 13,986 crystals\n7 star - 25,231 crystals\n\nRequirements to View and Begin the Event\nThese requirements are necessary before you can even attempt to do the event.\nAdmiral Raddus Relic 9\nCassian Andor Relic 8\nDash Rendar Relic 7\nMon Mothma Relic 5\nBistan Relic 5\nJyn Erso Relic 5\nHera Syndulla Relic 5\n\n\nTier 1\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (4-stars)\nCassian's U-wing (4-stars)\nBistan's U-wing (4-stars)\nWedge Antilles' X-wing (4-stars)\nBiggs Darklighter's X-wing (4-stars)\nRebel Y-wing (4-stars)\nGhost (4-stars)\n\n\nTier 2\nRewards: 10 Profundity Shards\nPlayable once\n\nOutrider (5-stars)\nCassian's U-wing (5-stars)\nBistan's U-wing (5-stars)\nWedge Antilles' X-wing (5-stars)\nBiggs Darklighter's X-wing (5-stars)\nRebel Y-wing (5-stars)\nGhost (5-stars)\n\n\nTier 3\nRewards: 20 Profundity Shards\nPlayable once\n\nOutrider (6-stars)\nCassian's U-wing (6-stars)\nBistan's U-wing (6-stars)\nWedge Antilles' X-wing (6-stars)\nBiggs Darklighter's X-wing (6-stars)\nRebel Y-wing (6-stars)\nGhost (6-stars)\n\n\nTier 4\nRewards: 40 Profundity Shards\nPlayable once\n\nOutrider (7-stars)\nCassian's U-wing (7-stars)\nBistan's U-wing (7-stars)\nWedge Antilles' X-wing (7-stars)\nBiggs Darklighter's X-wing (7-stars)\nRebel Y-wing (7-stars)\nGhost (7-stars)\n\n\nBonus Tier\nRewards: 10 Profundity Shards\nPlayable for free once per event. Replayable 19 times at 999 crystals each. \n\nProfundity (4-stars)\nOutrider\nCassian's U-wing\nBistan's U-wing\nWedge Antilles' X-wing\nBiggs Darklighter's X-wing\nRebel Y-wing\nGhost",
       "url": "https://swgohevents.com/event/profundity",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "5aa6143b979465f5ea4284dcbe54b231",
+      "title": "Places of Power - Assault Battles",
+      "start_date": "2026-12-02",
+      "end_date": "2026-12-02",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "ASSAULT BATTLES",
+      "reward": "",
+      "description": "https://swgohevents.com/event/places-power\n\nRequires First Order or Sith characters",
+      "url": "https://swgohevents.com/event/places-power",
       "status": "CONFIRMED"
     }
   ]
