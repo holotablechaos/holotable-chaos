@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-24T20:42:37Z",
+  "last_successful_refresh": "2026-11-25T19:58:49Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "6395a3e96c79cd5c9ba0abe0c4749e15",
+      "uid": "8f01f0a13cc250db4560ca79aa5e016d",
       "title": "Rebel Roundup - Assault Battles",
       "start_date": "2026-11-25",
       "end_date": "2026-11-25",
@@ -19,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "18fd2a3bfcf870c82ae399d5e500811f",
+      "uid": "4db03d93597d4f5d1fc64c6fc8249231",
       "title": "Ghosts of Dathomir - Heroic Battle",
       "start_date": "2026-11-26",
       "end_date": "2026-11-26",
@@ -33,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "e886b6b8b2e233474bbfb0724d9192c1",
+      "uid": "62324d3144f60a2e79157f0cf30863d1",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
@@ -47,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "71b5a76541b48b4526903fa6785181d3",
+      "uid": "566433bf383913e0924eaa7284cf9872",
       "title": "Galactic Bounties II - Special Event",
       "start_date": "2026-11-29",
       "end_date": "2026-11-29",
@@ -61,7 +61,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "ffc6c6c25d5205eac9696362087101f9",
+      "uid": "ae332a8237fee2c0b60ffc66a496c889",
       "title": "Jakku Omega Battle - Omega Battles",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -75,7 +75,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "6082481f90b9a62c3f8ec5e64ee49e25",
+      "uid": "e66d094fb1a7a5b143b3985d23934580",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -89,7 +89,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "5aa6143b979465f5ea4284dcbe54b231",
+      "uid": "f0bf92162b8b398da81a0db767ca3d5d",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-12-02",
       "end_date": "2026-12-02",
