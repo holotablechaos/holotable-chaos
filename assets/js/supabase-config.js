@@ -3,6 +3,6 @@
 // row-level security rules allow. Never put a secret key here.
 // While these are empty, account features stay switched off and the site works as before.
 window.HC_SUPABASE_CONFIG = {
-  url: "",
-  publishableKey: "",
+  url: "https://yzrgcnujnhdlbxdwzfez.supabase.co",
+  publishableKey: "sb_publishable_86RWG2Pv8VUnqaubHmpAfw_c1ksV1nP",
 };
