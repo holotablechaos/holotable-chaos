@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="Sign in to Holotable Chaos with Discord or Google, or keep browsing as a guest." />
+    <meta name="robots" content="noindex" />
+    <title>Your Account — Holotable Chaos</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a><a href="index.html" aria-current="page">Account</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="page-intro"><p class="eyebrow"><span></span> YOUR HOLOTABLE</p><h1>Your <em>account.</em></h1><p>An account is optional. Everything on the site works without one; signing in is just for listener features as they arrive.</p></section>
+
+      <section class="page-content account-page" aria-live="polite">
+        <!-- Shown when JavaScript is off, accounts aren't set up yet, or the sign-in library can't load. -->
+        <article class="empty-state" id="account-unavailable">
+          <span class="card-kicker">ACCOUNTS</span>
+          <h2>Accounts aren't available right now.</h2>
+          <p>You can keep using the whole site as a guest. If this keeps happening, make sure JavaScript is turned on and try again later.</p>
+        </article>
+
+        <article class="empty-state" id="account-signed-out" hidden>
+          <span class="card-kicker">SIGN IN</span>
+          <h2>Sign in with Discord or Google.</h2>
+          <p>We don't use passwords. Pick the account you already use; if your Discord and Google accounts share a verified email address, either one opens the same Holotable Chaos account.</p>
+          <div class="account-actions">
+            <button type="button" class="button button-primary" data-sign-in="discord">Continue with Discord</button>
+            <button type="button" class="button button-outline" data-sign-in="google">Continue with Google</button>
+          </div>
+          <p class="account-error" id="sign-in-error" role="alert" hidden></p>
+          <p class="form-footnote">You must be 13 or older to create an account. By signing in you agree to the <a class="card-link" href="../terms/index.html">Terms</a> and the <a class="card-link" href="../privacy/index.html">Privacy notice</a>.</p>
+          <p class="form-footnote"><strong>Guest mode:</strong> just keep browsing. Playback progress stays in this browser, and nothing is sent to us.</p>
+          <p class="form-footnote"><strong>Storage notice:</strong> signing in keeps a sign-in session in your browser's local storage so you stay signed in. We don't use tracking or advertising cookies.</p>
+        </article>
+
+        <div id="account-signed-in" hidden>
+          <article class="empty-state account-summary">
+            <span class="card-kicker">SIGNED IN</span>
+            <h2 id="account-name">Listener</h2>
+            <p class="account-meta"><span id="account-email"></span><span id="account-role" class="account-badge" hidden></span></p>
+            <p class="account-error" id="account-ban" role="status" hidden></p>
+            <div class="account-actions">
+              <a class="button button-outline" id="admin-link" href="../admin/index.html" hidden>Open the admin dashboard</a>
+              <button type="button" class="button button-outline" id="sign-out">Sign out</button>
+            </div>
+          </article>
+
+          <article class="empty-state">
+            <span class="card-kicker">PROFILE</span>
+            <h2>Your profile</h2>
+            <p>Everything here is optional, and none of it is public yet.</p>
+            <form id="profile-form" class="roster-form-grid account-form" novalidate>
+              <div class="form-field">
+                <label for="display-name">Display name <span class="optional-label">(optional)</span></label>
+                <input id="display-name" name="displayName" maxlength="40" autocomplete="nickname" />
+                <p class="field-error" id="display-name-error" hidden></p>
+              </div>
+              <div class="form-field">
+                <label for="ally-code">Ally code <span class="optional-label">(optional, self-reported, not verified)</span></label>
+                <input id="ally-code" name="allyCode" inputmode="numeric" placeholder="123-456-789" maxlength="11" />
+                <p class="field-error" id="ally-code-error" hidden></p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="swgoh-gg-url">SWGOH.GG profile link <span class="optional-label">(optional, self-reported, not verified)</span></label>
+                <input id="swgoh-gg-url" name="swgohGgUrl" type="url" placeholder="https://swgoh.gg/p/123456789/" />
+                <p class="field-error" id="swgoh-gg-url-error" hidden></p>
+              </div>
+              <div class="form-field form-field-full">
+                <label for="bio">About you <span class="optional-label">(optional, up to 500 characters)</span></label>
+                <textarea id="bio" name="bio" maxlength="500" rows="4"></textarea>
+                <p class="field-error" id="bio-error" hidden></p>
+              </div>
+              <div class="form-field-full">
+                <button type="submit" class="button button-primary form-submit" id="profile-save">Save profile</button>
+                <p class="copy-status" id="profile-status" role="status"></p>
+              </div>
+            </form>
+          </article>
+
+          <article class="empty-state">
+            <span class="card-kicker">SIGN-IN METHODS</span>
+            <h2>How you sign in</h2>
+            <ul class="account-list" id="identity-list"></ul>
+            <div class="account-actions" id="link-actions"></div>
+            <p class="form-footnote">Connect another method if its email is different from the one above. You'll need Discord connected for Discord alerts when they arrive.</p>
+            <p class="account-error" id="link-error" role="alert" hidden></p>
+          </article>
+
+          <article class="empty-state">
+            <span class="card-kicker">YOUR DATA</span>
+            <h2>Download or delete</h2>
+            <p>Download everything we store about your account as one JSON file, or delete your account for good.</p>
+            <div class="account-actions">
+              <button type="button" class="button button-outline" id="download-data">Download my data</button>
+            </div>
+            <details class="email-fallback account-danger">
+              <summary>Delete my account</summary>
+              <p>This deletes your sign-in, profile and settings straight away and can't be undone. Copies in our encrypted backups expire within 6 months.</p>
+              <label for="delete-confirm">Type <strong>DELETE</strong> to confirm</label>
+              <div class="form-field"><input id="delete-confirm" autocomplete="off" /></div>
+              <button type="button" class="button button-outline" id="delete-account" disabled>Delete my account</button>
+              <p class="account-error" id="delete-error" role="alert" hidden></p>
+            </details>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
+    <script src="../assets/js/supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
+    <script src="../assets/js/account-core.js"></script>
+    <script src="account.js"></script>
+  </body>
+</html>

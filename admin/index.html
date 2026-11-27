@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin — Holotable Chaos</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a><a href="../account/index.html">Account</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+    </header>
+    <main>
+      <section class="page-intro"><p class="eyebrow"><span></span> CREW ONLY</p><h1>Admin <em>dashboard.</em></h1><p>Accounts, roles, bans and the audit log. Every change here is recorded in the audit log.</p></section>
+      <section class="page-content account-page" aria-live="polite">
+        <article class="empty-state" id="admin-gate">
+          <span class="card-kicker">ADMINS ONLY</span>
+          <h2>Sign in with an admin account to continue.</h2>
+          <p><a class="card-link" href="../account/index.html">Go to your account <span aria-hidden="true">↗</span></a></p>
+        </article>
+
+        <div id="admin-panel" hidden>
+          <p class="account-error" id="admin-error" role="alert" hidden></p>
+
+          <article class="empty-state">
+            <span class="card-kicker">ACCOUNTS</span>
+            <h2>Accounts <span class="optional-label" id="account-count"></span></h2>
+            <p class="form-footnote" id="account-note"></p>
+            <div class="admin-table-wrap"><table class="admin-table" id="accounts-table">
+              <thead><tr><th scope="col">Listener</th><th scope="col">Sign-in</th><th scope="col">Joined</th><th scope="col">Last sign-in</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </article>
+
+          <article class="empty-state" id="invites-card" hidden>
+            <span class="card-kicker">OWNER ONLY</span>
+            <h2>Invite an admin</h2>
+            <p>The invite turns into the admin role when someone signs in with that Discord account, or with Discord or Google using that <strong>verified</strong> email.</p>
+            <form id="invite-form" class="roster-form-grid account-form" novalidate>
+              <div class="form-field">
+                <label for="invite-kind">Invite by</label>
+                <select id="invite-kind"><option value="discord">Discord user ID</option><option value="email">Email address</option></select>
+              </div>
+              <div class="form-field">
+                <label for="invite-value">Value</label>
+                <input id="invite-value" autocomplete="off" placeholder="e.g. 112233445566778899" />
+              </div>
+              <div class="form-field-full"><button type="submit" class="button button-primary form-submit">Create invite</button></div>
+            </form>
+            <ul class="account-list" id="invite-list"></ul>
+          </article>
+
+          <article class="empty-state">
+            <span class="card-kicker">MODERATION</span>
+            <h2>Blocked words</h2>
+            <p>Public text containing any of these whole words is refused. The list starts empty.</p>
+            <form id="word-form" class="account-actions" novalidate>
+              <div class="form-field"><label for="word-value" class="sr-only">Word to block</label><input id="word-value" autocomplete="off" placeholder="word" /></div>
+              <button type="submit" class="button button-outline">Add word</button>
+            </form>
+            <ul class="account-list account-chips" id="word-list"></ul>
+          </article>
+
+          <article class="empty-state">
+            <span class="card-kicker">AUDIT LOG</span>
+            <h2>Recent admin activity</h2>
+            <div class="admin-table-wrap"><table class="admin-table" id="audit-table">
+              <thead><tr><th scope="col">When</th><th scope="col">Action</th><th scope="col">By</th><th scope="col">About</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
+    <script src="../assets/js/supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
+    <script src="../assets/js/account-core.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

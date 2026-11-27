@@ -314,5 +314,47 @@ class BuzzsproutSyncTests(unittest.TestCase):
         self.assertEqual(first_numbers, second_numbers)
 
 
+class ShowFooterTests(unittest.TestCase):
+    BODY = "We break down the new raid and the best teams. Question of the Week: Which team surprised you most?"
+
+    def test_any_footer_wording_is_removed(self):
+        footers = [
+            PROMO_COPY,
+            "Want your roster reviewed or have a Question of the Week answer? Send them to holotablechaos@gmail.com!",
+            "Got a roster you want us to look at? Email holotablechaos@gmail.com and join our Discord.",
+            "Send us your answers and ally codes. Check out the website for past episodes.",
+            "Reach us at holotablechaos@gmail.com, or join the Holotable Chaos community Discord.",
+        ]
+        for footer in footers:
+            with self.subTest(footer=footer):
+                self.assertEqual(syncer.strip_show_footer(f"{self.BODY} {footer}"), self.BODY)
+                self.assertEqual(syncer._episode_display_description(f"{self.BODY} {footer}"), self.BODY)
+
+    def test_notes_without_a_footer_are_unchanged(self):
+        self.assertEqual(syncer.strip_show_footer(self.BODY), self.BODY)
+        self.assertEqual(syncer.strip_show_footer(""), "")
+        self.assertEqual(syncer.strip_show_footer(None), "")
+
+    def test_a_mention_in_the_middle_of_long_notes_is_kept(self):
+        rest = " ".join(["We go deep on every phase of the raid and every counter we tried."] * 10)
+        notes = f"Big thanks to everyone who joined our Discord watch party. {rest}"
+        self.assertEqual(syncer.strip_show_footer(notes), notes)
+
+    def test_archive_search_text_and_summary_leave_the_footer_out(self):
+        episode = {"episode_number": 99, "title": "Raid Night", "source": "buzzsprout",
+                   "description": f"{self.BODY} Send your answers to holotablechaos@gmail.com or join our Discord."}
+        card = syncer.render_archive_cards([episode])
+        self.assertIn("Which team surprised you most?", card)
+        self.assertNotIn("holotablechaos@gmail.com", card)
+        self.assertNotIn("Discord", card)
+
+    def test_live_archive_keeps_every_question_of_the_week(self):
+        archive = syncer.read_archive(PROJECT_ROOT / "content" / "episodes.json")
+        for episode in archive["episodes"]:
+            description = episode.get("description", "")
+            if "Question of the Week:" in description:
+                with self.subTest(episode=episode["episode_number"]):
+                    self.assertIn("Question of the Week:", syncer.strip_show_footer(description))
+
 if __name__ == "__main__":
     unittest.main()

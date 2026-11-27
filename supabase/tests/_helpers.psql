@@ -1,0 +1,31 @@
+-- Shared test helpers, included by each test file with \ir. Fictional data only.
+-- pg_temp functions vanish at the end of each test's transaction.
+
+-- Simulates a Supabase sign-up: an auth.users row plus one identity, in the order Supabase uses.
+-- p_confirm_first = false confirms the email *after* the identity row exists, the other order.
+create function pg_temp.new_user(p_email text, p_provider text, p_verified boolean,
+                                 p_provider_id text default null, p_confirm_first boolean default true)
+returns uuid language plpgsql as $$
+declare
+  v_id uuid := gen_random_uuid();
+  v_sub text := coalesce(p_provider_id, v_id::text);
+begin
+  insert into auth.users (id, instance_id, aud, role, email, email_confirmed_at,
+                          raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
+  values (v_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', p_email,
+          case when p_verified and p_confirm_first then now() end,
+          jsonb_build_object('provider', p_provider, 'providers', jsonb_build_array(p_provider)),
+          '{}'::jsonb, now(), now());
+  insert into auth.identities (provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at)
+  values (v_sub, v_id, jsonb_build_object('sub', v_sub, 'email', p_email, 'email_verified', p_verified),
+          p_provider, now(), now(), now());
+  if p_verified and not p_confirm_first then
+    update auth.users set email_confirmed_at = now() where id = v_id;
+  end if;
+  return v_id;
+end;
+$$;
+
+create function pg_temp.role_of(p_user uuid) returns text language sql as $$
+  select role from public.user_roles where user_id = p_user;
+$$;
