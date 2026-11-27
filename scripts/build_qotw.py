@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
-"""Render the static Question of the Week pages from content/qotw.json."""
+"""Render the Question of the Week page and its homepage/Community previews.
+
+Questions come from two places, merged per episode:
+
+1. The "Question of the Week:" line in each episode's show notes
+   (content/episodes.json, kept up to date by sync_buzzsprout.py).
+2. Hand-written entries in content/qotw.json, which always win. Use them for
+   episodes whose show notes don't include the question, or to fix wording.
+
+The newest episode with a question is the open question; every earlier one is
+archived. Nothing is stored about which question is "current", so the build is
+deterministic and safe to rerun: if no new episode has arrived, the output is
+byte-for-byte unchanged.
+"""
 
 from __future__ import annotations
 
@@ -10,116 +23,185 @@ import os
 import re
 import sys
 import tempfile
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote
 from typing import Any
-
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_PATH = ROOT / "content" / "qotw.json"
-QUESTION_PAGE = ROOT / "community" / "question-of-the-week.html"
-OUTPUTS = {
-    ROOT / "index.html": ("<!-- QOTW_HOME_START -->", "<!-- QOTW_HOME_END -->"),
-    ROOT / "community" / "index.html": ("<!-- QOTW_COMMUNITY_START -->", "<!-- QOTW_COMMUNITY_END -->"),
-}
+EPISODES_PATH = ROOT / "content" / "episodes.json"
+HOME_MARKERS = ("<!-- QOTW_HOME_START -->", "<!-- QOTW_HOME_END -->")
+COMMUNITY_MARKERS = ("<!-- QOTW_COMMUNITY_START -->", "<!-- QOTW_COMMUNITY_END -->")
 RECIPIENT = "holotablechaos@gmail.com"
+DISPLAY_TIMEZONE = "America/New_York"
+
+# The question runs from its label to the standard call-to-action (or the end of
+# the notes). The call-to-action mentions "a Question of the Week answer" without
+# a colon, so it never matches the label itself.
+QUESTION_LINE = re.compile(
+    r"Question of the Week:\s*(?P<text>.+?)\s*(?=Want your roster reviewed|$)",
+    re.IGNORECASE | re.DOTALL,
+)
 
 
 class ContentError(ValueError):
     pass
 
 
-def load_content(path: Path = CONTENT_PATH) -> dict[str, Any]:
+@dataclass(frozen=True)
+class Question:
+    episode: int
+    episode_title: str
+    text: str
+    published_at: str | None = None
+
+    @property
+    def id(self) -> str:
+        return f"QotW #{self.episode}"
+
+
+@dataclass(frozen=True)
+class QotwState:
+    current: Question | None
+    archive: list[Question]  # newest first, excludes the current question
+    without_question: list[tuple[int, str]]  # (episode, title), oldest first
+    warnings: list[str]
+
+
+# --------------------------------------------------------------------------- data
+
+
+def _read_json(path: Path, label: str) -> dict[str, Any]:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        raise ContentError(f"Could not read Question of the Week content: {exc}") from exc
-    if not isinstance(payload, dict) or not isinstance(payload.get("questions"), list):
-        raise ContentError("Content must contain a questions array.")
+        raise ContentError(f"Could not read {label}: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise ContentError(f"{label} must be a JSON object.")
     return payload
 
 
-def validate_content(payload: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
-    questions = payload.get("questions")
-    if not isinstance(questions, list):
-        raise ContentError("Content must contain a questions array.")
-    known_statuses = {"current", "closed", "draft"}
-    seen_ids: set[str] = set()
-    currents = []
-    normalized = []
-    for index, entry in enumerate(questions):
+def load_content(path: Path = CONTENT_PATH) -> dict[str, Any]:
+    return _read_json(path, "Question of the Week content")
+
+
+def load_episodes(path: Path = EPISODES_PATH) -> list[dict[str, Any]]:
+    episodes = _read_json(path, "the episode catalog").get("episodes")
+    if not isinstance(episodes, list):
+        raise ContentError("The episode catalog must contain an episodes array.")
+    return episodes
+
+
+def extract_question(description: str | None) -> str | None:
+    """Return the Question of the Week from an episode's show notes, if present."""
+    match = QUESTION_LINE.search(description or "")
+    if not match:
+        return None
+    text = " ".join(match.group("text").split())
+    return text or None
+
+
+def _validate_manual(payload: dict[str, Any]) -> tuple[dict[int, dict[str, Any]], set[int]]:
+    entries = payload.get("questions", [])
+    if not isinstance(entries, list):
+        raise ContentError("content/qotw.json: questions must be a list.")
+    manual: dict[int, dict[str, Any]] = {}
+    for index, entry in enumerate(entries, start=1):
         if not isinstance(entry, dict):
-            raise ContentError(f"Question record {index + 1} must be an object.")
-        identifier = entry.get("id")
+            raise ContentError(f"content/qotw.json: question {index} must be an object.")
+        episode = entry.get("episode")
+        if not isinstance(episode, int) or isinstance(episode, bool) or episode < 1:
+            raise ContentError(f"content/qotw.json: question {index} needs a positive episode number.")
+        if episode in manual:
+            raise ContentError(f"content/qotw.json: episode {episode} has more than one question.")
         text = entry.get("text")
-        status = entry.get("status")
-        if not isinstance(identifier, str) or not identifier.strip():
-            raise ContentError(f"Question record {index + 1} needs a permanent ID.")
-        if identifier in seen_ids:
-            raise ContentError(f"Duplicate permanent question ID: {identifier}")
-        seen_ids.add(identifier)
-        if not isinstance(text, str):
-            raise ContentError(f"Question {identifier} must have a text string; use an empty string while it is unknown.")
-        if status not in known_statuses:
-            raise ContentError(f"Question {identifier} has invalid status {status!r}; use current, closed, or draft.")
-        if entry.get("episode") is not None and (not isinstance(entry["episode"], int) or entry["episode"] < 1):
-            raise ContentError(f"Question {identifier} has invalid episode metadata.")
-        if entry.get("episode") is not None and identifier != f"QotW #{entry['episode']}":
-            raise ContentError(f"Question {identifier} must retain the permanent ID QotW #{entry['episode']} for its episode.")
-        if entry.get("episode_title") is not None and not isinstance(entry["episode_title"], str):
-            raise ContentError(f"Question {identifier} has invalid episode title metadata.")
-        if entry.get("date") is not None and not isinstance(entry["date"], str):
-            raise ContentError(f"Question {identifier} has invalid date metadata.")
-        normalized.append(entry)
-        if status == "current":
-            currents.append(entry)
-    if len(currents) > 1:
-        raise ContentError("More than one question is marked current. Choose one current question before building the site.")
-    no_question_episodes = payload.get("episode_history", [])
-    if not isinstance(no_question_episodes, list):
-        raise ContentError("Episode history must be a list.")
-    seen_episodes = {entry.get("episode") for entry in normalized if entry.get("episode") is not None}
-    for entry in no_question_episodes:
-        if not isinstance(entry, dict) or not isinstance(entry.get("episode"), int) or entry["episode"] < 1:
-            raise ContentError("Each episode history entry needs a positive episode number.")
-        if not isinstance(entry.get("title"), str) or not entry["title"].strip():
-            raise ContentError(f"Episode {entry['episode']} needs a title.")
-        if entry.get("qotw_id") is not None:
-            raise ContentError(f"Episode {entry['episode']} is listed as no-question but has a QotW ID.")
-        if entry["episode"] in seen_episodes:
-            raise ContentError(f"Episode {entry['episode']} appears more than once in the QotW history.")
-        seen_episodes.add(entry["episode"])
-    return normalized, currents[0] if currents else None
+        if not isinstance(text, str) or not text.strip():
+            raise ContentError(f"content/qotw.json: episode {episode} needs the question text.")
+        title = entry.get("episode_title")
+        if title is not None and not isinstance(title, str):
+            raise ContentError(f"content/qotw.json: episode {episode} has an invalid episode_title.")
+        manual[episode] = entry
+    no_question = payload.get("no_question_episodes", [])
+    if not isinstance(no_question, list) or not all(isinstance(n, int) and not isinstance(n, bool) and n > 0 for n in no_question):
+        raise ContentError("content/qotw.json: no_question_episodes must be a list of episode numbers.")
+    overlap = sorted(set(no_question) & set(manual))
+    if overlap:
+        raise ContentError(f"content/qotw.json: episode {overlap[0]} is listed both with and without a question.")
+    return manual, set(no_question)
 
 
-def activate_draft(payload: dict[str, Any], identifier: str) -> dict[str, Any]:
-    """Publish a draft and close the previous current question in one content update."""
-    questions, current = validate_content(payload)
-    target = next((entry for entry in questions if entry["id"] == identifier), None)
-    if target is None:
-        raise ContentError(f"No question with ID {identifier!r} exists.")
-    if target.get("status") != "draft":
-        raise ContentError("Only a draft can be activated; closed questions are never reopened by the publish command.")
-    if not target.get("text", "").strip():
-        raise ContentError("Add the full question text before publishing this draft.")
-    if current:
-        current["status"] = "closed"
-    target["status"] = "current"
-    return payload
+def resolve(payload: dict[str, Any], episodes: list[dict[str, Any]]) -> QotwState:
+    """Merge show notes with hand-written entries and decide the open question."""
+    manual, no_question = _validate_manual(payload)
+    catalog: dict[int, dict[str, Any]] = {}
+    for record in episodes:
+        number = record.get("episode_number") if isinstance(record, dict) else None
+        if isinstance(number, int) and number > 0:
+            catalog[number] = record
+
+    questions: list[Question] = []
+    without_question: list[tuple[int, str]] = []
+    for number in sorted(set(catalog) | set(manual)):
+        record = catalog.get(number, {})
+        entry = manual.get(number)
+        title = ((entry or {}).get("episode_title") or record.get("title") or f"Episode {number}").strip()
+        text = entry["text"].strip() if entry else (None if number in no_question else extract_question(record.get("description")))
+        if text:
+            questions.append(Question(number, title, text, record.get("published_at") or None))
+        else:
+            without_question.append((number, title))
+
+    current = questions[-1] if questions else None
+    warnings: list[str] = []
+    latest = max(catalog) if catalog else None
+    if latest is not None and (current is None or latest > current.episode) and latest not in no_question:
+        still = f"The site is still showing {current.id}." if current else "There is no open question."
+        warnings.append(
+            f"Episode {latest} has no 'Question of the Week:' line in its show notes. {still} "
+            f"Add the question to content/qotw.json (or list {latest} in no_question_episodes if it had none)."
+        )
+    archive = list(reversed(questions[:-1]))
+    return QotwState(current, archive, without_question, warnings)
 
 
-def email_body(question: dict[str, Any]) -> str:
+# ------------------------------------------------------------------------ render
+
+
+def email_body(question: Question) -> str:
     return (
-        f"Permanent question ID: {question['id']}\n\n"
-        f"Question:\n{question['text'].strip()}\n\n"
+        f"Permanent question ID: {question.id}\n\n"
+        f"Question:\n{question.text}\n\n"
         "In-game name (optional):\n\n\n"
         "Your answer:\n"
     )
 
 
-def mailto_url(question: dict[str, Any]) -> str:
-    subject = f"Holotable Chaos {question['id']} Submission"
-    return f"mailto:{RECIPIENT}?subject={quote(subject, safe='')}&body={quote(email_body(question), safe='')}"
+def email_subject(question: Question) -> str:
+    return f"Holotable Chaos {question.id} Submission"
+
+
+def mailto_url(question: Question) -> str:
+    return f"mailto:{RECIPIENT}?subject={quote(email_subject(question), safe='')}&body={quote(email_body(question), safe='')}"
+
+
+def display_date(published_at: str | None) -> str | None:
+    if not published_at:
+        return None
+    try:
+        moment = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=timezone.utc)
+    try:
+        from zoneinfo import ZoneInfo
+
+        moment = moment.astimezone(ZoneInfo(DISPLAY_TIMEZONE))
+    except Exception:  # Missing tz database: fall back to the UTC date.
+        moment = moment.astimezone(timezone.utc)
+    return f"{moment:%b} {moment.day}, {moment.year}"
 
 
 def _excerpt(value: str, limit: int = 160) -> str:
@@ -129,128 +211,97 @@ def _excerpt(value: str, limit: int = 160) -> str:
     return text[: limit - 1].rsplit(" ", 1)[0].rstrip(" .,;:") + "…"
 
 
-def _status_text(current: dict[str, Any] | None, error: str | None) -> tuple[str, str]:
-    if error:
-        return "Configuration issue", "QotW is unavailable until the content is corrected."
-    if current is None:
-        return "No active question", "There is no open Question of the Week right now."
-    if not current.get("text", "").strip():
-        return "Question text needed", f"Add the full question text for {current['id']} in content/qotw.json."
-    return current["id"], current["text"]
+def _episode_link(question_or_number: Question | int, title: str | None = None, prefix: str = "../") -> str:
+    if isinstance(question_or_number, Question):
+        number, title = question_or_number.episode, question_or_number.episode_title
+    else:
+        number = question_or_number
+    href = f"{prefix}podcast/episodes/episode-{number}.html"
+    return f'Episode {number} · <a href="{href}">{html.escape(title or "")}</a>'
 
 
-def render_home_card(current: dict[str, Any] | None, error: str | None = None) -> str:
-    label, preview = _status_text(current, error)
-    state = "CONFIGURATION ISSUE" if error else ("OPEN" if current else "CLOSED")
-    if current and not current.get("text", "").strip() and not error:
-        state = "OPEN · TEXT NEEDED"
+def _metadata(question: Question) -> str:
+    parts = [_episode_link(question)]
+    date = display_date(question.published_at)
+    if date:
+        parts.append(f"Asked {html.escape(date)}")
+    return " · ".join(parts)
+
+
+def render_home_card(current: Question | None) -> str:
+    label = current.id if current else "No active question"
+    preview = current.text if current else "There is no open Question of the Week right now."
+    state = "OPEN" if current else "CLOSED"
     return (
         '<article class="community-card qotw-community-card">'
         '<div class="community-card-heading"><span class="card-kicker">QUESTION OF THE WEEK</span>'
-        f'<span class="qotw-status">{html.escape(state)}</span></div>'
+        f'<span class="qotw-status">{state}</span></div>'
         f'<h3>{html.escape(label)}</h3><p>{html.escape(_excerpt(preview))}</p>'
-        '<a class="card-link" href="community/question-of-the-week.html">View the question and archive <span>↗</span></a>'
+        '<a class="card-link" href="community/question-of-the-week.html">Answer the question or browse the archive <span>↗</span></a>'
         '</article>'
     )
 
 
-def render_community_card(current: dict[str, Any] | None, error: str | None = None) -> str:
-    label, preview = _status_text(current, error)
-    state = "CONFIGURATION ISSUE" if error else ("OPEN" if current else "NO ACTIVE QUESTION")
-    if current and not current.get("text", "").strip() and not error:
-        state = "OPEN · TEXT NEEDED"
+def render_community_card(current: Question | None) -> str:
+    label = current.id if current else "No active question"
+    preview = current.text if current else "There is no open Question of the Week right now."
+    state = "OPEN" if current else "NO ACTIVE QUESTION"
     return (
         '<article class="community-card qotw-community-card" id="question-of-the-week">'
         '<div class="community-card-heading"><span class="card-kicker">LISTENER QUESTION</span>'
-        f'<span class="qotw-status">{html.escape(state)}</span></div>'
+        f'<span class="qotw-status">{state}</span></div>'
         f'<h2>Question of the Week</h2><p class="qotw-preview"><strong>{html.escape(label)}</strong><br />{html.escape(_excerpt(preview))}</p>'
-        '<a class="card-link" href="question-of-the-week.html">View the question and archive <span>↗</span></a>'
+        '<a class="card-link" href="question-of-the-week.html">Answer the question or browse the archive <span>↗</span></a>'
         '</article>'
     )
 
 
-def render_archive(questions: list[dict[str, Any]], current: dict[str, Any] | None, error: str | None) -> str:
-    archived = [entry for entry in questions if entry.get("status") == "closed"]
-    if not archived:
-        return '<p class="qotw-empty-archive">Past questions will appear here when they are added to the content archive.</p>'
-    cards = []
-    for entry in archived:
-        identifier = html.escape(entry["id"])
-        episode = entry.get("episode")
-        episode_title = entry.get("episode_title")
-        episode_note = (
-            f'<p class="qotw-metadata">Episode {int(episode)} · <a href="../podcast/episodes/episode-{int(episode)}.html">{html.escape(episode_title or f"Episode {int(episode)}")}</a></p>'
-            if episode
-            else (f'<p class="qotw-metadata">Date: {html.escape(entry["date"])}</p>' if entry.get("date") else "")
-        )
-        cards.append(
-            '<article class="qotw-archive-card">'
-            f'<div class="community-card-heading"><span class="card-kicker">ARCHIVE ID: {identifier}</span><span class="qotw-status qotw-status-closed">CLOSED</span></div>'
-            f'<h3 class="qotw-archive-title">{html.escape(episode_title or "")}</h3>'
-            f'<p class="qotw-archive-question">{html.escape(entry["text"])}</p>{episode_note}'
-            '</article>'
-        )
-    return "\n        ".join(cards)
-
-
-def render_page(questions: list[dict[str, Any]], current: dict[str, Any] | None, error: str | None = None, episode_history: list[dict[str, Any]] | None = None) -> str:
-    archive = render_archive(questions, current, error)
-    no_question_history = episode_history or []
-    no_question_html = ""
-    if no_question_history:
-        no_question_html = '<div class="qotw-no-question-history"><h3>Episodes without a Question of the Week</h3>' + "".join(
-            f'<p>Episode {int(entry["episode"])} — {html.escape(entry["title"])} · No QotW</p>'
-            for entry in sorted(no_question_history, key=lambda item: item["episode"])
-        ) + "</div>"
-    if error:
-        prompt = (
-            '<section class="qotw-current qotw-error" aria-labelledby="current-question-title">'
-            '<span class="qotw-status qotw-status-closed">CONFIGURATION ERROR</span>'
-            '<h2 id="current-question-title">Question settings need attention</h2>'
-            f'<p>{html.escape(error)}</p><p>No answer email link is available while the settings are ambiguous.</p></section>'
-        )
-    elif current is None:
-        prompt = (
+def render_current(current: Question | None) -> str:
+    if current is None:
+        return (
             '<section class="qotw-current" aria-labelledby="current-question-title">'
             '<span class="qotw-status qotw-status-closed">NO ACTIVE QUESTION</span>'
-            '<h2 id="current-question-title">Check back for the next question.</h2>'
-            '<p>There is no open Question of the Week right now. Previously featured questions remain below for browsing.</p></section>'
+            '<h2 id="current-question-title" class="qotw-question">Check back for the next question.</h2>'
+            '<p class="qotw-send-note">A new Question of the Week is asked in each episode. Past questions remain below.</p></section>'
         )
-    else:
-        identifier = html.escape(current["id"])
-        text = current.get("text", "").strip()
-        if text:
-            submission = (
-                f'<a class="button button-primary qotw-submit" href="{html.escape(mailto_url(current), quote=True)}">'
-                'Submit Your Answer <span aria-hidden="true">→</span></a>'
-                '<p class="qotw-send-note">This opens your email application. Review the message and send it yourself; answers are not submitted automatically.</p>'
-                f'<details class="qotw-email-fallback"><summary>If you don’t have an email app configured</summary>'
-                f'<p>To: <strong>{RECIPIENT}</strong><br />Subject: <strong>Holotable Chaos {identifier} Submission</strong></p>'
-                '<p>Copy the message below into a new email to the address above with the subject shown.</p>'
-                f'<textarea rows="10" readonly aria-label="Copyable answer email">{html.escape(email_body(current))}</textarea></details>'
-            )
-            question_content = html.escape(text)
-        else:
-            submission = (
-                '<button class="button button-primary qotw-submit" type="button" disabled>Submit Your Answer</button>'
-                f'<p class="qotw-send-note">The question text for {identifier} has not been added yet. The answer button will be available after you fill in its <code>text</code> field in <code>content/qotw.json</code>.</p>'
-            )
-            question_content = (
-                f'<p class="qotw-question-needed"><strong>Question text needed.</strong> Add the full wording for {identifier} in <code>content/qotw.json</code>.</p>'
-            )
-        metadata = []
-        if current.get("episode"):
-            episode_title = html.escape(current.get("episode_title", ""))
-            metadata.append(f'<span>Episode {int(current["episode"])} · {episode_title}</span>')
-        if current.get("date"):
-            metadata.append(f'<time datetime="{html.escape(current["date"], quote=True)}">{html.escape(current["date"])}</time>')
-        metadata_html = f'<p class="qotw-current-metadata">{" · ".join(metadata)}</p>' if metadata else ""
-        prompt = (
-            '<section class="qotw-current" aria-labelledby="current-question-title">'
-            f'<div class="community-card-heading"><span class="card-kicker">PERMANENT ID: {identifier}</span><span class="qotw-status">OPEN</span></div>'
-            f'<h2 id="current-question-title">{identifier}</h2><div class="qotw-question-text">{question_content}</div>'
-            f'{metadata_html}<p class="qotw-feature-note">Your answer may be discussed or featured in a future Holotable Chaos podcast episode.</p>{submission}</section>'
-        )
+    identifier = html.escape(current.id)
+    return (
+        '<section class="qotw-current" aria-labelledby="current-question-title">'
+        f'<div class="community-card-heading"><span class="card-kicker">THIS WEEK’S QUESTION · {identifier}</span><span class="qotw-status">OPEN</span></div>'
+        f'<h2 id="current-question-title" class="qotw-question">{html.escape(current.text)}</h2>'
+        f'<p class="qotw-current-metadata">{_metadata(current)}</p>'
+        '<p class="qotw-feature-note">Your answer may be discussed or featured in a future Holotable Chaos podcast episode.</p>'
+        f'<a class="button button-primary qotw-submit" href="{html.escape(mailto_url(current), quote=True)}">Submit Your Answer <span aria-hidden="true">→</span></a>'
+        '<p class="qotw-send-note">This opens your email application. Review the message and send it yourself; answers are not submitted automatically.</p>'
+        '<details class="qotw-email-fallback"><summary>If you don’t have an email app configured</summary>'
+        f'<p>To: <strong>{RECIPIENT}</strong><br />Subject: <strong>{html.escape(email_subject(current))}</strong></p>'
+        '<p>Copy the message below into a new email to the address above with the subject shown.</p>'
+        f'<textarea rows="10" readonly aria-label="Copyable answer email">{html.escape(email_body(current))}</textarea></details>'
+        '</section>'
+    )
+
+
+def render_archive(archive: list[Question]) -> str:
+    if not archive:
+        return '<p class="qotw-empty-archive">Past questions will appear here once the next question is asked.</p>'
+    return "\n        ".join(
+        '<article class="qotw-archive-card">'
+        f'<div class="community-card-heading"><span class="card-kicker">{html.escape(question.id)}</span><span class="qotw-status qotw-status-closed">CLOSED</span></div>'
+        f'<h3 class="qotw-archive-title">{html.escape(question.text)}</h3>'
+        f'<p class="qotw-metadata">{_metadata(question)}</p>'
+        '</article>'
+        for question in archive
+    )
+
+
+def render_without_question(entries: list[tuple[int, str]]) -> str:
+    if not entries:
+        return ""
+    rows = "".join(f"<p>{_episode_link(number, title)}</p>" for number, title in entries)
+    return f'<div class="qotw-no-question-history"><h3>Episodes without a question on record</h3>{rows}</div>'
+
+
+def render_page(state: QotwState) -> str:
     return f'''<!doctype html>
 <html lang="en">
   <head>
@@ -268,9 +319,9 @@ def render_page(questions: list[dict[str, Any]], current: dict[str, Any] | None,
       <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
     </header>
     <main>
-      <section class="page-intro"><p class="eyebrow"><span></span> THE COMMUNITY / LISTENER QUESTION</p><h1>Question of the <em>week.</em></h1><p>Answer the open question or browse past prompts from the show. Closed questions remain here as an archive and are no longer accepting answers through this page.</p></section>
-      <section class="qotw-page-content" aria-label="Question of the Week">{prompt}
-        <section class="qotw-archive" aria-labelledby="qotw-archive-title"><div class="section-heading"><div><p class="eyebrow">FROM THE ARCHIVE</p><h2 id="qotw-archive-title">Past <em>questions.</em></h2></div><p>Past questions are available to browse, but are no longer accepting submissions through the website.</p></div><div class="qotw-archive-list">{archive}</div>{no_question_html}</section>
+      <section class="page-intro"><p class="eyebrow"><span></span> THE COMMUNITY / LISTENER QUESTION</p><h1>Question of the <em>week.</em></h1><p>Every episode ends with a new question for listeners. Answer this week’s question below, or browse the questions from past episodes.</p></section>
+      <section class="qotw-page-content" aria-label="Question of the Week">{render_current(state.current)}
+        <section class="qotw-archive" aria-labelledby="qotw-archive-title"><div class="section-heading"><div><p class="eyebrow">FROM THE ARCHIVE</p><h2 id="qotw-archive-title">Past <em>questions.</em></h2></div><p>Newest first. Past questions are closed to new answers through the website.</p></div><div class="qotw-archive-list">{render_archive(state.archive)}</div>{render_without_question(state.without_question)}</section>
       </section>
     </main>
     <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
@@ -279,8 +330,12 @@ def render_page(questions: list[dict[str, Any]], current: dict[str, Any] | None,
 '''
 
 
-def _write_atomic(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
+# ------------------------------------------------------------------------- write
+
+
+def _write_if_changed(path: Path, text: str) -> bool:
+    if path.exists() and path.read_text(encoding="utf-8") == text:
+        return False
     temporary_name: str | None = None
     try:
         with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="\n", dir=path.parent, delete=False) as temporary:
@@ -294,66 +349,56 @@ def _write_atomic(path: Path, text: str) -> None:
             except OSError:
                 pass
         raise
+    return True
 
 
-def _replace_marker_block(path: Path, start_marker: str, end_marker: str, content: str) -> None:
-    current = path.read_text(encoding="utf-8")
-    if current.count(start_marker) != 1 or current.count(end_marker) != 1:
-        raise ContentError(f"{path.relative_to(ROOT)} needs exactly one pair of QotW content markers.")
-    start = current.index(start_marker) + len(start_marker)
-    end = current.index(end_marker)
-    if end < start:
-        raise ContentError(f"QotW content markers are out of order in {path.relative_to(ROOT)}.")
-    _write_atomic(path, current[:start] + "\n          " + content + "\n          " + current[end:])
+def _with_marker_block(path: Path, markers: tuple[str, str], content: str) -> str:
+    source = path.read_text(encoding="utf-8")
+    start_marker, end_marker = markers
+    if source.count(start_marker) != 1 or source.count(end_marker) != 1 or source.index(end_marker) < source.index(start_marker):
+        raise ContentError(f"{path.name} needs exactly one correctly ordered pair of QotW markers.")
+    start = source.index(start_marker) + len(start_marker)
+    end = source.index(end_marker)
+    return source[:start] + "\n          " + content + "\n          " + source[end:]
 
 
-def build_site(payload: dict[str, Any], project_root: Path = ROOT) -> str | None:
-    """Generate three static views; invalid current state is rendered safely and returned as an error."""
-    try:
-        questions, current = validate_content(payload)
-        error = None
-        episode_history = payload.get("episode_history", [])
-    except ContentError as exc:
-        questions = [entry for entry in payload.get("questions", []) if isinstance(entry, dict) and entry.get("status") == "closed" and isinstance(entry.get("id"), str) and isinstance(entry.get("text"), str)]
-        current = None
-        error = str(exc)
-        episode_history = payload.get("episode_history", []) if isinstance(payload.get("episode_history", []), list) else []
-    output_paths = {
-        project_root / "index.html": OUTPUTS[ROOT / "index.html"],
-        project_root / "community" / "index.html": OUTPUTS[ROOT / "community" / "index.html"],
+def build_site(payload: dict[str, Any], episodes: list[dict[str, Any]], project_root: Path = ROOT) -> tuple[QotwState, list[Path]]:
+    """Write the page and both previews. Returns the state and the files that changed."""
+    state = resolve(payload, episodes)
+    home = project_root / "index.html"
+    community = project_root / "community" / "index.html"
+    # Render everything before writing anything, so a marker problem changes no files.
+    outputs = {
+        home: _with_marker_block(home, HOME_MARKERS, render_home_card(state.current)),
+        community: _with_marker_block(community, COMMUNITY_MARKERS, render_community_card(state.current)),
+        project_root / "community" / "question-of-the-week.html": render_page(state),
     }
-    # Validate every destination before writing any generated output.
-    for path, markers in output_paths.items():
-        source = path.read_text(encoding="utf-8")
-        if source.count(markers[0]) != 1 or source.count(markers[1]) != 1 or source.index(markers[1]) < source.index(markers[0]):
-            raise ContentError(f"{path.relative_to(project_root)} needs one correctly ordered QotW marker pair.")
-    _replace_marker_block(project_root / "index.html", *OUTPUTS[ROOT / "index.html"], render_home_card(current, error))
-    _replace_marker_block(project_root / "community" / "index.html", *OUTPUTS[ROOT / "community" / "index.html"], render_community_card(current, error))
-    _write_atomic(project_root / "community" / "question-of-the-week.html", render_page(questions, current, error, episode_history))
-    return error
+    changed = [path for path, text in outputs.items() if _write_if_changed(path, text)]
+    return state, changed
 
 
-def save_payload(payload: dict[str, Any], path: Path = CONTENT_PATH) -> None:
-    _write_atomic(path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+def _report_warnings(warnings: list[str]) -> None:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    for warning in warnings:
+        print(f"Warning: {warning}", file=sys.stderr)
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            print(f"::warning title=Question of the Week::{warning}")
+    if summary_path and warnings:
+        with open(summary_path, "a", encoding="utf-8") as summary:
+            summary.write("### ⚠️ Question of the Week\n\n" + "".join(f"- {warning}\n" for warning in warnings) + "\n")
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build the static Holotable Chaos Question of the Week pages.")
-    parser.add_argument("--activate", metavar="ID", help="Activate a draft ID and automatically close the previous current question.")
-    args = parser.parse_args()
+    argparse.ArgumentParser(description=__doc__.splitlines()[0]).parse_args()
     try:
-        payload = load_content()
-        if args.activate:
-            payload = activate_draft(payload, args.activate)
-            save_payload(payload)
-        error = build_site(payload)
+        state, changed = build_site(load_content(), load_episodes())
     except (ContentError, OSError) as exc:
-        print(f"QotW build failed safely: {exc}", file=sys.stderr)
+        print(f"QotW build failed; no files were changed: {exc}", file=sys.stderr)
         return 1
-    if error:
-        print(f"QotW build wrote a safe configuration-error state: {error}", file=sys.stderr)
-        return 1
-    print("Generated the Question of the Week page and refreshed its homepage and Community cards.")
+    _report_warnings(state.warnings)
+    current = f"{state.current.id} (episode {state.current.episode})" if state.current else "none"
+    status = "Updated " + ", ".join(str(p.relative_to(ROOT)) for p in changed) if changed else "No changes"
+    print(f"Open question: {current}. {status}.")
     return 0
 
 

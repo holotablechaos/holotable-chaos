@@ -36,24 +36,37 @@ The command is hosting independent. After the repository and hosting provider ar
 
 ## Question of the Week
 
-Question records and episode titles live in `content/qotw.json`. Episodes 1 and 2 are listed in `episode_history` with `qotw_id: null`; questions #3–#17 are closed, and #18 is current. The permanent ID must match the episode number. Build the page and its homepage/Community previews after editing the data:
+The Question of the Week rotates automatically with each new episode. Every 15 minutes, `.github/workflows/update-episodes.yml` imports any new Buzzsprout episode, then runs `scripts/build_qotw.py`. That script reads the `Question of the Week:` line from each episode's show notes in `content/episodes.json`. The newest episode with a question becomes the open question on the Question of the Week page and in the homepage and Community previews. Every earlier question moves to the archive, newest first. If anything changed, the workflow commits it and starts the Pages deploy.
+
+Nothing records which question is "current"; it is worked out from the episodes on every run. So reruns are safe: when no new episode has arrived, the build reports `No changes` and nothing is committed.
+
+To make a question appear automatically, put a line like this in the episode's Buzzsprout description, before the usual "Want your roster reviewed…" text:
+
+```
+Question of the Week: What are your thoughts on Droid Destruction so far?
+```
+
+`content/qotw.json` is only for exceptions:
+
+- **The show notes don't include the question, or the wording needs fixing.** Add `{"episode": 24, "text": "Your question?"}` to `questions`. An entry here always wins over the show notes. `episode_title` is optional and defaults to the episode's title.
+- **An episode had no question.** Add its number to `no_question_episodes`.
+
+Then rebuild and check the result:
 
 ```powershell
 python scripts/build_qotw.py
 ```
 
-To add next week's question, append a record with a new permanent `id`, its exact `text`, `status: "draft"`, the episode number, `episode_title`, and any known date metadata. Activate and render it with:
+The importer only fills in show notes the first time it sees an episode, so editing a description in Buzzsprout after the episode was imported won't reach the site. Use a `content/qotw.json` entry in that case.
+
+If the newest episode has no question, the site keeps showing the previous question, the build prints a warning, and the workflow adds that warning to its run summary. The deploy still runs. Episodes with no question on record are listed at the bottom of the archive.
+
+The answer email subject stays `Holotable Chaos QotW #<episode> Submission`, where the number is the episode number.
+
+Run the QotW checks with:
 
 ```powershell
-python scripts/build_qotw.py --activate "QotW #19"
-```
-
-The activation command changes the prior current record to `closed`, makes the draft current, and rebuilds the three static views. It does not reopen closed records, renumber IDs, or edit episode pages. If two records are manually marked current, a normal build writes a configuration-error page with no answer email link and exits with an error; zero current records displays a no-active-question state. Closed questions keep their IDs, wording, episode association, and episode title in the archive.
-
-Run QotW checks with:
-
-```powershell
-python -m unittest discover -s scripts/tests -v
+python -m unittest discover -s scripts/tests -p test_build_qotw.py -v
 ```
 
 ## SWGoH events calendar

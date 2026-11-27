@@ -1,5 +1,8 @@
 name: Update Podcast Episodes
 
+# Imports new Buzzsprout episodes, then rebuilds the Question of the Week from
+# their show notes. Both steps are no-ops when nothing new has been published.
+
 on:
   schedule:
     - cron: "*/15 * * * *"
@@ -22,11 +25,16 @@ jobs:
         with:
           ref: main
 
-      - name: Test the RSS importer
-        run: python3 -m unittest discover -s scripts/tests -p test_sync_buzzsprout.py -v
+      - name: Test the RSS importer and Question of the Week builder
+        run: |
+          python3 -m unittest discover -s scripts/tests -p test_sync_buzzsprout.py -v
+          python3 -m unittest discover -s scripts/tests -p test_build_qotw.py -v
 
       - name: Import new Buzzsprout episodes
         run: python3 scripts/sync_buzzsprout.py
+
+      - name: Rotate the Question of the Week
+        run: python3 scripts/build_qotw.py
 
       - name: Verify the updated site can be staged
         run: python3 scripts/stage_pages.py --check
@@ -34,19 +42,20 @@ jobs:
       - name: Commit and push episode updates
         id: publish
         run: |
-          git add -- content/episodes.json podcast/index.html podcast/episodes/episode-*.html
+          git add -- content/episodes.json podcast/index.html podcast/episodes/episode-*.html \
+            index.html community/index.html community/question-of-the-week.html
           if git diff --cached --quiet; then
-            echo "No new episode changes to publish."
-            echo "No episode changes were found; nothing was published." >> "$GITHUB_STEP_SUMMARY"
+            echo "No new episode or Question of the Week changes to publish."
+            echo "No episode or Question of the Week changes were found; nothing was published." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "Import Buzzsprout podcast episodes"
+              commit -m "Import podcast episodes and update Question of the Week"
           git pull --rebase origin main
           git push origin HEAD:main
           echo "pushed=true" >> "$GITHUB_OUTPUT"
-          echo "Episode changes were committed and pushed; starting the Pages deploy." >> "$GITHUB_STEP_SUMMARY"
+          echo "Episode and Question of the Week changes were committed and pushed; starting the Pages deploy." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Start the Pages deploy
         if: steps.publish.outputs.pushed == 'true'
