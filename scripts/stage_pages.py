@@ -35,6 +35,7 @@ ASSETS = (
     "New Logo.JPG",
     "community/chaos-of-the-week.js",
     "community/general-feedback.js",
+    "podcast/archive.js",
     "podcast/playback-progress.js",
     "roster-review/form.js",
 )

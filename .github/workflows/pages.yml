@@ -57,9 +57,6 @@ jobs:
           ref: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'main' || github.sha }}
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          token: ${{ secrets.PAGES_ENABLEMENT_TOKEN }}
-          enablement: true
       - name: Build allowlisted static site
         run: python3 scripts/stage_pages.py
       - name: Upload Pages artifact

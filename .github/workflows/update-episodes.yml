@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: buzzsprout-episode-updates
@@ -31,6 +32,7 @@ jobs:
         run: python3 scripts/stage_pages.py --check
 
       - name: Commit and push episode updates
+        id: publish
         run: |
           git add -- content/episodes.json podcast/index.html podcast/episodes/episode-*.html
           if git diff --cached --quiet; then
@@ -43,4 +45,11 @@ jobs:
               commit -m "Import Buzzsprout podcast episodes"
           git pull --rebase origin main
           git push origin HEAD:main
-          echo "Episode changes were committed and pushed; the Pages workflow will deploy them." >> "$GITHUB_STEP_SUMMARY"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "Episode changes were committed and pushed; starting the Pages deploy." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Start the Pages deploy
+        if: steps.publish.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref main
