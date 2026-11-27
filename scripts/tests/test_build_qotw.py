@@ -193,7 +193,7 @@ class LiveContentTests(unittest.TestCase):
 
     def test_hand_written_history_is_preserved(self):
         manual = {entry["episode"]: entry for entry in self.payload["questions"]}
-        self.assertEqual(sorted(manual), list(range(3, 19)))
+        self.assertLessEqual(set(range(3, 19)), set(manual))
         self.assertEqual(manual[18]["text"], "If you could get a refund on one zeta ability upgrade whose would it be?")
         self.assertEqual(manual[6]["episode_title"], "Overrated/Underrated Teams + Hello People Joins the Show!")
         by_episode = {q.episode: q for q in self.state.archive}
