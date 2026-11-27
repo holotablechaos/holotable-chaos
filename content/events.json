@@ -1,25 +1,11 @@
 {
   "schema_version": 1,
   "source_url": "https://swgohevents.com/ical",
-  "last_successful_refresh": "2026-11-26T19:42:26Z",
+  "last_successful_refresh": "2026-11-27T17:54:33Z",
   "snapshot_as_of": "2026-10-12",
   "events": [
     {
-      "uid": "3af42e12e11268def358f11c5af026ab",
-      "title": "Ghosts of Dathomir - Heroic Battle",
-      "start_date": "2026-11-26",
-      "end_date": "2026-11-26",
-      "start_datetime": null,
-      "end_datetime": null,
-      "all_day": true,
-      "category": "HEROIC BATTLE",
-      "reward": "",
-      "description": "https://swgohevents.com/event/ghosts-dathomir\n\nRequires: Any Characters. Level 20",
-      "url": "https://swgohevents.com/event/ghosts-dathomir",
-      "status": "CONFIRMED"
-    },
-    {
-      "uid": "8e8a1462b2f3ada632db3c8239d6b517",
+      "uid": "a6737c237e344ac78524f47292dd20db",
       "title": "Ground War - Assault Battles",
       "start_date": "2026-11-28",
       "end_date": "2026-11-28",
@@ -33,7 +19,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "8d278fd55711bbd8094d2d7383627cbc",
+      "uid": "e4c0654a4b5dd60890f721b9cc17dd72",
       "title": "Galactic Bounties II - Special Event",
       "start_date": "2026-11-29",
       "end_date": "2026-11-29",
@@ -47,7 +33,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "3ca3085f6736b1a5331b7a58493f5d49",
+      "uid": "09427a9b7f86a75b47d9cde3e9467797",
       "title": "Jakku Omega Battle - Omega Battles",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -61,7 +47,7 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "24ecf4fa0d3db95ff830b5640c130bef",
+      "uid": "f7fccf248954b444fd5cf817cce28eec",
       "title": "Stardust Transmission - Journey Guide Fleet Mastery",
       "start_date": "2026-11-30",
       "end_date": "2026-11-30",
@@ -75,7 +61,21 @@
       "status": "CONFIRMED"
     },
     {
-      "uid": "eead1464f111c6b2ff736370a2fb0f5b",
+      "uid": "824a60558af2911cfb1bf09680ea2139",
+      "title": "Training Droid Smuggling - Resource Event",
+      "start_date": "2026-12-01",
+      "end_date": "2026-12-01",
+      "start_datetime": null,
+      "end_datetime": null,
+      "all_day": true,
+      "category": "RESOURCE EVENT",
+      "reward": "",
+      "description": "https://swgohevents.com/event/training-droid-smuggling",
+      "url": "https://swgohevents.com/event/training-droid-smuggling",
+      "status": "CONFIRMED"
+    },
+    {
+      "uid": "103f63079efa30b363b3d8e90d94885c",
       "title": "Places of Power - Assault Battles",
       "start_date": "2026-12-02",
       "end_date": "2026-12-02",
