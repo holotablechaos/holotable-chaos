@@ -51,7 +51,7 @@ class ExtractionTests(unittest.TestCase):
             CTA,
             "Got a roster you want us to look at? Email holotablechaos@gmail.com and join our Discord!",
             "Send us your answers at holotablechaos@gmail.com.",
-            "Reach us at https://holotablechaos.github.io/holotable-chaos-website/ for more.",
+            "Reach us at https://holotablechaos.com/ for more.",
             "Thanks for listening! See you next week.",
             "Want your roster reviewed or have a Question of the Week answer? Send your ally code over.",
             "",
