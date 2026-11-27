@@ -42,22 +42,22 @@ a:focus-visible,.button:focus-visible,button:focus-visible{outline:2px solid var
 .community-page-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:34px 0 62px}
 .community-card{position:relative;min-width:0;padding:24px;background:linear-gradient(135deg,#0d1d2d,#091522);border:1px solid var(--line);overflow:hidden}
 .community-card:before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),transparent 75%);opacity:.6}
-.community-page-grid .qotw-community-card{grid-column:1/-1}
-.community-card-featured{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:24px;background:radial-gradient(ellipse at 88% 40%,#168fe31c,transparent 44%),linear-gradient(135deg,#0d1d2d,#091522)}
-.community-card-featured .community-card-heading,.community-card-featured h2,.community-card-featured p{grid-column:1}
-.community-card-featured .button{grid-column:2;grid-row:1/4;white-space:normal}
+.community-page-grid .community-card{display:flex;flex-direction:column;align-items:flex-start}
+.community-page-grid .community-card-heading{align-self:stretch;min-height:21px}
+.community-page-grid #roster-review{background:radial-gradient(ellipse at 88% 40%,#168fe31c,transparent 44%),linear-gradient(135deg,#0d1d2d,#091522)}
 .community-card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .community-card h2,.community-card h3{font:600 27px/1.05 'Barlow Condensed',sans-serif;text-transform:uppercase;margin:16px 0 10px}
 .community-card h3{font-size:25px}
 .community-card p{max-width:440px;color:#aab8c9;font-size:12px;margin:0 0 18px}
 .community-card .card-link{display:inline-block;margin-top:1px}
+.community-page-grid .community-card>:last-child{margin-top:auto}
+.community-page-grid .community-card .button{white-space:normal}
 .coming-soon{flex:none;padding:4px 8px;border:1px solid #fa596566;color:#ff929b;font:600 9px 'Barlow Condensed',sans-serif;letter-spacing:.12em;text-transform:uppercase}
 .community-signal{color:var(--red);font:600 11px 'Barlow Condensed',sans-serif;letter-spacing:.15em}
-.community-card-featured .community-signal{position:absolute;top:24px;right:24px}
 .community-status-note{margin:12px 0 0!important;padding-top:12px;border-top:1px solid var(--line);color:#8193a8!important;font-size:11px!important}
 .community-more-link{margin:17px 0 0;text-align:right}
-@media(max-width:760px){.community-grid,.community-page-grid{grid-template-columns:1fr;gap:12px}.community-page-grid{padding-top:24px}.community-card{padding:21px}.community-card-featured{grid-column:auto;display:block}.community-card-featured .button{white-space:normal}.community-more-link{text-align:left}}
-@media(max-width:760px){.community-card-featured .community-signal{top:21px;right:21px}}
+@media(max-width:760px){.community-grid,.community-page-grid{grid-template-columns:1fr;gap:12px}.community-page-grid{padding-top:24px}.community-card{padding:21px}.community-more-link{text-align:left}}
+
 
 /* Question of the Week */
 .qotw-community-card{background:radial-gradient(ellipse at 100% 0,#60c9ff12,transparent 55%),linear-gradient(135deg,#0d1d2d,#091522)}
