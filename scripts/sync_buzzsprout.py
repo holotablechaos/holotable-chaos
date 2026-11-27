@@ -183,9 +183,37 @@ def _clean_summary(description: str) -> str:
     return description[:207].rsplit(" ", 1)[0].rstrip(" .,;:") + "…"
 
 
+# Phrases that open the show's call-to-action footer, whatever its exact wording.
+FOOTER_MARKERS = re.compile(
+    r"want (?:your|us to (?:review|look at) your) roster|roster (?:you )?want (?:us )?to (?:review|look at)"
+    r"|have a question of the week answer|send (?:us )?your (?:ally codes?|answers?|questions|stories|rosters?)"
+    r"|(?:e-?mail|reach|contact) us\b|holotablechaos@gmail\.com|check out the website|visit (?:the|our) website"
+    r"|join (?:the|our) (?:[\w ]{0,30})?discord|follow us on",
+    re.IGNORECASE,
+)
+MAX_FOOTER_LENGTH = 500
+
+
+def strip_show_footer(description: str) -> str:
+    """Remove the call-to-action footer at the end of show notes, whatever its wording.
+
+    The cut starts at the beginning of the sentence holding the first footer phrase, and only
+    when what follows is short enough to be a footer, so a mention of Discord or the show's
+    email address in the middle of real show notes never removes the rest of them.
+    """
+    text = str(description or "")
+    match = FOOTER_MARKERS.search(text)
+    if not match:
+        return text.strip()
+    boundary = max((m.end() for m in re.finditer(r"[.!?\u2026](?:[\"')\]]*)\s", text[: match.start()])), default=0)
+    if len(text) - boundary > MAX_FOOTER_LENGTH:
+        return text.strip()
+    return text[:boundary].strip()
+
+
 def _episode_display_description(description: str) -> str:
-    """Remove the standard show-submission footer from episode page copy."""
-    return EPISODE_PROMO_COPY.sub("", str(description or "")).strip()
+    """Remove the show-submission footer from episode page copy."""
+    return strip_show_footer(EPISODE_PROMO_COPY.sub("", str(description or "")))
 
 
 def _is_unwanted_episode(episode: dict[str, Any]) -> bool:
@@ -321,7 +349,7 @@ def render_archive_cards(episodes: list[dict[str, Any]]) -> str:
     for episode in imported:
         number = int(episode["episode_number"])
         raw_title = episode.get("title") or f"Episode {number}"
-        raw_description = episode.get("description", "")
+        raw_description = strip_show_footer(episode.get("description", ""))
         title = html.escape(raw_title)
         summary = html.escape(episode.get("summary") or _clean_summary(raw_description))
         topics = _episode_topics(raw_title, raw_description, episode.get("summary", ""))
@@ -415,14 +443,14 @@ def _episode_page(episode: dict[str, Any]) -> str:
   <body>
     <header class="site-header">
       <a class="brand" href="../../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
-      <nav aria-label="Main navigation"><a href="../index.html">Podcast</a><a href="../../resources/index.html">SWGoH Resources</a><a href="../../community/index.html">Community</a><a href="../../about/index.html">About</a></nav>
+      <nav aria-label="Main navigation"><a href="../index.html">Podcast</a><a href="../../resources/index.html">SWGoH Resources</a><a href="../../community/index.html">Community</a><a href="../../about/index.html">About</a><a href="../../account/index.html">Account</a></nav>
       <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
     </header>
     <main>
       <section class="page-intro"><p class="eyebrow"><span></span> THE SHOW / EPISODE {number}</p><h1>{safe_title}</h1>{date_block}{episode_link_block}<p><a class="card-link" href="../index.html">← Back to all episodes</a></p></section>
       <section class="page-content" aria-label="Episode {number} player"><article class="episode-card"><span class="card-kicker">LISTEN TO THE EPISODE</span>{audio_block}</article>{description_block}{navigation_block}</section>
     </main>
-    <footer><a class="brand" href="../../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
+    <footer><a class="brand" href="../../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../../privacy/index.html">Privacy</a> · <a href="../../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
     <script src="../playback-progress.js"></script>
   </body>
 </html>

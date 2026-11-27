@@ -1,0 +1,36 @@
+name: Database Tests
+
+# Starts a throwaway local Supabase database, applies every migration, and runs the pgTAP tests
+# in supabase/tests (row-level security matrix, owner protection, admin functions). No secrets.
+
+on:
+  push:
+    branches: [main]
+    paths: ["supabase/**", ".github/workflows/supabase-tests.yml"]
+  pull_request:
+    paths: ["supabase/**", ".github/workflows/supabase-tests.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+      - name: Install the Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 3.4.0
+      - name: Start a local database and apply the migrations
+        run: supabase db start
+      - name: Check database functions for errors
+        run: supabase db lint --level error --fail-on error
+      - name: Run the database tests
+        run: supabase test db
+      - name: Stop the local database
+        if: always()
+        run: supabase stop --no-backup

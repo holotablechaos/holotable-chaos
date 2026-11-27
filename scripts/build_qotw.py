@@ -334,7 +334,7 @@ def render_page(state: QotwState) -> str:
   <body>
     <header class="site-header">
       <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
-      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="index.html">Community</a><a href="../about/index.html">About</a></nav>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="index.html">Community</a><a href="../about/index.html">About</a><a href="../account/index.html">Account</a></nav>
       <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
     </header>
     <main>
@@ -343,7 +343,7 @@ def render_page(state: QotwState) -> str:
         <section class="qotw-archive" aria-labelledby="qotw-archive-title"><div class="section-heading"><div><p class="eyebrow">FROM THE ARCHIVE</p><h2 id="qotw-archive-title">Past <em>questions.</em></h2></div><p>Newest first. Past questions are closed to new answers through the website.</p></div><div class="qotw-archive-list">{render_archive(state.archive)}</div>{render_without_question(state.without_question)}</section>
       </section>
     </main>
-    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span>© 2026 Holotable Chaos</span></footer>
+    <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
   </body>
 </html>
 '''

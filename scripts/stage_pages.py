@@ -27,6 +27,10 @@ PAGES = (
     "resources/index.html",
     "roster-review/index.html",
     "podcast/index.html",
+    "account/index.html",
+    "admin/index.html",
+    "privacy/index.html",
+    "terms/index.html",
     *(f"podcast/episodes/episode-{n}.html" for n in range(1, 18)),
 )
 ASSETS = (
@@ -36,6 +40,10 @@ ASSETS = (
     "podcast/archive.js",
     "podcast/playback-progress.js",
     "roster-review/form.js",
+    "assets/js/supabase-config.js",
+    "assets/js/account-core.js",
+    "account/account.js",
+    "admin/admin.js",
 )
 AUDIO_FILES = (
     "Holotable Chaos/Ep. 1 - Intro to Holotable Chaos/Episode 1 - Intro to Holotable Chaos.mp3",
