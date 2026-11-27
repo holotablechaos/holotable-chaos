@@ -37,13 +37,23 @@ COMMUNITY_MARKERS = ("<!-- QOTW_COMMUNITY_START -->", "<!-- QOTW_COMMUNITY_END -
 RECIPIENT = "holotablechaos@gmail.com"
 DISPLAY_TIMEZONE = "America/New_York"
 
-# The question runs from its label to the standard call-to-action (or the end of
-# the notes). The call-to-action mentions "a Question of the Week answer" without
-# a colon, so it never matches the label itself.
-QUESTION_LINE = re.compile(
-    r"Question of the Week:\s*(?P<text>.+?)\s*(?=Want your roster reviewed|$)",
-    re.IGNORECASE | re.DOTALL,
+# Finding where the question ends must not depend on the wording of the show-notes
+# footer, which can change at any time. So the question is taken from its label to:
+#   1. the first line break, a known footer phrase, or an email/link (all hard stops);
+#   2. then the first "?" (plus an immediately following "(…)" note such as "(Non-GL)"),
+#      or, with no "?", the first sentence end.
+# Anything that still looks like footer text is rejected, so the build warns and the
+# question can be added by hand to content/qotw.json. Multi-sentence questions that
+# continue past their first "?" also need a hand-written entry.
+QUESTION_LABEL = re.compile(r"Question of the Week\s*:", re.IGNORECASE)
+HARD_STOPS = re.compile(
+    r"\n|want your roster reviewed|send (?:us )?your (?:ally code|answers?|questions)|check out the website|join (?:the|our) [\w ]*discord"
+    r"|\S+@\S+|https?://",
+    re.IGNORECASE,
 )
+QUESTION_END = re.compile(r"\?(?:\s*\([^()\n]{1,80}\))?")
+SENTENCE_END = re.compile(r"[.!](?=\s|$)")
+MAX_QUESTION_LENGTH = 300
 
 
 class ContentError(ValueError):
@@ -96,11 +106,20 @@ def load_episodes(path: Path = EPISODES_PATH) -> list[dict[str, Any]]:
 
 def extract_question(description: str | None) -> str | None:
     """Return the Question of the Week from an episode's show notes, if present."""
-    match = QUESTION_LINE.search(description or "")
-    if not match:
+    label = QUESTION_LABEL.search(description or "")
+    if not label:
         return None
-    text = " ".join(match.group("text").split())
-    return text or None
+    rest = (description or "")[label.end():].lstrip()
+    stop = HARD_STOPS.search(rest)
+    if stop:
+        rest = rest[: stop.start()]
+    end = QUESTION_END.search(rest) or SENTENCE_END.search(rest)
+    if end:
+        rest = rest[: end.end()]
+    text = " ".join(rest.split())
+    if not text or len(text) > MAX_QUESTION_LENGTH:
+        return None
+    return text
 
 
 def _validate_manual(payload: dict[str, Any]) -> tuple[dict[int, dict[str, Any]], set[int]]:

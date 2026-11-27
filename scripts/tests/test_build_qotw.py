@@ -39,11 +39,54 @@ class ExtractionTests(unittest.TestCase):
         self.assertEqual(builder.extract_question(notes), "What are your thoughts on Droid Destruction so far?")
 
     def test_question_without_question_mark_and_at_end_of_notes(self):
-        self.assertEqual(builder.extract_question("Intro. Question of the Week:  Tell us your\nfavorite mod set."), "Tell us your favorite mod set.")
+        self.assertEqual(builder.extract_question("Intro. Question of the Week:  Tell us your   favorite mod set."), "Tell us your favorite mod set.")
 
     def test_call_to_action_alone_is_not_a_question(self):
         self.assertIsNone(builder.extract_question("Show notes. " + CTA))
         self.assertIsNone(builder.extract_question(None))
+
+    def test_a_reworded_footer_is_never_swallowed(self):
+        question = "Which raid team surprised you most?"
+        footers = [
+            CTA,
+            "Got a roster you want us to look at? Email holotablechaos@gmail.com and join our Discord!",
+            "Send us your answers at holotablechaos@gmail.com.",
+            "Reach us at https://holotablechaos.github.io/holotable-chaos-website/ for more.",
+            "Thanks for listening! See you next week.",
+            "Want your roster reviewed or have a Question of the Week answer? Send your ally code over.",
+            "",
+        ]
+        for footer in footers:
+            for separator in (" ", "\n", "\n\n"):
+                with self.subTest(footer=footer, separator=repr(separator)):
+                    notes = f"We break down the raid. Question of the Week: {question}{separator}{footer}"
+                    self.assertEqual(builder.extract_question(notes), question)
+
+    def test_question_endings(self):
+        cases = {
+            "Question of the Week: What is your Defensive MVP? (Non-GL) Thanks for listening!": "What is your Defensive MVP? (Non-GL)",
+            "question of the week : Name your favorite ship. Email holotablechaos@gmail.com.": "Name your favorite ship.",
+            "Question of the Week: Who is the best tank\nThanks for listening": "Who is the best tank",
+            "Question of the Week: Which mod set would you send your guild? Want your roster reviewed?": "Which mod set would you send your guild?",
+            "Question of the Week: Should Era Arena replace Squad Arena?Got feedback? Email us.": "Should Era Arena replace Squad Arena?",
+        }
+        for notes, expected in cases.items():
+            with self.subTest(notes=notes):
+                self.assertEqual(builder.extract_question(notes), expected)
+
+    def test_footer_text_without_a_clear_end_is_rejected(self):
+        self.assertIsNone(builder.extract_question("Question of the Week: holotablechaos@gmail.com"))
+        self.assertIsNone(builder.extract_question("Question of the Week: " + "very long " * 40))
+
+    def test_real_show_notes_still_produce_the_same_questions(self):
+        expected = {
+            21: "Do you think Era Arena will be a better game mode than Squad Arena was?",
+            22: "With Rogue One celebrating its 10th anniversary, what is your favorite moment from the movie?",
+            23: "What are your thoughts on Droid Destruction so far?",
+        }
+        notes = {e["episode_number"]: e.get("description") for e in builder.load_episodes()}
+        for number, question in expected.items():
+            self.assertEqual(builder.extract_question(notes[number]), question)
 
 
 class RotationTests(unittest.TestCase):

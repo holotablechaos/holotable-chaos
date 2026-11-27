@@ -42,6 +42,7 @@ a:focus-visible,.button:focus-visible,button:focus-visible{outline:2px solid var
 .community-page-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:34px 0 62px}
 .community-card{position:relative;min-width:0;padding:24px;background:linear-gradient(135deg,#0d1d2d,#091522);border:1px solid var(--line);overflow:hidden}
 .community-card:before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),transparent 75%);opacity:.6}
+.community-page-grid .qotw-community-card{grid-column:1/-1}
 .community-card-featured{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:24px;background:radial-gradient(ellipse at 88% 40%,#168fe31c,transparent 44%),linear-gradient(135deg,#0d1d2d,#091522)}
 .community-card-featured .community-card-heading,.community-card-featured h2,.community-card-featured p{grid-column:1}
 .community-card-featured .button{grid-column:2;grid-row:1/4;white-space:normal}
@@ -95,12 +96,6 @@ a:focus-visible,.button:focus-visible,button:focus-visible{outline:2px solid var
 .qotw-error{border-color:#fa596566}
 .qotw-error p{max-width:720px;color:#ffb5ba;font-size:13px}
 @media(max-width:760px){.qotw-page-content{padding-top:22px}.qotw-archive-list{grid-template-columns:1fr}.qotw-current{padding:21px}.qotw-archive-card{padding:18px}}
-.chaos-community-card{background:radial-gradient(ellipse at 100% 0,#fa596510,transparent 55%),linear-gradient(135deg,#0d1d2d,#091522)}
-.chaos-community-card:before{background:linear-gradient(90deg,var(--red),var(--blue) 62%,transparent)}
-.chaos-form-layout{max-width:900px}
-.chaos-form-layout .roster-form-card{box-shadow:0 0 34px #168fe30c}
-.chaos-form-layout #chaos-idea[aria-invalid="true"]{border-color:var(--red)}
-.chaos-form-layout #chaos-idea[aria-invalid="true"]:focus-visible{outline-color:var(--red)}
 .community-feedback-section{padding:0 0 60px;scroll-margin-top:20px}
 .feedback-form-card{max-width:900px;margin:0 auto}
 .form-field select{display:block;width:100%;border:1px solid #7f95ad55;border-radius:2px;background:#071321;color:var(--ink);font:400 14px/1.5 'DM Sans',sans-serif;padding:12px 13px}

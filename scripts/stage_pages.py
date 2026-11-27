@@ -24,7 +24,6 @@ PAGES = (
     "about/index.html",
     "community/index.html",
     "community/question-of-the-week.html",
-    "community/chaos-of-the-week.html",
     "resources/index.html",
     "roster-review/index.html",
     "podcast/index.html",
@@ -33,7 +32,6 @@ PAGES = (
 ASSETS = (
     "styles.css",
     "New Logo.JPG",
-    "community/chaos-of-the-week.js",
     "community/general-feedback.js",
     "podcast/archive.js",
     "podcast/playback-progress.js",

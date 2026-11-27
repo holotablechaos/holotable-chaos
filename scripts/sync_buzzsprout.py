@@ -346,7 +346,7 @@ def _episode_topics(*values: str) -> list[str]:
         ("teams-characters", ("team", "character", "kit", "rework", "galactic legend", "embo", "keibu", "mara jade", "baylan skoll", "hero")),
         ("game-modes", ("grand arena", "gac", "conquest", "raid", "territory battle", "territory war", "fleet arena", "assault battle", "game mode")),
         ("updates", ("update", "announcement", "era", "state of the game", "new character", "in-game event")),
-        ("community", ("guest", "interview", "guild", "community", "question of the week", "this or that", "roster review", "chaos of the week")),
+        ("community", ("guest", "interview", "guild", "community", "question of the week", "this or that", "roster review")),
     )
     return [slug for slug, keywords in rules if any(keyword in text for keyword in keywords)]
 
