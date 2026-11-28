@@ -46,6 +46,7 @@ ASSETS = (
     "assets/js/supabase-config.js",
     "assets/js/account-core.js",
     "assets/js/site-header.js",
+    "assets/js/beta-notice.js",
     "assets/js/edit-mode.js",
     "assets/js/activity.js",
     "account/account.js",
