@@ -337,3 +337,10 @@ footer .brand{min-height:44px}
 .qotw-vote{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:56px;padding:0 12px;border:1px solid var(--line);background:#0a1726;color:#c2d2e3;font:600 13px 'DM Sans',sans-serif;cursor:pointer}
 .qotw-vote.is-voted{border-color:var(--blue);color:var(--blue);background:#60c9ff14}
 .qotw-vote:focus-visible,.qotw-show-answers:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+/* ---------- Roster review with an account ---------- */
+.roster-account{padding-bottom:0}
+.roster-account-card{display:grid;gap:12px}
+.roster-account-card h2{margin:4px 0;font-size:clamp(26px,4vw,32px)}
+.roster-status-line{margin:0;color:#c2d2e3;font-size:14px}
+.roster-history h3{margin:14px 0 6px;font-size:16px}
+.roster-account-form textarea{min-height:96px}

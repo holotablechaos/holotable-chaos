@@ -158,6 +158,15 @@ class AccountPageTests(unittest.TestCase):
         self.assertIn(SUPABASE_JS, core)
         self.assertRegex(core, r'SUPABASE_SRI = "sha384-[A-Za-z0-9+/=]{64}"')
 
+    def test_roster_page_keeps_the_email_form(self):
+        page = self.read("roster-review/index.html")
+        self.assertIn('id="roster-review-form"', page)          # works without JavaScript or an account
+        self.assertRegex(page, r'id="roster-account"[^>]*hidden')
+        self.assertIn('src="account.js"', page)
+        self.assertNotIn("supabase-js", page)
+        self.assertIn("roster-review/account.js", stage_pages.ASSETS)
+        self.assertNotRegex(self.read("roster-review/account.js"), r'type="file"|type: "file"|storage\.from')  # no uploads
+
     def test_admin_page_is_not_indexed(self):
         self.assertIn('name="robots" content="noindex, nofollow"', self.read("admin/index.html"))
 
@@ -192,7 +201,7 @@ class AccountPageTests(unittest.TestCase):
         self.assertNotRegex(page.lower(), r"we (?:will )?send you (?:an )?email")
 
     def test_scripts_never_write_untrusted_text_as_html(self):
-        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js"):
+        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js", "roster-review/account.js"):
             self.assertNotRegex(self.read(path), r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", path)
 
 
