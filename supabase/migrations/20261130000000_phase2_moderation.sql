@@ -18,7 +18,7 @@ $$;
 -- "Words" form: NFKC, lower case, accents and zero-width characters removed, common character
 -- swaps mapped (@ 4 -> a, $ 5 -> s, 3 -> e, 1 ! | -> i, 0 -> o, 7 -> t), everything else that
 -- isn't a letter or digit becomes a space, and runs of 3+ single characters are joined
--- ("f.u.c.k" / "f u c k" -> "fuck"). Repeated letters are kept here; see private.squeeze().
+-- ("g.r.o.b" / "g r o b" -> "grob"). Repeated letters are kept here; see private.squeeze().
 create function private.norm_words(p text) returns text
 language plpgsql immutable parallel safe set search_path = '' as $$
 declare

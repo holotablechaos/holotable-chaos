@@ -13,7 +13,6 @@
 
   window.HCModeration = async function render(panel, ctx) {
     const { client, rpc, el, A, state } = ctx;
-    let current = "blocked";
 
     const select = (id, values, includeKeep) => el("select", { id }, [
       includeKeep ? el("option", { value: "", text: "Keep as is" }) : null,
@@ -53,73 +52,98 @@
       const { ok, data } = await rpc("admin_moderation_counts");
       if (!ok) return;
       const tiles = [
-        ...Object.entries(data.blocked_by_category || {}).map(([k, v]) => [pretty(k), v]),
+        ...CATEGORIES.map((key) => [pretty(key), (data.blocked_by_category || {})[key] || 0]),
         ["allowlist", data.allowed], ["reserved names", data.reserved], ["name exceptions", data.name_exceptions],
       ];
       counts.replaceChildren(...tiles.map(([label, value]) => el("div", { className: "stat-tile" }, [
         el("span", { className: "stat-value", text: String(value) }), el("span", { className: "stat-label", text: label })])));
     }
 
-    // ---------- lists (write-only: entries are never shown, only counts) ----------
-    const listTabs = el("div", { className: "section-tabs mod-list-tabs", role: "group", "aria-label": "Which list" });
-    const entries = el("textarea", { id: "mod-entries", rows: "4", autocomplete: "off", spellcheck: "false",
-      placeholder: "Type or paste entries, one per line" });
-    const matchField = el("div", { className: "form-field" });
-    const categoryField = el("div", { className: "form-field" });
-    const listStatus = el("p", { className: "save-status", id: "mod-list-status", role: "status", "aria-live": "polite" });
+    // ---------- blind list management: type entries in, get counts out. Nothing is ever displayed. ----------
     const value = (id) => { const node = document.getElementById(id); return node && node.value ? node.value : null; };
-    function typedEntries() {
-      return entries.value.split("\n").map((line) => line.trim()).filter(Boolean);
-    }
-    function report(text, kind) {
-      listStatus.textContent = text;
-      listStatus.dataset.kind = kind || "";
-    }
-    function drawListControls() {
-      const spec = LISTS[current];
-      listTabs.replaceChildren(...Object.entries(LISTS).map(([key, list]) => el("button", {
-        type: "button", className: key === current ? "is-active" : "", "aria-pressed": String(key === current), text: list.label,
-        onclick: () => { current = key; drawListControls(); } })));
-      matchField.replaceChildren(...(spec.matchTypes ? [el("label", { for: "mod-match", text: "Match type" }),
-        select("mod-match", spec.matchTypes, true)] : []));
-      categoryField.replaceChildren(...(spec.categories ? [el("label", { for: "mod-category", text: "Category" }),
-        select("mod-category", CATEGORIES, true)] : []));
-      document.getElementById("mod-change")?.toggleAttribute("hidden", current === "allowed");
-      report("");
-    }
-    async function act(kind) {
-      const terms = typedEntries();
-      if (!terms.length) { report("Type at least one entry first.", "error"); return; }
-      let result;
-      if (kind === "add") {
-        result = await rpc("admin_add_terms", { p_list: current, p_terms: terms, p_match_type: value("mod-match"), p_category: value("mod-category") });
-        if (result.ok) report(`Added ${result.data}.${result.data < terms.length ? ` ${terms.length - result.data} already there.` : ""}`, "success");
-      } else if (kind === "remove") {
-        if (!window.confirm(`Remove the ${terms.length} typed entr${terms.length === 1 ? "y" : "ies"} from ${LISTS[current].label.toLowerCase()}?`)) return;
-        result = await rpc("admin_remove_terms", { p_list: current, p_terms: terms, p_match_type: null });
-        if (result.ok) report(`Removed ${result.data.removed}.${result.data.not_found ? ` Not found: ${result.data.not_found}.` : ""}`, result.data.removed ? "success" : "error");
-      } else {
-        if (!value("mod-match") && !value("mod-category")) { report("Choose a match type or category to change to.", "error"); return; }
-        result = await rpc("admin_update_terms", { p_list: current, p_terms: terms, p_match_type: value("mod-match"), p_category: value("mod-category") });
-        if (result.ok) report(`Changed ${result.data.changed}.${result.data.not_found ? ` Not found: ${result.data.not_found}.` : ""}`, result.data.changed ? "success" : "error");
-      }
-      if (result && result.ok) { entries.value = ""; loadCounts(); }
-    }
-
-    const lists = el("section", { className: "admin-subsection mod-section", "aria-labelledby": "mod-lists-title" }, [
-      el("h3", { id: "mod-lists-title", text: "Edit the lists" }),
-      el("p", { className: "panel-lead", text: "The lists are never shown on the site, to anyone. Type or paste entries to add, remove or change them; you'll only see counts. Word entries match whole words; substring entries match inside words (only for terms that never appear in ordinary words); phrases match word sequences. The allowlist is removed before matching. Reserved names apply to display and in-game names." }),
-      listTabs,
-      el("div", { className: "form-field" }, [el("label", { for: "mod-entries", text: "Entries" }), entries]),
-      el("div", { className: "roster-form-grid" }, [matchField, categoryField]),
-      el("p", { className: "field-help", text: "Match type and category apply when adding or changing. Removing matches the exact entry, ignoring case, accents and spacing." }),
-      el("div", { className: "form-actions" }, [
-        el("button", { type: "button", className: "button button-primary", text: "Add", onclick: () => act("add") }),
-        el("button", { type: "button", className: "button button-outline", id: "mod-change", text: "Change", onclick: () => act("change") }),
-        el("button", { type: "button", className: "button button-outline button-danger", text: "Remove", onclick: () => act("remove") }),
-      ]),
-      listStatus,
+    const listPicker = (id, lists) => el("div", { className: "form-field" }, [
+      el("label", { for: id, text: "List" }),
+      el("select", { id }, lists.map((key) => el("option", { value: key, text: LISTS[key].label }))),
     ]);
+    const typedEntries = (id) => (document.getElementById(id).value || "").split("\n").map((line) => line.trim()).filter(Boolean);
+    const plural = (n) => `${n} entr${n === 1 ? "y" : "ies"}`;
+    function say(statusId, text, kind) {
+      const node = document.getElementById(statusId);
+      node.textContent = text;
+      node.dataset.kind = kind || "";
+    }
+    // Match type and category fields follow the chosen list (allowlist has neither; reserved has match only).
+    function syncFields(listId, matchWrapId, categoryWrapId, keepOption) {
+      const spec = LISTS[value(listId)];
+      document.getElementById(matchWrapId).replaceChildren(...(spec.matchTypes
+        ? [el("label", { for: `${matchWrapId}-select`, text: "Match type" }), select(`${matchWrapId}-select`, spec.matchTypes, keepOption)] : []));
+      document.getElementById(categoryWrapId).replaceChildren(...(spec.categories
+        ? [el("label", { for: `${categoryWrapId}-select`, text: "Category" }), select(`${categoryWrapId}-select`, CATEGORIES, keepOption)] : []));
+    }
+    function box(title, id, lead, controls, button, statusId) {
+      return el("section", { className: "admin-subsection mod-section", "aria-labelledby": `${id}-title` }, [
+        el("h3", { id: `${id}-title`, text: title }),
+        el("p", { className: "panel-lead", text: lead }),
+        ...controls,
+        el("div", { className: "form-actions" }, [button]),
+        el("p", { className: "save-status", id: statusId, role: "status", "aria-live": "polite" }),
+      ]);
+    }
+    const entriesField = (id, label) => el("div", { className: "form-field" }, [
+      el("label", { for: id, text: label }),
+      el("textarea", { id, rows: "3", autocomplete: "off", spellcheck: "false", placeholder: "One per line" }),
+    ]);
+
+    const addBox = box("Add terms", "mod-add",
+      "Type one entry or paste many, one per line. Word entries match whole words; substring entries match inside words (only for terms that never appear in ordinary words); phrases match word sequences. Allowlist entries are removed before matching; reserved names apply to display and in-game names.",
+      [el("div", { className: "roster-form-grid" }, [listPicker("mod-add-list", ["blocked", "allowed", "reserved"]),
+        el("div", { id: "mod-add-match", className: "form-field" }), el("div", { id: "mod-add-category", className: "form-field" })]),
+       entriesField("mod-add-entries", "Entries to add")],
+      el("button", { type: "button", className: "button button-primary", id: "mod-add-button", text: "Add", onclick: async () => {
+        const list = value("mod-add-list");
+        const terms = typedEntries("mod-add-entries");
+        if (!terms.length) { say("mod-add-status", "Type at least one entry first.", "error"); return; }
+        const { ok, data } = await rpc("admin_add_terms", { p_list: list, p_terms: terms,
+          p_match_type: value("mod-add-match-select"), p_category: value("mod-add-category-select") });
+        if (!ok) return;
+        document.getElementById("mod-add-entries").value = "";
+        say("mod-add-status", `Added ${plural(data)}.${data < terms.length ? ` ${terms.length - data} already there.` : ""}`, "success");
+        loadCounts();
+      } }), "mod-add-status");
+
+    const removeBox = box("Remove terms", "mod-remove",
+      "Type the exact entries to remove, one per line (case, accents and spacing are ignored). You'll only see how many were removed or not found.",
+      [listPicker("mod-remove-list", ["blocked", "allowed", "reserved"]), entriesField("mod-remove-entries", "Entries to remove")],
+      el("button", { type: "button", className: "button button-outline button-danger", id: "mod-remove-button", text: "Remove", onclick: async () => {
+        const list = value("mod-remove-list");
+        const terms = typedEntries("mod-remove-entries");
+        if (!terms.length) { say("mod-remove-status", "Type at least one entry first.", "error"); return; }
+        if (!window.confirm(`Remove ${plural(terms.length)} from ${LISTS[list].label.toLowerCase()}?`)) return;
+        const { ok, data } = await rpc("admin_remove_terms", { p_list: list, p_terms: terms, p_match_type: null });
+        if (!ok) return;
+        document.getElementById("mod-remove-entries").value = "";
+        say("mod-remove-status", `Removed ${data.removed}. Not found ${data.not_found}.`, data.removed ? "success" : "error");
+        loadCounts();
+      } }), "mod-remove-status");
+
+    const changeBox = box("Change type or category", "mod-change",
+      "Type the exact entries to change, one per line, and choose the new match type and/or category.",
+      [el("div", { className: "roster-form-grid" }, [listPicker("mod-change-list", ["blocked", "reserved"]),
+        el("div", { id: "mod-change-match", className: "form-field" }), el("div", { id: "mod-change-category", className: "form-field" })]),
+       entriesField("mod-change-entries", "Entries to change")],
+      el("button", { type: "button", className: "button button-outline", id: "mod-change-button", text: "Change", onclick: async () => {
+        const list = value("mod-change-list");
+        const terms = typedEntries("mod-change-entries");
+        if (!terms.length) { say("mod-change-status", "Type at least one entry first.", "error"); return; }
+        const matchType = value("mod-change-match-select");
+        const category = value("mod-change-category-select");
+        if (!matchType && !category) { say("mod-change-status", "Choose a new match type or category.", "error"); return; }
+        const { ok, data } = await rpc("admin_update_terms", { p_list: list, p_terms: terms, p_match_type: matchType, p_category: category });
+        if (!ok) return;
+        document.getElementById("mod-change-entries").value = "";
+        say("mod-change-status", `Changed ${data.changed}. Not found ${data.not_found}.`, data.changed ? "success" : "error");
+        loadCounts();
+      } }), "mod-change-status");
 
     // ---------- owner: names ----------
     let names = null;
@@ -175,8 +199,11 @@
       loadExceptions();
     }
 
-    panel.replaceChildren(counts, tester, lists, names);
-    drawListControls();
+    panel.replaceChildren(counts, tester, addBox, removeBox, changeBox, names);
+    syncFields("mod-add-list", "mod-add-match", "mod-add-category", false);
+    syncFields("mod-change-list", "mod-change-match", "mod-change-category", true);
+    document.getElementById("mod-add-list").addEventListener("change", () => syncFields("mod-add-list", "mod-add-match", "mod-add-category", false));
+    document.getElementById("mod-change-list").addEventListener("change", () => syncFields("mod-change-list", "mod-change-match", "mod-change-category", true));
     loadCounts();
   };
 })();
