@@ -188,6 +188,9 @@
     if (/isn.t allowed|blocked_text|blocked_word/i.test(message)) return "That text isn't allowed. Please reword it.";
     if (/already taken|name_taken|profiles_display_name_key_unique/i.test(message)) return "That name is already taken. Please choose another.";
     if (/once every 30 days/i.test(message)) return message;
+    if (/question is closed|question_closed/i.test(message)) return "This question has closed, so answers can no longer be changed.";
+    if (/own answer/i.test(message)) return "You can't vote for your own answer.";
+    if (/once a question has closed/i.test(message)) return "You can vote once the question has closed.";
     if (/row-level security|permission denied|42501/i.test(message)) return "You don't have permission to do that.";
     if (/manual linking/i.test(message)) return "Connecting another sign-in method isn't switched on yet.";
     if (/already.*linked|identity_already_exists/i.test(message)) return "That account is already connected to a different Holotable Chaos account.";
@@ -198,6 +201,26 @@
   function isConfigured(config) {
     return Boolean(config && /^https:\/\/[a-z0-9-]+\.supabase\.co$|^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(config.url || "")
       && typeof config.publishableKey === "string" && config.publishableKey.length > 20);
+  }
+
+  // The pinned Supabase library (same version and integrity hash as the account pages). Pages that
+  // only need it for signed-in visitors load it on demand, so signed-out visitors never fetch it.
+  const SUPABASE_SRC = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js";
+  const SUPABASE_SRI = "sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O";
+  function loadSupabase() {
+    if (root.supabase && typeof root.supabase.createClient === "function") return Promise.resolve(true);
+    if (!root.__hcSupabaseLoading) {
+      root.__hcSupabaseLoading = new Promise((resolve) => {
+        const script = root.document.createElement("script");
+        script.src = SUPABASE_SRC;
+        script.integrity = SUPABASE_SRI;
+        script.crossOrigin = "anonymous";
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        root.document.head.append(script);
+      });
+    }
+    return root.__hcSupabaseLoading;
   }
 
   // Returns a Supabase client, or null when accounts aren't configured or the library didn't load.
@@ -263,6 +286,9 @@
     friendlyError,
     isConfigured,
     createClient,
+    loadSupabase,
+    SUPABASE_SRC,
+    SUPABASE_SRI,
     returnUrl,
     el,
     formatDate,

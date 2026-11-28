@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "current_episode": 23,
+  "questions": [
+    {
+      "episode": 3,
+      "episode_title": "How I Would Have Started",
+      "text": "Who should the next GL be after GL Mando?",
+      "published_at": null
+    },
+    {
+      "episode": 4,
+      "episode_title": "Finding a Good Guild",
+      "text": "What is the most important guild event?",
+      "published_at": null
+    },
+    {
+      "episode": 5,
+      "episode_title": "Carson Teva First Impressions",
+      "text": "If you could relic an entire faction as a new player, which one would it be?",
+      "published_at": null
+    },
+    {
+      "episode": 6,
+      "episode_title": "Overrated/Underrated Teams + Hello People Joins the Show!",
+      "text": "If CG gave you a Relic 10 LST, who would you use it on? Zetas and Omicrons included. No Journey Guide, Galactic Legend, Territory Battle, or Conquest units allowed.",
+      "published_at": null
+    },
+    {
+      "episode": 7,
+      "episode_title": "State of the Game: July 2026",
+      "text": "If you could unlock any Journey Guide character as a new player, who would it be? Seven stars, Gear 13, and Zetas; no Omicrons.",
+      "published_at": null
+    },
+    {
+      "episode": 8,
+      "episode_title": "10 Characters Who NEED a Rework",
+      "text": "Which character needs a rework the most? It can be from our list or somebody else we didn't talk about. If you have an idea for how they should be reworked or a team they could fit on, share it.",
+      "published_at": null
+    },
+    {
+      "episode": 9,
+      "episode_title": "Legends are Finally Here! | Breaking Down the Era of Myths and Legends",
+      "text": "Which Era of Myths and Legends character are you most excited for?",
+      "published_at": null
+    },
+    {
+      "episode": 10,
+      "episode_title": "Mara Jade is No Joke! | Breaking Down Her Kit & More",
+      "text": "Which character/team did you underestimate the most?",
+      "published_at": "2026-08-13T23:00:00Z"
+    },
+    {
+      "episode": 11,
+      "episode_title": "Your First Galactic Legend: Which One Should You Choose?",
+      "text": "What was your first GL?",
+      "published_at": "2026-08-19T20:00:00Z"
+    },
+    {
+      "episode": 12,
+      "episode_title": "Ships 101: Stop Ignoring Fleets",
+      "text": "What do you think the most important ship to farm is?",
+      "published_at": "2026-08-24T11:00:00Z"
+    },
+    {
+      "episode": 13,
+      "episode_title": "Interview With theothersean!",
+      "text": "What is the most underrated investment in SWGoH?",
+      "published_at": "2026-08-31T10:00:00Z"
+    },
+    {
+      "episode": 14,
+      "episode_title": "SWGoH This or That",
+      "text": "What is one piece of SWGoH advice you wish you had ignored?",
+      "published_at": "2026-09-15T00:00:00Z"
+    },
+    {
+      "episode": 15,
+      "episode_title": "Embo & Keibu: Are They Built For Baylan Skoll?",
+      "text": "What are your thoughts on Embo & Keibu?",
+      "published_at": null
+    },
+    {
+      "episode": 16,
+      "episode_title": "The GAC Guide | How to Approach Grand Arena",
+      "text": "What is your Defensive MVP for Grand Arena? (Non-GL)",
+      "published_at": null
+    },
+    {
+      "episode": 17,
+      "episode_title": "Droid Destruction | What We Know So Far",
+      "text": "What do you think will be the best undersize team besides Rotta?",
+      "published_at": "2026-10-05T21:00:00Z"
+    },
+    {
+      "episode": 18,
+      "episode_title": "The Zeta Guide | Stop Wasting Your Zetas",
+      "text": "If you could get a refund on one zeta ability upgrade whose would it be?",
+      "published_at": "2026-10-12T21:00:00Z"
+    },
+    {
+      "episode": 19,
+      "episode_title": "The Mini Era | Who Gets Left Behind?",
+      "text": "Which character did you think you had modded properly, only to look later and realize their mods were terrible? (We accidentally sent out two questions this episode, so here's the other one: Are you planning on starring either of the Era characters this Era? If not, what are you doing?)",
+      "published_at": "2026-10-22T12:00:00Z"
+    },
+    {
+      "episode": 20,
+      "episode_title": "The Mod Guide | The Most Important Thing Everyone Ignores",
+      "text": "What's a popular character that you think is overrated?",
+      "published_at": "2026-11-02T05:00:00Z"
+    },
+    {
+      "episode": 21,
+      "episode_title": "Overcharge & Era Arena | What's Changing?",
+      "text": "Do you think Era Arena will be a better game mode than Squad Arena was?",
+      "published_at": "2026-11-10T03:00:00Z"
+    },
+    {
+      "episode": 22,
+      "episode_title": "10 Years of Rogue One | A New Era Begins",
+      "text": "With Rogue One celebrating its 10th anniversary, what is your favorite moment from the movie?",
+      "published_at": "2026-11-17T02:00:00Z"
+    },
+    {
+      "episode": 23,
+      "episode_title": "Droid Destruction | Raid Reactions",
+      "text": "What are your thoughts on Droid Destruction so far?",
+      "published_at": "2026-11-24T01:00:00Z"
+    }
+  ]
+}

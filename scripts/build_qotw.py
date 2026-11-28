@@ -285,12 +285,13 @@ def render_current(current: Question | None) -> str:
         )
     identifier = html.escape(current.id)
     return (
-        '<section class="qotw-current" aria-labelledby="current-question-title">'
+        f'<section class="qotw-current" aria-labelledby="current-question-title" data-episode="{current.episode}">'
         f'<div class="community-card-heading"><span class="card-kicker">THIS WEEK’S QUESTION · {identifier}</span><span class="qotw-status">OPEN</span></div>'
         f'<h2 id="current-question-title" class="qotw-question">{html.escape(current.text)}</h2>'
         f'<p class="qotw-current-metadata">{_metadata(current)}</p>'
         '<p class="qotw-feature-note">Your answer may be discussed or featured in a future Holotable Chaos podcast episode.</p>'
-        f'<a class="button button-primary qotw-submit" href="{html.escape(mailto_url(current), quote=True)}">Submit Your Answer <span aria-hidden="true">→</span></a>'
+        f'<div class="qotw-answer-slot" data-episode="{current.episode}" hidden></div>'
+        f'<a class="button button-primary qotw-submit" id="qotw-email-answer" href="{html.escape(mailto_url(current), quote=True)}">Submit Your Answer <span aria-hidden="true">→</span></a>'
         '<p class="qotw-send-note">This opens your email application. Review the message and send it yourself; answers are not submitted automatically.</p>'
         '<details class="qotw-email-fallback"><summary>If you don’t have an email app configured</summary>'
         f'<p>To: <strong>{RECIPIENT}</strong><br />Subject: <strong>{html.escape(email_subject(current))}</strong></p>'
@@ -304,10 +305,11 @@ def render_archive(archive: list[Question]) -> str:
     if not archive:
         return '<p class="qotw-empty-archive">Past questions will appear here once the next question is asked.</p>'
     return "\n        ".join(
-        '<article class="qotw-archive-card">'
+        f'<article class="qotw-archive-card" data-episode="{question.episode}">'
         f'<div class="community-card-heading"><span class="card-kicker">{html.escape(question.id)}</span><span class="qotw-status qotw-status-closed">CLOSED</span></div>'
         f'<h3 class="qotw-archive-title">{html.escape(question.text)}</h3>'
         f'<p class="qotw-metadata">{_metadata(question)}</p>'
+        f'<div class="qotw-answers-slot" data-episode="{question.episode}" hidden></div>'
         '</article>'
         for question in archive
     )
@@ -340,11 +342,13 @@ def render_page(state: QotwState) -> str:
     <main>
       <section class="page-intro"><p class="eyebrow"><span></span> THE COMMUNITY / LISTENER QUESTION</p><h1>Question of the <em>week.</em></h1><p>Every episode ends with a new question for listeners. Answer this week’s question below, or browse the questions from past episodes.</p></section>
       <section class="qotw-page-content" aria-label="Question of the Week">{render_current(state.current)}
+        <section class="qotw-me" id="qotw-me" aria-labelledby="qotw-me-title" hidden></section>
         <section class="qotw-archive" aria-labelledby="qotw-archive-title"><div class="section-heading"><div><p class="eyebrow">FROM THE ARCHIVE</p><h2 id="qotw-archive-title">Past <em>questions.</em></h2></div><p>Newest first. Past questions are closed to new answers through the website.</p></div><div class="qotw-archive-list">{render_archive(state.archive)}</div>{render_without_question(state.without_question)}</section>
       </section>
     </main>
     <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
     <script src="../assets/js/supabase-config.js" defer></script><script src="../assets/js/account-core.js" defer></script><script src="../assets/js/site-header.js" defer></script>
+    <script src="../assets/js/edit-mode.js" defer></script><script src="qotw.js" defer></script>
   </body>
 </html>
 '''
@@ -382,6 +386,20 @@ def _with_marker_block(path: Path, markers: tuple[str, str], content: str) -> st
     return source[:start] + "\n          " + content + "\n          " + source[end:]
 
 
+def render_feed(state: QotwState) -> str:
+    """Public question feed (community/qotw.json) that the database syncs from. Public data only."""
+    questions = ([state.current] if state.current else []) + list(state.archive)
+    feed = {
+        "schema": 1,
+        "current_episode": state.current.episode if state.current else None,
+        "questions": [
+            {"episode": q.episode, "episode_title": q.episode_title, "text": q.text, "published_at": q.published_at}
+            for q in sorted(questions, key=lambda q: q.episode)
+        ],
+    }
+    return json.dumps(feed, ensure_ascii=False, indent=2) + "\n"
+
+
 def build_site(payload: dict[str, Any], episodes: list[dict[str, Any]], project_root: Path = ROOT) -> tuple[QotwState, list[Path]]:
     """Write the page and both previews. Returns the state and the files that changed."""
     state = resolve(payload, episodes)
@@ -392,6 +410,7 @@ def build_site(payload: dict[str, Any], episodes: list[dict[str, Any]], project_
         home: _with_marker_block(home, HOME_MARKERS, render_home_card(state.current)),
         community: _with_marker_block(community, COMMUNITY_MARKERS, render_community_card(state.current)),
         project_root / "community" / "question-of-the-week.html": render_page(state),
+        project_root / "community" / "qotw.json": render_feed(state),
     }
     changed = [path for path, text in outputs.items() if _write_if_changed(path, text)]
     return state, changed

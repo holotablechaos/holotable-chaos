@@ -158,7 +158,7 @@ class RotationTests(unittest.TestCase):
             for relative in ("index.html", "community/index.html"):
                 shutil.copy(ROOT / relative, root / relative)
             state, changed = builder.build_site(self.payload, self.episodes, project_root=root)
-            self.assertEqual(len(changed), 3)
+            self.assertEqual(len(changed), 4)  # home card, community card, QotW page, public feed
             snapshot = {p: p.read_bytes() for p in root.rglob("*.html")}
             _, changed_again = builder.build_site(self.payload, self.episodes, project_root=root)
             self.assertEqual(changed_again, [])
@@ -166,7 +166,14 @@ class RotationTests(unittest.TestCase):
             self.episodes.append(episode(4, "Next week?"))
             state, changed = builder.build_site(self.payload, self.episodes, project_root=root)
             self.assertEqual(state.current.id, "QotW #4")
-            self.assertEqual(len(changed), 3)
+            self.assertEqual(len(changed), 4)
+            feed = json.loads((root / "community" / "qotw.json").read_text(encoding="utf-8"))
+            self.assertEqual(feed["current_episode"], 4)
+            self.assertEqual({key for q in feed["questions"] for key in q}, {"episode", "episode_title", "text", "published_at"})
+            page = (root / "community" / "question-of-the-week.html").read_text(encoding="utf-8")
+            self.assertIn('class="qotw-answer-slot" data-episode="4" hidden', page)
+            self.assertIn('class="qotw-answers-slot" data-episode="3" hidden', page)
+            self.assertIn('id="qotw-email-answer"', page)  # the email fallback stays
             self.assertIn("QotW #4", (root / "index.html").read_text(encoding="utf-8"))
 
     def test_missing_markers_change_no_files(self):

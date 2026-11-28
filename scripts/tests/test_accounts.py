@@ -146,6 +146,18 @@ class AccountPageTests(unittest.TestCase):
         self.assertIn('id="alerts-edit"', page)
         self.assertLess(page.index("edit-mode.js"), page.index('src="account.js"'))
 
+    def test_qotw_page_answers_on_site_with_email_fallback(self):
+        page = self.read("community/question-of-the-week.html")
+        self.assertIn('id="qotw-email-answer"', page)              # works without JavaScript or an account
+        self.assertRegex(page, r'class="qotw-answer-slot" data-episode="\d+" hidden')
+        self.assertIn('src="qotw.js"', page)
+        self.assertNotIn("supabase-js", page)                    # loaded on demand for signed-in visitors only
+        self.assertIn("community/qotw.js", stage_pages.ASSETS)
+        self.assertIn("community/qotw.json", stage_pages.ASSETS)
+        core = self.read("assets/js/account-core.js")
+        self.assertIn(SUPABASE_JS, core)
+        self.assertRegex(core, r'SUPABASE_SRI = "sha384-[A-Za-z0-9+/=]{64}"')
+
     def test_admin_page_is_not_indexed(self):
         self.assertIn('name="robots" content="noindex, nofollow"', self.read("admin/index.html"))
 
@@ -180,7 +192,7 @@ class AccountPageTests(unittest.TestCase):
         self.assertNotRegex(page.lower(), r"we (?:will )?send you (?:an )?email")
 
     def test_scripts_never_write_untrusted_text_as_html(self):
-        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "account/account.js", "admin/admin.js", "admin/moderation.js"):
+        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js"):
             self.assertNotRegex(self.read(path), r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", path)
 
 
