@@ -18,12 +18,12 @@ update auth.identities set identity_data = identity_data || jsonb_build_object(
  where user_id = :'g_id';
 
 -- Names
-select is(private.display_name_for(:'d_id'), 'Discord Dee', 'with no profile, the Discord display name is used');
-select is(private.display_name_for(:'g_id'), 'Google Gee', 'with no profile, the Google name is used');
+select matches(private.display_name_for(:'d_id'), '^Discord Dee · [0-9]{4}$', 'with no profile, the Discord display name is used, with a numbered suffix');
+select matches(private.display_name_for(:'g_id'), '^Google Gee · [0-9]{4}$', 'with no profile, the Google name is used, with a numbered suffix');
 select is((select count(*)::int from public.profiles), 0, 'resolving a name never creates a profile');
-insert into private.blocked_words (word) values ('frak');
+insert into private.blocked_terms (term, match_type, category) values ('frak', 'word', 'profanity');
 update auth.identities set identity_data = identity_data || '{"full_name": "Frak Lord"}' where user_id = :'g_id';
-select is(private.display_name_for(:'g_id'), 'Listener', 'a provider name with a blocked word falls back to Listener');
+select matches(private.display_name_for(:'g_id'), '^Listener · [0-9]{4}$', 'a provider name with a blocked word falls back to Listener with a suffix');
 insert into public.profiles (id, display_name) values (:'g_id', 'Chosen Name');
 select is(private.display_name_for(:'g_id'), 'Chosen Name', 'a saved display name always wins');
 
@@ -51,9 +51,9 @@ select set_config('request.jwt.claims', json_build_object('sub', :'d_id', 'role'
 select lives_ok($$update public.profiles set in_game_name = 'Holo Dee' where id = auth.uid()$$, 'in-game name can be saved');
 select throws_like($$update public.profiles set in_game_name = 'frak master' where id = auth.uid()$$, '%isn''t allowed%',
   'in-game names are filtered');
-select throws_ok($$update public.profiles set in_game_name = repeat('x', 41) where id = auth.uid()$$, '23514', null,
-  'in-game names are at most 40 characters');
-select is(public.my_member_card() ->> 'name', 'Discord Dee', 'my_member_card returns my resolved name');
+select throws_like($$update public.profiles set in_game_name = repeat('x', 41) where id = auth.uid()$$, '%isn''t allowed%',
+  'in-game names over 40 characters are refused');
+select matches(public.my_member_card() ->> 'name', '^Discord Dee · [0-9]{4}$', 'my_member_card returns my resolved name');
 select ok(public.my_member_card() ? 'member_since', 'my_member_card includes member since');
 select throws_like(format('select public.admin_member_cards(array[%L]::uuid[])', :'g_id'), '%Only admins%',
   'listeners cannot look up other people''s cards');

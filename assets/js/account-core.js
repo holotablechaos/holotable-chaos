@@ -186,6 +186,8 @@
     const message = (error && (error.message || error.error_description)) || "";
     if (/rate_limited|Too many changes/i.test(message)) return "Too many changes in a short time. Please wait a little and try again.";
     if (/isn.t allowed|blocked_text|blocked_word/i.test(message)) return "That text isn't allowed. Please reword it.";
+    if (/already taken|name_taken|profiles_display_name_key_unique/i.test(message)) return "That name is already taken. Please choose another.";
+    if (/once every 30 days/i.test(message)) return message;
     if (/row-level security|permission denied|42501/i.test(message)) return "You don't have permission to do that.";
     if (/manual linking/i.test(message)) return "Connecting another sign-in method isn't switched on yet.";
     if (/already.*linked|identity_already_exists/i.test(message)) return "That account is already connected to a different Holotable Chaos account.";

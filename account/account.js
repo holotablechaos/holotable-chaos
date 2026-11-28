@@ -12,7 +12,7 @@
   const fields = { displayName: $("display-name"), inGameName: $("in-game-name"), allyCode: $("ally-code"), swgohGgUrl: $("swgoh-gg-url"), bio: $("bio") };
   const errorIds = { displayName: "display-name-error", inGameName: "in-game-name-error", allyCode: "ally-code-error", swgohGgUrl: "swgoh-gg-url-error", bio: "bio-error" };
   const PREFS = ["episode_alerts", "qotw_alerts", "roster_aired_dm", "weekly_digest"];
-  const state = { user: null, card: null, profile: null, banned: false };
+  const state = { user: null, card: null, profile: null, banned: false, nameLockedUntil: null };
 
   function show(view) {
     Object.entries(views).forEach(([name, node]) => { node.hidden = name !== view; });
@@ -102,7 +102,11 @@
     fields.allyCode.value = p.ally_code ? A.formatAllyCode(p.ally_code) : "";
     fields.swgohGgUrl.value = p.swgoh_gg_url || "";
     fields.bio.value = p.bio || "";
-    $("display-name-default").textContent = state.card.provider_name ? `"${state.card.provider_name}"` : '"Listener"';
+    $("display-name-default").textContent = state.card.provider_name ? `"${state.card.provider_name}" with a short number` : '"Listener" with a short number';
+    const locked = Boolean(state.nameLockedUntil);
+    fields.displayName.readOnly = locked;
+    fields.displayName.setAttribute("aria-readonly", String(locked));
+    setMessage($("display-name-lock"), locked ? `You can change your display name again on ${A.formatDate(state.nameLockedUntil)}.` : "");
     updateBioCount();
     renderAvatarOptions();
   }
@@ -124,8 +128,27 @@
     $("bio-count").textContent = `${fields.bio.value.length} / 500`;
   }
 
+  // Display name: also ask the server whether it's free and allowed (never says who has it).
+  let nameCheck = 0;
+  async function checkDisplayName() {
+    const value = fields.displayName.value.trim();
+    const current = (state.profile && state.profile.display_name) || "";
+    if (!value || value === current || fields.displayName.readOnly) return true;
+    const ticket = ++nameCheck;
+    const { data, error } = await client.rpc("check_display_name", { p_name: value });
+    if (ticket !== nameCheck || error) return true; // a newer check is running, or let the save report it
+    const message = data === "taken" ? "That name is already taken. Please choose another."
+      : data === "not_allowed" ? "That text isn't allowed. Please reword it." : "";
+    setMessage($("display-name-error"), message);
+    fields.displayName.setAttribute("aria-invalid", message ? "true" : "false");
+    return !message;
+  }
+
   Object.entries(fields).forEach(([key, input]) => {
-    input.addEventListener("blur", () => showErrors(A.validateProfile(formValues()).errors, key));
+    input.addEventListener("blur", () => {
+      showErrors(A.validateProfile(formValues()).errors, key);
+      if (key === "displayName" && !A.validateProfile(formValues()).errors.displayName) checkDisplayName();
+    });
     input.addEventListener("input", () => {
       setStatus($("profile-status"), "");
       if (input.getAttribute("aria-invalid") === "true") showErrors(A.validateProfile(formValues()).errors, key);
@@ -144,6 +167,11 @@
       if (firstBad) fields[firstBad].focus();
       return;
     }
+    if (!(await checkDisplayName())) {
+      setStatus(status, "Please fix the highlighted fields.", "error");
+      fields.displayName.focus();
+      return;
+    }
     const chosen = document.querySelector('input[name="avatarSource"]:checked');
     const row = { id: state.user.id, ...result.row, avatar_source: chosen ? chosen.value : null };
     $("profile-save").disabled = true;
@@ -151,14 +179,25 @@
     const { error } = await client.from("profiles").upsert(row);
     $("profile-save").disabled = false;
     if (error) {
-      setStatus(status, A.friendlyError(error), "error");
+      const message = A.friendlyError(error);
+      setStatus(status, message, "error");
+      if (/taken|isn't allowed|30 days/.test(message) && /display_name|taken|30 days/i.test(`${error.message} ${error.details || ""} ${error.hint || ""}`)) {
+        setMessage($("display-name-error"), message);
+        fields.displayName.setAttribute("aria-invalid", "true");
+      }
       return;
     }
+    const nameChanged = (row.display_name || "") !== ((state.profile && state.profile.display_name) || "");
     state.profile = row;
+    if (nameChanged) {
+      const { data: until } = await client.rpc("my_name_change_available_at");
+      state.nameLockedUntil = until || null;
+      fillForm();
+    }
     fields.allyCode.value = row.ally_code ? A.formatAllyCode(row.ally_code) : "";
-    setStatus(status, "Saved. Your profile is up to date.", "success");
     await refreshCard();
     renderAvatarOptions();
+    setStatus(status, "Saved. Your profile is up to date.", "success");
   });
 
   // ---------- sign-in methods ----------
@@ -259,12 +298,14 @@
       return false;
     }
     state.user = data.user;
-    const [cardResult, profileResult, banResult, prefsResult] = await Promise.all([
+    const [cardResult, profileResult, banResult, prefsResult, lockResult] = await Promise.all([
       client.rpc("my_member_card"),
       client.from("profiles").select("display_name, bio, in_game_name, ally_code, swgoh_gg_url, avatar_source").eq("id", state.user.id).maybeSingle(),
       client.rpc("is_banned"),
       client.from("notification_prefs").select("episode_alerts, qotw_alerts, roster_aired_dm, weekly_digest").eq("user_id", state.user.id).maybeSingle(),
+      client.rpc("my_name_change_available_at"),
     ]);
+    state.nameLockedUntil = lockResult.data || null;
     state.card = cardResult.data || { id: state.user.id, name: "Listener", avatar_url: null, role: null };
     state.profile = profileResult.data || null;
     state.banned = banResult.data === true;

@@ -296,3 +296,13 @@ footer .brand{min-height:44px}
 .audit-row{grid-template-columns:1fr}
 .admin-tabs [role="tab"]{flex:1 1 auto}
 }
+/* ---------- Moderation tab ---------- */
+.mod-section{margin-top:22px}.mod-section:first-of-type{margin-top:18px}
+.mod-check{display:flex;align-items:center;gap:10px;min-height:44px;color:#c2d2e3;font-size:13px;cursor:pointer}
+.mod-check input{width:20px;height:20px;accent-color:var(--blue)}
+.mod-test-result{display:grid;gap:8px;margin-top:12px}.mod-test-result .status-pill{justify-self:start;margin:0}
+.mod-list-tabs{margin:6px 0 14px}.mod-list-tabs button{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line);background:#0a1726;color:#c2d2e3;font:600 13px 'DM Sans',sans-serif;cursor:pointer}
+.mod-list-tabs button.is-active{border-color:var(--blue);background:#60c9ff18;color:var(--blue)}
+.mod-table td:first-child,.mod-table th:first-child{width:44px}.mod-table input[type=checkbox]{width:20px;height:20px;accent-color:var(--blue)}
+.mod-bulk,.mod-add{display:grid;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid #9ab8d914}
+.mod-bulk{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}.mod-bulk .form-actions,.mod-bulk .save-status{grid-column:1/-1;margin-top:0}

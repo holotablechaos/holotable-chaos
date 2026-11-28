@@ -68,21 +68,39 @@ reset role;
 -- ---------------- blocked words and validation ----------------
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'owner_id', 'role', 'authenticated')::text, true);
-select lives_ok($$select public.admin_add_blocked_word('Frak')$$, 'admins can add a blocked word');
-select is((select array_agg(w) from public.admin_list_blocked_words() w), array['frak'], 'words are stored lower-case');
+select is(public.admin_add_terms('blocked', array['Frak'], 'word', 'profanity'), 1, 'admins can add a blocked word');
+select is((select array_agg(term) from public.admin_list_terms('blocked')), array['Frak'], 'the term is listed');
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
 select throws_like($$update public.profiles set display_name = 'Total FRAK up' where id = auth.uid()$$, '%isn''t allowed%',
   'a blocked word in a display name is rejected');
+-- (back-date the last name change so this test checks only its own rule)
+reset role;
+select set_config('request.jwt.claims', '', true);
+update public.profiles set display_name_changed_at = now() - interval '31 days' where id = :'a_id';
+set local role authenticated;
+select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
 select lives_ok($$update public.profiles set display_name = 'Frakture fan' where id = auth.uid()$$,
   'whole words only: a longer word containing it is fine');
 select throws_ok($$update public.profiles set ally_code = '12345' where id = auth.uid()$$, '23514', null, 'ally codes must be 9 digits');
 select throws_ok($$update public.profiles set swgoh_gg_url = 'https://evil.example/p/123456789/' where id = auth.uid()$$,
   '23514', null, 'only swgoh.gg profile links are accepted');
+-- (back-date the last name change so this test checks only its own rule)
+reset role;
+select set_config('request.jwt.claims', '', true);
+update public.profiles set display_name_changed_at = now() - interval '31 days' where id = :'a_id';
+set local role authenticated;
+select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
 select lives_ok($$update public.profiles set swgoh_gg_url = 'https://swgoh.gg/p/123456789/', display_name = '   ' where id = auth.uid()$$,
   'a valid swgoh.gg link is accepted, and a blank name is stored as empty');
 select is((select display_name from public.profiles where id = auth.uid()), null, 'blank text is stored as empty (null)');
+-- (back-date the last name change so this test checks only its own rule)
+reset role;
+select set_config('request.jwt.claims', '', true);
+update public.profiles set display_name_changed_at = now() - interval '31 days' where id = :'a_id';
+set local role authenticated;
+select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
 select lives_ok($$update public.profiles set display_name = null, bio = null, ally_code = null, swgoh_gg_url = null where id = auth.uid()$$,
   'every profile field can be cleared');
 reset role;

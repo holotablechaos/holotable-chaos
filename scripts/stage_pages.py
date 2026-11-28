@@ -45,6 +45,7 @@ ASSETS = (
     "assets/js/site-header.js",
     "account/account.js",
     "admin/admin.js",
+    "admin/moderation.js",
 )
 AUDIO_FILES = (
     "Holotable Chaos/Ep. 1 - Intro to Holotable Chaos/Episode 1 - Intro to Holotable Chaos.mp3",

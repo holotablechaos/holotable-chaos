@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import stage_pages  # noqa: E402
 
 ACCOUNT_PAGES = ("account/index.html", "admin/index.html", "privacy/index.html", "terms/index.html")
-ACCOUNT_ASSETS = ("assets/js/supabase-config.js", "assets/js/account-core.js", "assets/js/site-header.js", "account/account.js", "admin/admin.js")
+ACCOUNT_ASSETS = ("assets/js/supabase-config.js", "assets/js/account-core.js", "assets/js/site-header.js", "account/account.js", "admin/admin.js", "admin/moderation.js")
 SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"
 
 
@@ -172,7 +172,7 @@ class AccountPageTests(unittest.TestCase):
         self.assertNotRegex(page.lower(), r"we (?:will )?send you (?:an )?email")
 
     def test_scripts_never_write_untrusted_text_as_html(self):
-        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "account/account.js", "admin/admin.js"):
+        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "account/account.js", "admin/admin.js", "admin/moderation.js"):
             self.assertNotRegex(self.read(path), r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", path)
 
 
