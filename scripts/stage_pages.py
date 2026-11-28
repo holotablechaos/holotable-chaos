@@ -42,6 +42,7 @@ ASSETS = (
     "roster-review/form.js",
     "assets/js/supabase-config.js",
     "assets/js/account-core.js",
+    "assets/js/site-header.js",
     "account/account.js",
     "admin/admin.js",
 )

@@ -73,7 +73,7 @@ select is((select array_agg(w) from public.admin_list_blocked_words() w), array[
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
-select throws_like($$update public.profiles set display_name = 'Total FRAK up' where id = auth.uid()$$, '%not allowed%',
+select throws_like($$update public.profiles set display_name = 'Total FRAK up' where id = auth.uid()$$, '%isn''t allowed%',
   'a blocked word in a display name is rejected');
 select lives_ok($$update public.profiles set display_name = 'Frakture fan' where id = auth.uid()$$,
   'whole words only: a longer word containing it is fine');

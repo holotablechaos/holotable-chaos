@@ -11,75 +11,78 @@
   <body>
     <header class="site-header">
       <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
-      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a><a href="../account/index.html">Account</a></nav>
-      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer"><span class="discord-link-extra">Join our </span>Discord <span aria-hidden="true">↗</span></a><div class="account-slot" data-admin-href="../admin/index.html"><a class="account-link" href="../account/index.html">Sign in</a></div>
     </header>
     <main>
-      <section class="page-intro"><p class="eyebrow"><span></span> CREW ONLY</p><h1>Admin <em>dashboard.</em></h1><p>Accounts, roles, bans and the audit log. Every change here is recorded in the audit log.</p></section>
-      <section class="page-content account-page" aria-live="polite">
-        <article class="empty-state" id="admin-gate">
+      <section class="page-intro account-intro"><p class="eyebrow"><span></span> CREW ONLY</p><h1>Admin <em>dashboard.</em></h1><p>Every change made here is recorded in the audit log.</p></section>
+      <section class="page-content account-page admin-page" aria-live="polite">
+        <article class="panel" id="admin-gate">
           <span class="card-kicker">ADMINS ONLY</span>
           <h2>Sign in with an admin account to continue.</h2>
           <p><a class="card-link" href="../account/index.html">Go to your account <span aria-hidden="true">↗</span></a></p>
         </article>
 
-        <div id="admin-panel" hidden>
+        <div class="admin-layout" id="admin-panel" hidden>
+          <div class="admin-whoami" id="admin-whoami"></div>
           <p class="account-error" id="admin-error" role="alert" hidden></p>
+          <div class="admin-tabs" role="tablist" aria-label="Admin sections" id="admin-tabs">
+            <button type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button>
+            <button type="button" role="tab" id="tab-accounts" aria-controls="panel-accounts" aria-selected="false" tabindex="-1">Accounts</button>
+            <button type="button" role="tab" id="tab-moderation" aria-controls="panel-moderation" aria-selected="false" tabindex="-1">Moderation</button>
+            <button type="button" role="tab" id="tab-audit" aria-controls="panel-audit" aria-selected="false" tabindex="-1">Audit log</button>
+          </div>
 
-          <article class="empty-state">
-            <span class="card-kicker">ACCOUNTS</span>
+          <section class="panel admin-tabpanel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+            <h2>Overview</h2>
+            <div class="stat-grid" id="stat-grid"></div>
+          </section>
+
+          <section class="panel admin-tabpanel" role="tabpanel" id="panel-accounts" aria-labelledby="tab-accounts" hidden>
             <h2>Accounts <span class="optional-label" id="account-count"></span></h2>
-            <p class="form-footnote" id="account-note"></p>
-            <div class="admin-table-wrap"><table class="admin-table" id="accounts-table">
-              <thead><tr><th scope="col">Listener</th><th scope="col">Sign-in</th><th scope="col">Joined</th><th scope="col">Last sign-in</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead>
-              <tbody></tbody>
-            </table></div>
-          </article>
+            <p class="panel-lead" id="account-note"></p>
+            <div class="form-field admin-search"><label for="account-search">Search accounts</label><input id="account-search" type="search" autocomplete="off" placeholder="Name, email or ID" /></div>
+            <ul class="admin-list" id="account-list"></ul>
+            <div class="admin-subsection" id="invites-card" hidden>
+              <h3>Invite an admin <span class="account-badge">Owner only</span></h3>
+              <p class="panel-lead">The invite becomes the admin role when someone signs in with that Discord account, or with Discord or Google using that <strong>verified</strong> email.</p>
+              <form id="invite-form" class="roster-form-grid account-form" novalidate>
+                <div class="form-field"><label for="invite-kind">Invite by</label><select id="invite-kind"><option value="discord">Discord user ID</option><option value="email">Email address</option></select></div>
+                <div class="form-field"><label for="invite-value">Discord ID or email</label><input id="invite-value" autocomplete="off" placeholder="e.g. 112233445566778899" /></div>
+                <div class="form-field-full"><button type="submit" class="button button-primary form-submit">Create invite</button></div>
+              </form>
+              <ul class="account-list" id="invite-list"></ul>
+            </div>
+          </section>
 
-          <article class="empty-state" id="invites-card" hidden>
-            <span class="card-kicker">OWNER ONLY</span>
-            <h2>Invite an admin</h2>
-            <p>The invite turns into the admin role when someone signs in with that Discord account, or with Discord or Google using that <strong>verified</strong> email.</p>
-            <form id="invite-form" class="roster-form-grid account-form" novalidate>
-              <div class="form-field">
-                <label for="invite-kind">Invite by</label>
-                <select id="invite-kind"><option value="discord">Discord user ID</option><option value="email">Email address</option></select>
-              </div>
-              <div class="form-field">
-                <label for="invite-value">Value</label>
-                <input id="invite-value" autocomplete="off" placeholder="e.g. 112233445566778899" />
-              </div>
-              <div class="form-field-full"><button type="submit" class="button button-primary form-submit">Create invite</button></div>
-            </form>
-            <ul class="account-list" id="invite-list"></ul>
-          </article>
+          <section class="panel admin-tabpanel" role="tabpanel" id="panel-moderation" aria-labelledby="tab-moderation" hidden>
+            <h2>Moderation</h2>
+            <div id="moderation-tools"></div>
+          </section>
 
-          <article class="empty-state">
-            <span class="card-kicker">MODERATION</span>
-            <h2>Blocked words</h2>
-            <p>Public text containing any of these whole words is refused. The list starts empty.</p>
-            <form id="word-form" class="account-actions" novalidate>
-              <div class="form-field"><label for="word-value" class="sr-only">Word to block</label><input id="word-value" autocomplete="off" placeholder="word" /></div>
-              <button type="submit" class="button button-outline">Add word</button>
-            </form>
-            <ul class="account-list account-chips" id="word-list"></ul>
-          </article>
-
-          <article class="empty-state">
-            <span class="card-kicker">AUDIT LOG</span>
-            <h2>Recent admin activity</h2>
-            <div class="admin-table-wrap"><table class="admin-table" id="audit-table">
-              <thead><tr><th scope="col">When</th><th scope="col">Action</th><th scope="col">By</th><th scope="col">About</th></tr></thead>
-              <tbody></tbody>
-            </table></div>
-          </article>
+          <section class="panel admin-tabpanel" role="tabpanel" id="panel-audit" aria-labelledby="tab-audit" hidden>
+            <h2>Audit log</h2>
+            <p class="panel-lead">The latest 200 admin actions. Entries can't be edited or deleted.</p>
+            <ol class="audit-list" id="audit-list"></ol>
+          </section>
         </div>
       </section>
+
+      <dialog class="admin-dialog" id="ban-dialog" aria-labelledby="ban-title">
+        <form method="dialog" id="ban-form">
+          <h2 id="ban-title">Ban <span id="ban-name"></span></h2>
+          <p class="panel-lead">They keep read access to their own data and can still download or delete it.</p>
+          <div class="form-field"><label for="ban-reason">Reason (admins only)</label><input id="ban-reason" maxlength="500" autocomplete="off" /></div>
+          <div class="form-field"><label for="ban-length">Length</label><select id="ban-length"><option value="1">1 day</option><option value="7" selected>7 days</option><option value="30">30 days</option><option value="">No end date</option></select></div>
+          <div class="form-actions"><button type="submit" value="ban" class="button button-primary">Ban account</button><button type="submit" value="cancel" class="button button-outline" formnovalidate>Cancel</button></div>
+        </form>
+      </dialog>
     </main>
     <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
     <script src="../assets/js/supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
     <script src="../assets/js/account-core.js"></script>
     <script src="admin.js"></script>
+    <script src="../assets/js/site-header.js"></script>
   </body>
 </html>
