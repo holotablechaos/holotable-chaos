@@ -70,7 +70,15 @@
             <span class="card-kicker">PROFILE</span>
             <h2>Profile details</h2>
             <p class="panel-lead">Everything is optional. Your display name and picture appear next to your Question of the Week answers once a question closes.</p>
-            <form id="profile-form" class="account-form" novalidate>
+            <div class="edit-view" id="profile-view">
+              <dl class="detail-list" id="profile-details"></dl>
+              <div class="form-actions">
+                <button type="button" class="button button-outline edit-button" id="profile-edit" aria-controls="profile-form">Edit profile</button>
+              </div>
+            </div>
+            <p class="save-status" id="profile-status" role="status" aria-live="polite"></p>
+            <p class="sr-only" id="profile-announce" aria-live="polite"></p>
+            <form id="profile-form" class="account-form edit-form" novalidate hidden>
               <fieldset class="avatar-picker">
                 <legend>Profile picture</legend>
                 <div class="avatar-options" id="avatar-options"></div>
@@ -106,8 +114,9 @@
                 </div>
               </div>
               <div class="form-actions">
-                <button type="submit" class="button button-primary form-submit" id="profile-save">Save profile</button>
-                <p class="save-status" id="profile-status" role="status" aria-live="polite"></p>
+                <button type="submit" class="button button-primary form-submit" id="profile-save">Save</button>
+                <button type="button" class="button button-outline" id="profile-cancel">Cancel</button>
+                <p class="save-status" id="profile-form-status" role="status" aria-live="polite"></p>
               </div>
               <p class="field-help blocked-help">Think something was blocked by mistake? Email <a class="card-link" href="mailto:holotablechaos@gmail.com?subject=Holotable%20Chaos%3A%20text%20blocked%20by%20mistake">holotablechaos@gmail.com</a> and we'll take a look.</p>
             </form>
@@ -125,12 +134,25 @@
             <span class="card-kicker">ALERTS</span>
             <h2>Discord alerts</h2>
             <p class="panel-lead">Everything starts off. Alerts arrive in the Holotable Chaos Discord once they launch; until then, your choices are simply saved.</p>
+            <div class="edit-view" id="alerts-view">
+              <ul class="detail-list alert-summary" id="alerts-summary"></ul>
+              <div class="form-actions">
+                <button type="button" class="button button-outline edit-button" id="alerts-edit" aria-controls="alerts-form">Edit alerts</button>
+              </div>
+            </div>
+            <p class="sr-only" id="alerts-announce" aria-live="polite"></p>
+            <form id="alerts-form" class="edit-form" novalidate hidden>
             <div class="switch-list" id="alert-switches">
               <label class="switch-row"><span><strong>New episodes</strong><span class="field-help">A ping when an episode is published.</span></span><input type="checkbox" role="switch" data-pref="episode_alerts" /></label>
               <label class="switch-row"><span><strong>New Question of the Week</strong><span class="field-help">A ping when a new question opens.</span></span><input type="checkbox" role="switch" data-pref="qotw_alerts" /></label>
               <label class="switch-row"><span><strong>Your roster review aired</strong><span class="field-help">A direct message with the episode link.</span></span><input type="checkbox" role="switch" data-pref="roster_aired_dm" /></label>
               <label class="switch-row"><span><strong>Weekly digest</strong><span class="field-help">One post a week with what's new.</span></span><input type="checkbox" role="switch" data-pref="weekly_digest" /></label>
             </div>
+              <div class="form-actions">
+                <button type="submit" class="button button-primary" id="alerts-save">Save</button>
+                <button type="button" class="button button-outline" id="alerts-cancel">Cancel</button>
+              </div>
+            </form>
             <p class="save-status" id="alerts-status" role="status" aria-live="polite"></p>
           </article>
 
@@ -166,6 +188,7 @@
     <script src="../assets/js/supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
     <script src="../assets/js/account-core.js"></script>
+    <script src="../assets/js/edit-mode.js"></script>
     <script src="account.js"></script>
     <script src="../assets/js/site-header.js"></script>
   </body>
