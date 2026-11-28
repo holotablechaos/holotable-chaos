@@ -150,27 +150,66 @@
       if (key === "displayName" && !A.validateProfile(formValues()).errors.displayName) checkDisplayName();
     });
     input.addEventListener("input", () => {
-      setStatus($("profile-status"), "");
+      setStatus($("profile-form-status"), "");
       if (input.getAttribute("aria-invalid") === "true") showErrors(A.validateProfile(formValues()).errors, key);
     });
   });
   fields.bio.addEventListener("input", updateBioCount);
 
-  $("profile-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const status = $("profile-status");
+  // ---------- read-only profile view ----------
+  function detail(label, valueNode, extra) {
+    return [A.el("dt", {}, [label, extra || null]), A.el("dd", {}, [valueNode])];
+  }
+  const empty = (text) => A.el("span", { className: "empty-note", text });
+  function renderProfileView() {
+    const p = state.profile || {};
+    const choices = avatarChoices();
+    const chosen = choices.find((c) => c.value === p.avatar_source) || choices[0];
+    const unverified = () => A.el("span", { className: "unverified-tag", text: "Self-reported · unverified" });
+    $("profile-details").replaceChildren(
+      ...detail("Picture", A.el("span", { className: "detail-picture" }, [
+        A.avatar({ id: state.user.id, name: state.card.name, avatar_url: chosen && chosen.url }, 40),
+        A.el("span", { text: chosen ? chosen.label : "Initials" })])),
+      ...detail("Display name", p.display_name ? A.el("span", { text: p.display_name })
+        : empty(`Add a display name (you're shown as "${state.card.name}")`)),
+      ...(state.nameLockedUntil ? detail("", A.el("span", { className: "field-help", text: `Display name locked until ${A.formatDate(state.nameLockedUntil)}.` })) : []),
+      ...detail("In-game name", p.in_game_name ? A.el("span", { text: p.in_game_name }) : empty("Add your in-game name")),
+      ...detail("Ally code", p.ally_code ? A.el("span", { text: A.formatAllyCode(p.ally_code) }) : empty("Add your ally code"), unverified()),
+      ...detail("SWGOH.GG link", p.swgoh_gg_url && A.isSwgohGgUrl(p.swgoh_gg_url)
+        ? A.el("a", { className: "card-link", href: p.swgoh_gg_url, target: "_blank", rel: "noopener noreferrer", text: p.swgoh_gg_url })
+        : empty("Add your SWGOH.GG link"), unverified()),
+      ...detail("About you", p.bio ? A.el("span", { className: "detail-bio", text: p.bio }) : empty("Add a short bio")),
+    );
+    $("profile-edit").disabled = state.banned;
+  }
+
+  // ---------- profile edit mode ----------
+  let profileSnapshot = "";
+  const profileSnapshotNow = () => JSON.stringify({ ...formValues(),
+    avatar: (document.querySelector('input[name="avatarSource"]:checked') || {}).value || null });
+  async function saveProfile() {
+    const status = $("profile-form-status");
     const result = A.validateProfile(formValues());
     showErrors(result.errors);
     if (!result.ok) {
       setStatus(status, "Please fix the highlighted fields.", "error");
       const firstBad = Object.keys(errorIds).find((key) => result.errors[key]);
       if (firstBad) fields[firstBad].focus();
-      return;
+      return false;
     }
     if (!(await checkDisplayName())) {
       setStatus(status, "Please fix the highlighted fields.", "error");
       fields.displayName.focus();
-      return;
+      return false;
+    }
+    const nameChanged = (result.row.display_name || "") !== ((state.profile && state.profile.display_name) || "");
+    if (nameChanged) {
+      const until = A.formatDate(new Date(Date.now() + 30 * 86400000).toISOString());
+      const go = await window.HCEdit.confirm({
+        title: "Lock your display name?",
+        message: `Saving this locks your display name until ${until} (30 days). Save?`,
+        confirmLabel: "Save", cancelLabel: "Cancel" });
+      if (!go) { fields.displayName.focus(); return false; }
     }
     const chosen = document.querySelector('input[name="avatarSource"]:checked');
     const row = { id: state.user.id, ...result.row, avatar_source: chosen ? chosen.value : null };
@@ -185,19 +224,32 @@
         setMessage($("display-name-error"), message);
         fields.displayName.setAttribute("aria-invalid", "true");
       }
-      return;
+      return false;
     }
-    const nameChanged = (row.display_name || "") !== ((state.profile && state.profile.display_name) || "");
     state.profile = row;
     if (nameChanged) {
       const { data: until } = await client.rpc("my_name_change_available_at");
       state.nameLockedUntil = until || null;
-      fillForm();
     }
-    fields.allyCode.value = row.ally_code ? A.formatAllyCode(row.ally_code) : "";
     await refreshCard();
-    renderAvatarOptions();
-    setStatus(status, "Saved. Your profile is up to date.", "success");
+    setStatus(status, "");
+    renderProfileView();
+    setStatus($("profile-status"), "Saved. Your profile is up to date.", "success");
+    return true;
+  }
+  const profileEditor = window.HCEdit.create({
+    name: "profile", view: $("profile-view"), form: $("profile-form"),
+    editButton: $("profile-edit"), cancelButton: $("profile-cancel"), announcer: $("profile-announce"),
+    onOpen() {
+      setStatus($("profile-status"), "");
+      setStatus($("profile-form-status"), "");
+      showErrors({});
+      fillForm();
+      profileSnapshot = profileSnapshotNow();
+    },
+    onCancel() { fillForm(); showErrors({}); setStatus($("profile-form-status"), ""); },
+    isDirty: () => profileSnapshotNow() !== profileSnapshot,
+    onSave: saveProfile,
   });
 
   // ---------- sign-in methods ----------
@@ -234,26 +286,42 @@
     }));
   }
 
-  // ---------- alert switches ----------
+  // ---------- alert switches (read-only until "Edit alerts") ----------
   const switches = Array.from(document.querySelectorAll("#alert-switches input[data-pref]"));
-  function renderPrefs(prefs) {
-    switches.forEach((input) => {
-      input.checked = Boolean(prefs && prefs[input.dataset.pref]);
-      input.disabled = state.banned;
-    });
+  const PREF_LABELS = { episode_alerts: "New episodes", qotw_alerts: "New Question of the Week",
+                        roster_aired_dm: "Your roster review aired", weekly_digest: "Weekly digest" };
+  function renderAlertsView() {
+    const prefs = state.prefs || {};
+    $("alerts-summary").replaceChildren(...PREFS.map((key) => A.el("li", { className: "alert-summary-row" }, [
+      A.el("span", { text: PREF_LABELS[key] }),
+      A.el("span", { className: `status-pill${prefs[key] ? "" : " is-off"}`, text: prefs[key] ? "On" : "Off" }),
+    ])));
+    $("alerts-edit").disabled = state.banned;
   }
-  switches.forEach((input) => input.addEventListener("change", async () => {
-    const row = { user_id: state.user.id };
-    switches.forEach((item) => { row[item.dataset.pref] = item.checked; });
-    setStatus($("alerts-status"), "Saving…", "");
-    const { error } = await client.from("notification_prefs").upsert(row);
-    if (error) {
-      input.checked = !input.checked;
-      setStatus($("alerts-status"), A.friendlyError(error), "error");
-    } else {
+  const alertsNow = () => switches.map((input) => input.checked).join(",");
+  let alertsSnapshot = "";
+  window.HCEdit.create({
+    name: "alerts", view: $("alerts-view"), form: $("alerts-form"),
+    editButton: $("alerts-edit"), cancelButton: $("alerts-cancel"), announcer: $("alerts-announce"),
+    onOpen() {
+      setStatus($("alerts-status"), "");
+      switches.forEach((input) => { input.checked = Boolean(state.prefs && state.prefs[input.dataset.pref]); });
+      alertsSnapshot = alertsNow();
+    },
+    onCancel() { setStatus($("alerts-status"), ""); },
+    isDirty: () => alertsNow() !== alertsSnapshot,
+    async onSave() {
+      const row = { user_id: state.user.id };
+      switches.forEach((item) => { row[item.dataset.pref] = item.checked; });
+      setStatus($("alerts-status"), "Saving…", "");
+      const { error } = await client.from("notification_prefs").upsert(row);
+      if (error) { setStatus($("alerts-status"), A.friendlyError(error), "error"); return false; }
+      state.prefs = row;
+      renderAlertsView();
       setStatus($("alerts-status"), "Saved.", "success");
-    }
-  }));
+      return true;
+    },
+  });
 
   // ---------- data download and deletion ----------
   $("download-data").addEventListener("click", async () => {
@@ -313,10 +381,10 @@
     $("account-intro-text").hidden = true;
     renderHeader();
     announceHeader(state.card);
-    fillForm();
+    state.prefs = prefsResult.data || null;
+    if (!profileEditor.editing) { fillForm(); renderProfileView(); }
     renderMethods();
-    renderPrefs(prefsResult.data);
-    $("profile-save").disabled = state.banned;
+    renderAlertsView();
     loadActivity();
     return true;
   }

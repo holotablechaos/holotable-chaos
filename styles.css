@@ -301,3 +301,18 @@ footer .brand{min-height:44px}
 .mod-check{display:flex;align-items:center;gap:10px;min-height:44px;color:#c2d2e3;font-size:13px;cursor:pointer}
 .mod-check input{width:20px;height:20px;accent-color:var(--blue)}
 .mod-test-result{display:grid;gap:8px;margin-top:12px}.mod-test-result .status-pill{justify-self:start;margin:0}
+/* ---------- Read-only details with an Edit button (shared edit pattern) ---------- */
+.detail-list{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:0;margin:0;padding:0;list-style:none;border-top:1px solid #9ab8d914}
+.detail-list dt,.detail-list dd{margin:0;padding:12px 0;border-bottom:1px solid #9ab8d914;min-width:0}
+.detail-list dt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;color:var(--muted);font-size:12px;font-weight:600}
+.detail-list dd{color:var(--ink);font-size:14px;overflow-wrap:anywhere}
+.detail-list dt:empty{padding:0;border:0}.detail-list dt:empty+dd{padding-top:0}
+.detail-picture{display:inline-flex;align-items:center;gap:10px}
+.detail-bio{white-space:pre-wrap}
+.edit-button{min-height:44px;cursor:pointer;font-family:inherit}
+.edit-form .form-actions .button{margin:0;min-height:44px;cursor:pointer;font-family:inherit}
+.alert-summary{grid-template-columns:1fr}
+.alert-summary-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #9ab8d914;color:var(--ink);font-size:14px}
+.status-pill.is-off{border-color:#9aa8ba55;color:var(--muted)}
+.confirm-dialog p{color:#c2d2e3}
+@media(max-width:560px){.detail-list{grid-template-columns:1fr}.detail-list dt{padding-bottom:2px;border-bottom:0}.detail-list dd{padding-top:0}}
