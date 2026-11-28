@@ -10,6 +10,10 @@
   const emailForm = document.getElementById("general-feedback-form");
   if (!A || !helper || !panel || !emailForm || !A.isConfigured(config)) return;
   if (!A.storedSession(config)) return;
+  // Prefill only an empty, untouched name field; anything the listener types always wins.
+  const nameField = emailForm.elements.namedItem("name");
+  let nameTouched = false;
+  if (nameField) nameField.addEventListener("input", () => { nameTouched = true; });
   if (!(await A.loadSupabase())) return;
   const client = A.createClient();
   if (!client) return;
@@ -27,12 +31,18 @@
   const MAX_MESSAGE = 1000;
   const REPLY_NOTE = "We read everything, but we can't reply here. Include a Discord name if you want an answer.";
 
-  const [{ data: card }, { data: banned }, { data: mine }] = await Promise.all([
+  const [{ data: card }, { data: banned }, { data: mine }, { data: profile }] = await Promise.all([
     client.rpc("my_member_card"),
     client.rpc("is_banned"),
     client.from("feedback").select("id, message_type, subject, message, status, created_at, status_changed_at")
       .eq("user_id", me.id).order("created_at", { ascending: false }).limit(1),
+    client.from("profiles").select("in_game_name").eq("id", me.id).maybeSingle(),
   ]);
+  const profileName = profile && typeof profile.in_game_name === "string" ? profile.in_game_name.trim() : "";
+  function prefillName() {
+    if (profileName && nameField && !nameTouched && nameField.value === "") nameField.value = profileName;
+  }
+  prefillName();  // read-only use of the profile: nothing from the form is ever saved back to it
   let latest = (mine && mine[0]) || null;
   if (note) note.hidden = true;
 
@@ -96,6 +106,8 @@
     if (failure) { showError(A.friendlyError(failure)); return; }
     latest = data;
     emailForm.reset();  // clear the draft
+    nameTouched = false;
+    prefillName();
     renderView();
     emailForm.hidden = true;
     confirmation.hidden = false;
@@ -138,7 +150,7 @@
     A.fill(view,
       el("p", { className: "card-kicker", text: "SEND WITH YOUR ACCOUNT" }),
       A.personChip(card || {}, { detail: "Messages you send with your account come from this name." }),
-      el("p", { className: "panel-lead", text: "Choose a message type and write a subject and message in the form below, then select Send with my account. Name and email aren't needed. Only you and the show's admins can read it." }),
+      el("p", { className: "panel-lead", text: "Choose a message type and write a subject and message in the form below, then select Send with my account. It comes from your display name above; the name and email fields are only used in email drafts. Only you and the show's admins can read it." }),
       el("p", { className: "field-help", id: "feedback-reply-note", text: REPLY_NOTE }),
       banned === true ? el("p", { className: "account-error", text: "Your account is suspended, so you can't send messages with it right now. You can still use email." }) : null,
       latestBlock);

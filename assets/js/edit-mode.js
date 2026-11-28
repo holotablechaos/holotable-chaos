@@ -22,6 +22,10 @@
     for (const section of openSections) if (section.isDirty()) return true;
     return false;
   }
+  // Discard every open edit with unsaved changes (used when the listener chooses to leave them).
+  function discardAll() {
+    for (const section of Array.from(openSections)) if (section.isDirty()) section.cancel();
+  }
   if (root.addEventListener) {
     root.addEventListener("beforeunload", (event) => {
       if (!anyDirty()) return undefined;
@@ -131,7 +135,7 @@
     });
   }
 
-  const api = { create, anyDirty, confirm: confirmDialog };
+  const api = { create, anyDirty, discardAll, confirm: confirmDialog };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.HCEdit = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -64,11 +64,15 @@
             </div>
           </article>
 
-          <nav class="section-tabs" aria-label="Account sections">
-            <a href="#profile">Profile</a><a href="#sign-in-methods">Sign-in</a><a href="#alerts">Alerts</a><a href="#activity">Activity</a><a href="#your-data">Your data</a>
-          </nav>
+          <div class="admin-tabs account-tabs" role="tablist" aria-label="Account sections" id="account-tabs">
+            <button type="button" role="tab" id="account-tab-profile" aria-controls="profile" aria-selected="true">Profile</button>
+            <button type="button" role="tab" id="account-tab-sign-in-methods" aria-controls="sign-in-methods" aria-selected="false" tabindex="-1">Sign-in</button>
+            <button type="button" role="tab" id="account-tab-alerts" aria-controls="alerts" aria-selected="false" tabindex="-1">Alerts</button>
+            <button type="button" role="tab" id="account-tab-activity" aria-controls="activity" aria-selected="false" tabindex="-1">Activity</button>
+            <button type="button" role="tab" id="account-tab-your-data" aria-controls="your-data" aria-selected="false" tabindex="-1">Your data</button>
+          </div>
 
-          <article class="panel" id="profile">
+          <article class="panel account-tabpanel" id="profile" role="tabpanel" aria-labelledby="account-tab-profile">
             <span class="card-kicker">PROFILE</span>
             <h2>Profile details</h2>
             <p class="panel-lead">Everything is optional. Your display name and picture appear next to your Question of the Week answers once a question closes.</p>
@@ -124,7 +128,7 @@
             </form>
           </article>
 
-          <article class="panel" id="sign-in-methods">
+          <article class="panel account-tabpanel" id="sign-in-methods" role="tabpanel" aria-labelledby="account-tab-sign-in-methods" hidden>
             <span class="card-kicker">SIGN-IN METHODS</span>
             <h2>How you sign in</h2>
             <ul class="method-list" id="method-list"></ul>
@@ -132,7 +136,7 @@
             <p class="field-help">Connect Discord to receive Discord alerts. You can disconnect a method as long as one stays connected.</p>
           </article>
 
-          <article class="panel" id="alerts">
+          <article class="panel account-tabpanel" id="alerts" role="tabpanel" aria-labelledby="account-tab-alerts" hidden>
             <span class="card-kicker">ALERTS</span>
             <h2>Discord alerts</h2>
             <p class="panel-lead">Everything starts off. Alerts will arrive in the Holotable Chaos Discord.</p>
@@ -159,7 +163,7 @@
             <p class="save-status" id="alerts-status" role="status" aria-live="polite"></p>
           </article>
 
-          <article class="panel" id="activity">
+          <article class="panel account-tabpanel" id="activity" role="tabpanel" aria-labelledby="account-tab-activity" hidden>
             <span class="card-kicker">ACTIVITY</span>
             <h2>Your activity</h2>
             <div class="activity-grid">
@@ -169,7 +173,7 @@
             </div>
           </article>
 
-          <article class="panel" id="your-data">
+          <article class="panel account-tabpanel" id="your-data" role="tabpanel" aria-labelledby="account-tab-your-data" hidden>
             <span class="card-kicker">YOUR DATA</span>
             <h2>Download or delete</h2>
             <p class="panel-lead">Download everything we store about your account as one JSON file, or delete your account for good.</p>
