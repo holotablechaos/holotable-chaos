@@ -12,91 +12,141 @@
   <body>
     <header class="site-header">
       <a class="brand" href="../index.html" aria-label="Holotable Chaos home"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a>
-      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a><a href="index.html" aria-current="page">Account</a></nav>
-      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer">Join our Discord <span aria-hidden="true">↗</span></a>
+      <nav aria-label="Main navigation"><a href="../podcast/index.html">Podcast</a><a href="../resources/index.html">SWGoH Resources</a><a href="../community/index.html">Community</a><a href="../about/index.html">About</a></nav>
+      <a class="discord-link" href="https://discord.gg/4HNxXZBkbf" target="_blank" rel="noopener noreferrer"><span class="discord-link-extra">Join our </span>Discord <span aria-hidden="true">↗</span></a><div class="account-slot" data-admin-href="../admin/index.html"><a class="account-link" href="index.html" aria-current="page">Sign in</a></div>
     </header>
     <main>
-      <section class="page-intro"><p class="eyebrow"><span></span> YOUR HOLOTABLE</p><h1>Your <em>account.</em></h1><p>An account is optional. Everything on the site works without one; signing in is just for listener features as they arrive.</p></section>
+      <section class="page-intro account-intro"><p class="eyebrow"><span></span> YOUR HOLOTABLE</p><h1>Your <em>account.</em></h1><p id="account-intro-text">Optional, free, and built for listeners: answer the Question of the Week on the site, track your roster review, and pick the alerts you want.</p></section>
 
       <section class="page-content account-page" aria-live="polite">
         <!-- Shown when JavaScript is off, accounts aren't set up yet, or the sign-in library can't load. -->
-        <article class="empty-state" id="account-unavailable">
+        <article class="panel" id="account-unavailable">
           <span class="card-kicker">ACCOUNTS</span>
           <h2>Accounts aren't available right now.</h2>
           <p>You can keep using the whole site as a guest. If this keeps happening, make sure JavaScript is turned on and try again later.</p>
         </article>
 
-        <article class="empty-state" id="account-signed-out" hidden>
-          <span class="card-kicker">SIGN IN</span>
-          <h2>Sign in with Discord or Google.</h2>
-          <p>We don't use passwords. Pick the account you already use; if your Discord and Google accounts share a verified email address, either one opens the same Holotable Chaos account.</p>
-          <div class="account-actions">
-            <button type="button" class="button button-primary" data-sign-in="discord">Continue with Discord</button>
-            <button type="button" class="button button-outline" data-sign-in="google">Continue with Google</button>
-          </div>
-          <p class="account-error" id="sign-in-error" role="alert" hidden></p>
-          <p class="form-footnote">You must be 13 or older to create an account. By signing in you agree to the <a class="card-link" href="../terms/index.html">Terms</a> and the <a class="card-link" href="../privacy/index.html">Privacy notice</a>.</p>
-          <p class="form-footnote"><strong>Guest mode:</strong> just keep browsing. Playback progress stays in this browser, and nothing is sent to us.</p>
-          <p class="form-footnote"><strong>Storage notice:</strong> signing in keeps a sign-in session in your browser's local storage so you stay signed in. We don't use tracking or advertising cookies.</p>
-        </article>
+        <div class="account-signed-out-layout" id="account-signed-out" hidden>
+          <article class="panel panel-feature">
+            <span class="card-kicker">JOIN THE HOLOTABLE</span>
+            <h2>Sign in with Discord or Google.</h2>
+            <p>No passwords. If your Discord and Google accounts share a verified email address, either one opens the same Holotable Chaos account.</p>
+            <div class="account-actions account-sign-in-buttons">
+              <button type="button" class="button button-primary provider-button" data-sign-in="discord"><svg class="provider-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.3 4.4A19.6 19.6 0 0 0 15.4 3l-.6 1.3a18.2 18.2 0 0 0-5.6 0L8.6 3a19.5 19.5 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.8 19.8 0 0 0 6 3l1.3-2.1c-.7-.3-1.4-.6-2-1l.5-.4a14.1 14.1 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.7 19.7 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7ZM8.3 15.3c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm7.4 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z"/></svg>Continue with Discord</button>
+              <button type="button" class="button button-outline provider-button" data-sign-in="google"><svg class="provider-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3ZM12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22ZM6.4 14a6 6 0 0 1 0-3.9V7.4H3.1a10 10 0 0 0 0 9.1L6.4 14ZM12 5.9c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.7 9.4 5.9 12 5.9Z"/></svg>Continue with Google</button>
+            </div>
+            <p class="account-error" id="sign-in-error" role="alert" hidden></p>
+            <p class="form-footnote">You must be 13 or older to create an account. By signing in you agree to the <a class="card-link" href="../terms/index.html">Terms</a> and the <a class="card-link" href="../privacy/index.html">Privacy notice</a>.</p>
+          </article>
+          <article class="panel">
+            <span class="card-kicker">WHAT YOU GET</span>
+            <ul class="benefit-list">
+              <li><strong>Answer the Question of the Week</strong> right on the site, and see everyone's answers once it closes.</li>
+              <li><strong>Request a roster review</strong> and follow its status until it airs.</li>
+              <li><strong>Choose your alerts</strong> for new episodes and questions, delivered in our Discord.</li>
+              <li><strong>Your profile</strong> with your Discord or Google picture, in-game name and ally code.</li>
+            </ul>
+            <p class="form-footnote"><strong>Guest mode:</strong> just keep browsing. Playback progress stays in this browser, and nothing is sent to us.</p>
+            <p class="form-footnote"><strong>Storage notice:</strong> signing in keeps a sign-in session in your browser's local storage so you stay signed in. We don't use tracking or advertising cookies.</p>
+          </article>
+        </div>
 
-        <div id="account-signed-in" hidden>
-          <article class="empty-state account-summary">
-            <span class="card-kicker">SIGNED IN</span>
-            <h2 id="account-name">Listener</h2>
-            <p class="account-meta"><span id="account-email"></span><span id="account-role" class="account-badge" hidden></span></p>
+        <div class="account-signed-in-layout" id="account-signed-in" hidden>
+          <article class="panel profile-header">
+            <div id="profile-card"></div>
+            <p class="profile-header-meta"><span id="account-member-since"></span><span id="account-email"></span></p>
             <p class="account-error" id="account-ban" role="status" hidden></p>
             <div class="account-actions">
-              <a class="button button-outline" id="admin-link" href="../admin/index.html" hidden>Open the admin dashboard</a>
+              <a class="button button-outline" id="admin-link" href="../admin/index.html" hidden>Admin dashboard</a>
               <button type="button" class="button button-outline" id="sign-out">Sign out</button>
             </div>
           </article>
 
-          <article class="empty-state">
+          <nav class="section-tabs" aria-label="Account sections">
+            <a href="#profile">Profile</a><a href="#sign-in-methods">Sign-in</a><a href="#alerts">Alerts</a><a href="#activity">Activity</a><a href="#your-data">Your data</a>
+          </nav>
+
+          <article class="panel" id="profile">
             <span class="card-kicker">PROFILE</span>
-            <h2>Your profile</h2>
-            <p>Everything here is optional, and none of it is public yet.</p>
-            <form id="profile-form" class="roster-form-grid account-form" novalidate>
-              <div class="form-field">
-                <label for="display-name">Display name <span class="optional-label">(optional)</span></label>
-                <input id="display-name" name="displayName" maxlength="40" autocomplete="nickname" />
-                <p class="field-error" id="display-name-error" hidden></p>
+            <h2>Profile details</h2>
+            <p class="panel-lead">Everything is optional. Your display name and picture appear next to your Question of the Week answers once a question closes.</p>
+            <form id="profile-form" class="account-form" novalidate>
+              <fieldset class="avatar-picker">
+                <legend>Profile picture</legend>
+                <div class="avatar-options" id="avatar-options"></div>
+                <p class="field-help">Pictures load from Discord's or Google's servers. We never store or upload images.</p>
+              </fieldset>
+              <div class="roster-form-grid">
+                <div class="form-field">
+                  <label for="display-name">Display name</label>
+                  <input id="display-name" name="displayName" maxlength="40" autocomplete="nickname" aria-describedby="display-name-help display-name-error" />
+                  <p class="field-help" id="display-name-help">Unique across the site; you can change it once every 30 days. Leave empty to show <span id="display-name-default">your Discord or Google name</span>.</p>
+                  <p class="field-help name-lock-note" id="display-name-lock" hidden></p>
+                  <p class="field-error" id="display-name-error" hidden></p>
+                </div>
+                <div class="form-field">
+                  <label for="in-game-name">In-game name</label>
+                  <input id="in-game-name" name="inGameName" maxlength="40" autocomplete="off" aria-describedby="in-game-name-error" />
+                  <p class="field-error" id="in-game-name-error" hidden></p>
+                </div>
+                <div class="form-field">
+                  <label for="ally-code">Ally code <span class="unverified-tag">Self-reported · unverified</span></label>
+                  <input id="ally-code" name="allyCode" inputmode="numeric" placeholder="123-456-789" maxlength="11" aria-describedby="ally-code-error" />
+                  <p class="field-error" id="ally-code-error" hidden></p>
+                </div>
+                <div class="form-field">
+                  <label for="swgoh-gg-url">SWGOH.GG link <span class="unverified-tag">Self-reported · unverified</span></label>
+                  <input id="swgoh-gg-url" name="swgohGgUrl" type="url" inputmode="url" placeholder="https://swgoh.gg/p/123456789/" aria-describedby="swgoh-gg-url-error" />
+                  <p class="field-error" id="swgoh-gg-url-error" hidden></p>
+                </div>
+                <div class="form-field form-field-full">
+                  <label for="bio">About you <span class="optional-label" id="bio-count">0 / 500</span></label>
+                  <textarea id="bio" name="bio" maxlength="500" rows="4" aria-describedby="bio-error"></textarea>
+                  <p class="field-error" id="bio-error" hidden></p>
+                </div>
               </div>
-              <div class="form-field">
-                <label for="ally-code">Ally code <span class="optional-label">(optional, self-reported, not verified)</span></label>
-                <input id="ally-code" name="allyCode" inputmode="numeric" placeholder="123-456-789" maxlength="11" />
-                <p class="field-error" id="ally-code-error" hidden></p>
-              </div>
-              <div class="form-field form-field-full">
-                <label for="swgoh-gg-url">SWGOH.GG profile link <span class="optional-label">(optional, self-reported, not verified)</span></label>
-                <input id="swgoh-gg-url" name="swgohGgUrl" type="url" placeholder="https://swgoh.gg/p/123456789/" />
-                <p class="field-error" id="swgoh-gg-url-error" hidden></p>
-              </div>
-              <div class="form-field form-field-full">
-                <label for="bio">About you <span class="optional-label">(optional, up to 500 characters)</span></label>
-                <textarea id="bio" name="bio" maxlength="500" rows="4"></textarea>
-                <p class="field-error" id="bio-error" hidden></p>
-              </div>
-              <div class="form-field-full">
+              <div class="form-actions">
                 <button type="submit" class="button button-primary form-submit" id="profile-save">Save profile</button>
-                <p class="copy-status" id="profile-status" role="status"></p>
+                <p class="save-status" id="profile-status" role="status" aria-live="polite"></p>
               </div>
+              <p class="field-help blocked-help">Think something was blocked by mistake? Email <a class="card-link" href="mailto:holotablechaos@gmail.com?subject=Holotable%20Chaos%3A%20text%20blocked%20by%20mistake">holotablechaos@gmail.com</a> and we'll take a look.</p>
             </form>
           </article>
 
-          <article class="empty-state">
+          <article class="panel" id="sign-in-methods">
             <span class="card-kicker">SIGN-IN METHODS</span>
             <h2>How you sign in</h2>
-            <ul class="account-list" id="identity-list"></ul>
-            <div class="account-actions" id="link-actions"></div>
-            <p class="form-footnote">Connect another method if its email is different from the one above. You'll need Discord connected for Discord alerts when they arrive.</p>
+            <ul class="method-list" id="method-list"></ul>
             <p class="account-error" id="link-error" role="alert" hidden></p>
+            <p class="field-help">Connect Discord to receive Discord alerts. You can disconnect a method as long as one stays connected.</p>
           </article>
 
-          <article class="empty-state">
+          <article class="panel" id="alerts">
+            <span class="card-kicker">ALERTS</span>
+            <h2>Discord alerts</h2>
+            <p class="panel-lead">Everything starts off. Alerts arrive in the Holotable Chaos Discord once they launch; until then, your choices are simply saved.</p>
+            <div class="switch-list" id="alert-switches">
+              <label class="switch-row"><span><strong>New episodes</strong><span class="field-help">A ping when an episode is published.</span></span><input type="checkbox" role="switch" data-pref="episode_alerts" /></label>
+              <label class="switch-row"><span><strong>New Question of the Week</strong><span class="field-help">A ping when a new question opens.</span></span><input type="checkbox" role="switch" data-pref="qotw_alerts" /></label>
+              <label class="switch-row"><span><strong>Your roster review aired</strong><span class="field-help">A direct message with the episode link.</span></span><input type="checkbox" role="switch" data-pref="roster_aired_dm" /></label>
+              <label class="switch-row"><span><strong>Weekly digest</strong><span class="field-help">One post a week with what's new.</span></span><input type="checkbox" role="switch" data-pref="weekly_digest" /></label>
+            </div>
+            <p class="save-status" id="alerts-status" role="status" aria-live="polite"></p>
+          </article>
+
+          <article class="panel" id="activity">
+            <span class="card-kicker">ACTIVITY</span>
+            <h2>Your activity</h2>
+            <div class="activity-grid">
+              <section aria-labelledby="activity-qotw-title"><h3 id="activity-qotw-title">Question of the Week</h3><div id="activity-qotw"><p class="empty-note">No answers yet. <a class="card-link" href="../community/question-of-the-week.html">Answer this week's question <span aria-hidden="true">↗</span></a></p></div></section>
+              <section aria-labelledby="activity-roster-title"><h3 id="activity-roster-title">Roster review</h3><div id="activity-roster"><p class="empty-note">No request yet. <a class="card-link" href="../roster-review/index.html">Apply for a roster review <span aria-hidden="true">↗</span></a></p></div></section>
+            </div>
+          </article>
+
+          <article class="panel" id="your-data">
             <span class="card-kicker">YOUR DATA</span>
             <h2>Download or delete</h2>
-            <p>Download everything we store about your account as one JSON file, or delete your account for good.</p>
+            <p class="panel-lead">Download everything we store about your account as one JSON file, or delete your account for good.</p>
             <div class="account-actions">
               <button type="button" class="button button-outline" id="download-data">Download my data</button>
             </div>
@@ -117,5 +167,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js" integrity="sha384-uteMfOloLDGt042uDz+xHGF3ym63/WQ6rFq7murQRG8Ih7QrXGEGNtWd8688sb4O" crossorigin="anonymous"></script>
     <script src="../assets/js/account-core.js"></script>
     <script src="account.js"></script>
+    <script src="../assets/js/site-header.js"></script>
   </body>
 </html>

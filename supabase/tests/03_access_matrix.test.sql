@@ -10,13 +10,13 @@ select pg_temp.new_user('admin@example.test', 'discord', true, '1234567890123456
 select pg_temp.new_user('a@example.test', 'google', true) as a_id \gset
 select pg_temp.new_user('b@example.test', 'discord', true, '876543210987654321') as b_id \gset
 insert into public.user_roles (user_id, role) values (:'admin_id', 'admin');
-insert into public.profiles (id, display_name, ally_code) values (:'a_id', 'Listener A', '123-456-789');
-insert into public.profiles (id, display_name) values (:'b_id', 'Listener B');
+insert into public.profiles (id, display_name, ally_code) values (:'a_id', 'Reader A', '123-456-789');
+insert into public.profiles (id, display_name) values (:'b_id', 'Reader B');
 insert into public.notification_prefs (user_id, episode_alerts) values (:'b_id', true);
 insert into public.bans (user_id, reason) values (:'b_id', 'test ban');
 insert into public.admin_invites (kind, value) values ('email', 'future@example.test');
 insert into public.audit_log (action) values ('test_entry');
-insert into private.blocked_words (word) values ('frak');
+insert into private.blocked_terms (term, match_type, category) values ('frak', 'word', 'profanity');
 
 select is((select ally_code from public.profiles where id = :'a_id'), '123456789', 'ally codes are stored as 9 digits');
 select is(
@@ -45,14 +45,16 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);
 select is((select count(*)::int from public.profiles), 1, 'A sees only their own profile');
-select is((select display_name from public.profiles), 'Listener A', 'and it is A''s profile');
+select is((select display_name from public.profiles), 'Reader A', 'and it is A''s profile');
 select is((select count(*)::int from public.notification_prefs), 0, 'A sees no one else''s switches');
 select is((select count(*)::int from public.user_roles), 0, 'A sees no roles (A has none)');
 select is((select count(*)::int from public.audit_log), 0, 'A cannot read the audit log');
 select is((select count(*)::int from public.bans), 0, 'A sees no bans (A is not banned)');
 select is((select count(*)::int from public.admin_invites), 0, 'A cannot see invites');
 select throws_ok('select count(*) from private.owner_claim', '42501', null, 'A cannot see the owner claim');
-select throws_ok('select count(*) from private.blocked_words', '42501', null, 'A cannot read the blocked words');
+select throws_ok('select count(*) from private.blocked_terms', '42501', null, 'A cannot read the blocked terms');
+select throws_ok('select count(*) from private.reserved_names', '42501', null, 'A cannot read the reserved names');
+select throws_ok('select count(*) from private.allowed_terms', '42501', null, 'A cannot read the allowlist');
 
 select lives_ok($$update public.profiles set bio = 'Hello' where id = auth.uid()$$, 'A can edit their own profile');
 update public.profiles set bio = 'hacked' where id = :'b_id';
@@ -75,7 +77,9 @@ select throws_ok($$insert into public.admin_invites (kind, value) values ('email
 select throws_like(format('select public.admin_ban(%L)', :'b_id'), '%Only admins%', 'A cannot call admin_ban');
 select throws_like('select public.admin_list_accounts()', '%Only admins%', 'A cannot list accounts');
 select throws_like(format('select public.admin_grant_admin(%L)', :'a_id'), '%Only the owner%', 'A cannot grant admin');
-select throws_like($$select public.admin_add_blocked_word('word')$$, '%Only admins%', 'A cannot edit the blocked words');
+select throws_like($$select public.admin_add_terms('blocked', array['word'])$$, '%Only admins%', 'A cannot edit the blocked terms');
+select throws_like($$select public.admin_test_text('anything')$$, '%Only admins%', 'A cannot use the filter tester');
+select throws_like($$select public.admin_lookup_name('anyone')$$, '%Only the owner%', 'A cannot look up who holds a name');
 select is(public.is_admin(), false, 'is_admin() is false for A');
 select is(public.is_owner(), false, 'is_owner() is false for A');
 reset role;

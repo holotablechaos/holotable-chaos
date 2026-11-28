@@ -31,11 +31,13 @@
     const errors = {};
     const displayName = clean(input.displayName);
     const bio = clean(input.bio);
+    const inGameName = clean(input.inGameName);
     const allyCode = normalizeAllyCode(input.allyCode);
     const swgohGgUrl = clean(input.swgohGgUrl);
 
     if (displayName.length > 40) errors.displayName = "Display names can be up to 40 characters.";
     if (bio.length > 500) errors.bio = "The bio can be up to 500 characters.";
+    if (inGameName.length > 40) errors.inGameName = "In-game names can be up to 40 characters.";
     if (clean(input.allyCode) && allyCode.length !== 9) errors.allyCode = "Ally codes have 9 digits, like 123-456-789.";
     if (swgohGgUrl && !isSwgohGgUrl(swgohGgUrl)) {
       errors.swgohGgUrl = "Use your SWGOH.GG profile link, like https://swgoh.gg/p/123456789/.";
@@ -47,6 +49,7 @@
       row: {
         display_name: displayName || null,
         bio: bio || null,
+        in_game_name: inGameName || null,
         ally_code: allyCode || null,
         swgoh_gg_url: swgohGgUrl || null,
       },
@@ -54,8 +57,120 @@
   }
 
   function displayName(profile) {
-    const name = profile && clean(profile.display_name);
+    const name = profile && clean(profile.display_name || profile.name);
     return name || "Listener";
+  }
+
+  // ---------- avatars and people ----------
+  // The same allowlist the database uses: only Discord's and Google's picture hosts.
+  function safeAvatarUrl(url) {
+    const value = typeof url === "string" ? url : "";
+    if (/^https:\/\/cdn\.discordapp\.com\/(avatars|embed\/avatars)\/[A-Za-z0-9_./-]+$/.test(value)) return value;
+    if (/^https:\/\/lh[0-9]\.googleusercontent\.com\/[A-Za-z0-9_./=-]+$/.test(value)) return value;
+    return null;
+  }
+
+  function providerAvatar(identities, provider) {
+    const identity = (identities || []).find((item) => item.provider === provider);
+    const data = (identity && identity.identity_data) || {};
+    return safeAvatarUrl(data.avatar_url || data.picture);
+  }
+
+  // Mirrors private.avatar_url_for(): a chosen provider, initials, or Discord then Google.
+  function resolveAvatar(identities, source) {
+    if (source === "initials") return null;
+    if (source === "discord" || source === "google") return providerAvatar(identities, source);
+    return providerAvatar(identities, "discord") || providerAvatar(identities, "google");
+  }
+
+  function initials(name) {
+    const words = clean(name).replace(/[^\p{L}\p{N} ]/gu, " ").split(/\s+/).filter(Boolean);
+    if (!words.length) return "L";
+    const letters = words.length === 1 ? [...words[0]].slice(0, 2) : [[...words[0]][0], [...words[words.length - 1]][0]];
+    return letters.join("").toUpperCase();
+  }
+
+  // Deterministic colour from the account id, from a palette that keeps white initials readable.
+  const AVATAR_COLOURS = ["#1f6fb2", "#7a3fb8", "#b23a48", "#1d7f68", "#a8611a", "#3b5bc4", "#8c2f7a", "#2c7d99"];
+  function avatarColour(id) {
+    let hash = 0;
+    for (const char of String(id || "listener")) hash = (hash * 31 + char.codePointAt(0)) >>> 0;
+    return AVATAR_COLOURS[hash % AVATAR_COLOURS.length];
+  }
+
+  // <span class="avatar"> with the picture, or initials if there is none or it fails to load.
+  function avatar(person, size) {
+    const name = displayName(person);
+    const px = size || 32;
+    const node = el("span", { className: "avatar", "aria-hidden": "true", style: `--avatar-size:${px}px;--avatar-bg:${avatarColour(person && person.id)}` },
+      [el("span", { className: "avatar-initials", text: initials(name) })]);
+    const url = safeAvatarUrl(person && person.avatar_url);
+    if (url) {
+      const img = el("img", { src: url, alt: "", width: px, height: px, loading: "lazy", decoding: "async", referrerpolicy: "no-referrer" });
+      img.addEventListener("error", () => img.remove());
+      node.append(img);
+    }
+    return node;
+  }
+
+  // Avatar + name (+ optional badge and detail line). Reused for headers, admin lists, answers.
+  function personChip(person, options) {
+    const opts = options || {};
+    const role = person && person.role;
+    return el("span", { className: `person-chip${opts.large ? " person-chip-large" : ""}` }, [
+      avatar(person, opts.size || (opts.large ? 72 : 32)),
+      el("span", { className: "person-chip-text" }, [
+        el("span", { className: "person-chip-name" }, [
+          el("span", { text: displayName(person) }),
+          opts.showRole !== false && role ? el("span", { className: "account-badge", text: role === "owner" ? "Owner" : "Admin" }) : null,
+        ]),
+        opts.detail ? el("span", { className: "person-chip-detail", text: opts.detail }) : null,
+      ]),
+    ]);
+  }
+
+  // ---------- signed-in summary for the header (no network, no library) ----------
+  const SUMMARY_KEY = "hc-member-v1";
+  function storage() {
+    try { return root.localStorage; } catch { return null; }
+  }
+  function sessionStorageKey(config) {
+    try { return `sb-${new URL(config.url).hostname.split(".")[0]}-auth-token`; } catch { return null; }
+  }
+  // The session supabase-js keeps in localStorage, or null. Never throws.
+  function storedSession(config) {
+    const store = storage();
+    const key = config && sessionStorageKey(config);
+    if (!store || !key) return null;
+    try {
+      const session = JSON.parse(store.getItem(key) || "null");
+      return session && session.user && session.user.id ? session : null;
+    } catch { return null; }
+  }
+  function saveSummary(card) {
+    const store = storage();
+    if (!store || !card || !card.id) return;
+    try {
+      store.setItem(SUMMARY_KEY, JSON.stringify({ id: card.id, name: card.name || null, avatar_url: safeAvatarUrl(card.avatar_url), role: card.role || null }));
+    } catch { /* storage full or blocked: the header falls back to the session */ }
+  }
+  function clearSummary() {
+    const store = storage();
+    try { if (store) store.removeItem(SUMMARY_KEY); } catch { /* ignore */ }
+  }
+  // Best available card for the signed-in visitor: the cached summary for this user, else the
+  // provider details inside the stored session.
+  function headerCard(config) {
+    const session = storedSession(config);
+    if (!session) return null;
+    const user = session.user;
+    let cached = null;
+    try { cached = JSON.parse((storage() && storage().getItem(SUMMARY_KEY)) || "null"); } catch { cached = null; }
+    if (cached && cached.id === user.id) return cached;
+    const meta = user.user_metadata || {};
+    const claims = meta.custom_claims || {};
+    return { id: user.id, name: clean(claims.global_name || meta.full_name || meta.name) || "Listener",
+             avatar_url: resolveAvatar(user.identities || [], null) || safeAvatarUrl(meta.avatar_url), role: null };
   }
 
   function providerLabel(provider) {
@@ -70,7 +185,9 @@
   function friendlyError(error) {
     const message = (error && (error.message || error.error_description)) || "";
     if (/rate_limited|Too many changes/i.test(message)) return "Too many changes in a short time. Please wait a little and try again.";
-    if (/not allowed here|blocked_word/i.test(message)) return "Please choose different wording; part of that text is not allowed here.";
+    if (/isn.t allowed|blocked_text|blocked_word/i.test(message)) return "That text isn't allowed. Please reword it.";
+    if (/already taken|name_taken|profiles_display_name_key_unique/i.test(message)) return "That name is already taken. Please choose another.";
+    if (/once every 30 days/i.test(message)) return message;
     if (/row-level security|permission denied|42501/i.test(message)) return "You don't have permission to do that.";
     if (/manual linking/i.test(message)) return "Connecting another sign-in method isn't switched on yet.";
     if (/already.*linked|identity_already_exists/i.test(message)) return "That account is already connected to a different Holotable Chaos account.";
@@ -131,6 +248,16 @@
     isSwgohGgUrl,
     validateProfile,
     displayName,
+    safeAvatarUrl,
+    resolveAvatar,
+    initials,
+    avatarColour,
+    avatar,
+    personChip,
+    storedSession,
+    saveSummary,
+    clearSummary,
+    headerCard,
     providerLabel,
     missingProviders,
     friendlyError,
