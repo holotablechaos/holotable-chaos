@@ -190,6 +190,7 @@
     if (/once every 30 days/i.test(message)) return message;
     if (/question is closed|question_closed/i.test(message)) return "This question has closed, so answers can no longer be changed.";
     if (/own answer/i.test(message)) return "You can't vote for your own answer.";
+    if (/roster_requests_one_open/i.test(message)) return "You already have an open roster review request.";
     if (/once a question has closed/i.test(message)) return "You can vote once the question has closed.";
     if (/row-level security|permission denied|42501/i.test(message)) return "You don't have permission to do that.";
     if (/manual linking/i.test(message)) return "Connecting another sign-in method isn't switched on yet.";

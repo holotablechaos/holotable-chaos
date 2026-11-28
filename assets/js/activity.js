@@ -1,9 +1,22 @@
 // Account page "Your activity": Question of the Week stats and recent answers (and, later, roster
 // request status). Called by account.js after sign-in; missing data just leaves the empty notes.
-window.HCActivity = async function (client) {
+window.HCActivity = async function (client, state) {
   "use strict";
   const A = window.HCAccount;
   const el = A.el;
+  const roster = document.getElementById("activity-roster");
+  if (roster && state && state.user) {
+    const LABELS = { received: "Received", queued: "In the queue", reviewed: "Reviewed", aired: "Aired", declined: "Not selected", closed: "Closed" };
+    const { data: requests } = await client.from("roster_requests").select("status, aired_episode, created_at")
+      .eq("user_id", state.user.id).order("created_at", { ascending: false }).limit(1);
+    const latest = requests && requests[0];
+    if (latest) {
+      roster.replaceChildren(el("p", {}, [el("span", { className: "status-pill", text: LABELS[latest.status] }), ` · sent ${A.formatDate(latest.created_at)} `,
+        latest.status === "aired" && latest.aired_episode
+          ? el("a", { className: "card-link", href: `../podcast/episodes/episode-${latest.aired_episode}.html`, text: `Listen to episode ${latest.aired_episode}` })
+          : el("a", { className: "card-link", href: "../roster-review/index.html", text: "View your request" })]));
+    }
+  }
   const target = document.getElementById("activity-qotw");
   if (!target) return;
   const [{ data: stats }, { data: answers }] = await Promise.all([client.rpc("my_qotw_stats"), client.rpc("my_qotw_answers")]);

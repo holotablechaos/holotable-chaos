@@ -42,6 +42,7 @@ ASSETS = (
     "podcast/archive.js",
     "podcast/playback-progress.js",
     "roster-review/form.js",
+    "roster-review/account.js",
     "assets/js/supabase-config.js",
     "assets/js/account-core.js",
     "assets/js/site-header.js",
