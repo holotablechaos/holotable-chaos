@@ -66,7 +66,8 @@ select throws_ok(format($$insert into public.notification_prefs (user_id) values
 update public.profiles set id = :'b_id' where id = auth.uid();
 select is((select count(*)::int from public.profiles where id = auth.uid()), 1,
   'A cannot move their profile onto B''s account (the id is pinned)');
-delete from public.profiles where id = :'b_id';
+select throws_ok(format('delete from public.profiles where id = %L', :'b_id'), '42501', null,
+  'A cannot delete profiles at all (not even their own row; clearing fields is an update)');
 delete from public.notification_prefs where user_id = :'b_id';
 select throws_ok(format($$insert into public.user_roles (user_id, role) values (%L, 'admin')$$, :'a_id'), '42501', null,
   'A cannot make themselves admin');
