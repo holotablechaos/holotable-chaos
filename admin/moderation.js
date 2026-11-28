@@ -14,7 +14,6 @@
   window.HCModeration = async function render(panel, ctx) {
     const { client, rpc, el, A, state } = ctx;
     let current = "blocked";
-    let rows = [];
 
     const select = (id, values, includeKeep) => el("select", { id }, [
       includeKeep ? el("option", { value: "", text: "Keep as is" }) : null,
@@ -31,14 +30,13 @@
       const { ok, data } = await rpc("admin_test_text", { p_text: text, p_as_name: asName.checked });
       if (!ok) return;
       const reasons = [
-        ...data.blocked_terms.map((m) => `Blocked term "${m.term}" (${pretty(m.match_type)}, ${pretty(m.category)})`),
+        data.categories.length ? `Category: ${data.categories.map(pretty).join(", ")}` : null,
         data.reserved_name ? "Matches a reserved name (allowed only for the owner, admins and excepted accounts)" : null,
         data.name_taken ? "As a display name: already taken" : null,
       ].filter(Boolean);
       testResult.replaceChildren(
         el("p", { className: `status-pill${data.blocked ? " is-banned" : ""}`, text: data.blocked ? "Would be blocked" : "Allowed" }),
         reasons.length ? el("ul", { className: "account-list" }, reasons.map((r) => el("li", { text: r }))) : null,
-        el("p", { className: "field-help", text: `Normalised: "${data.normalized || ""}" · name key: "${data.name_key || ""}"` }),
       );
     }
     const tester = el("section", { className: "admin-subsection mod-section", "aria-labelledby": "mod-test-title" }, [
@@ -62,96 +60,66 @@
         el("span", { className: "stat-value", text: String(value) }), el("span", { className: "stat-label", text: label })])));
     }
 
-    // ---------- lists ----------
+    // ---------- lists (write-only: entries are never shown, only counts) ----------
     const listTabs = el("div", { className: "section-tabs mod-list-tabs", role: "group", "aria-label": "Which list" });
-    const filter = el("input", { type: "search", id: "mod-filter", placeholder: "Filter this list", autocomplete: "off" });
-    const tableBody = el("tbody");
-    const table = el("table", { className: "admin-table mod-table" }, [
-      el("thead", {}, [el("tr", {}, [
-        el("th", { scope: "col" }, [el("input", { type: "checkbox", id: "mod-select-all", "aria-label": "Select all shown" })]),
-        el("th", { scope: "col", text: "Entry" }), el("th", { scope: "col", text: "Match" }), el("th", { scope: "col", text: "Category" }),
-        el("th", { scope: "col", text: "Source" })])]),
-      tableBody]);
-    const bulkMatch = el("div", { className: "form-field" });
-    const bulkCategory = el("div", { className: "form-field" });
-    const bulkStatus = el("p", { className: "save-status", role: "status" });
-    const addText = el("textarea", { id: "mod-add-text", rows: "4", placeholder: "One entry per line" });
-    const addMatch = el("div", { className: "form-field" });
-    const addCategory = el("div", { className: "form-field" });
-
-    function selectedIds() {
-      return Array.from(tableBody.querySelectorAll("input[type=checkbox]:checked")).map((box) => Number(box.value));
+    const entries = el("textarea", { id: "mod-entries", rows: "4", autocomplete: "off", spellcheck: "false",
+      placeholder: "Type or paste entries, one per line" });
+    const matchField = el("div", { className: "form-field" });
+    const categoryField = el("div", { className: "form-field" });
+    const listStatus = el("p", { className: "save-status", id: "mod-list-status", role: "status", "aria-live": "polite" });
+    const value = (id) => { const node = document.getElementById(id); return node && node.value ? node.value : null; };
+    function typedEntries() {
+      return entries.value.split("\n").map((line) => line.trim()).filter(Boolean);
     }
-    function renderRows() {
-      const query = filter.value.trim().toLowerCase();
-      const shown = rows.filter((r) => !query || r.term.toLowerCase().includes(query) || (r.category || "").includes(query));
-      tableBody.replaceChildren(...(shown.length ? shown.map((r) => el("tr", {}, [
-        el("td", {}, [el("input", { type: "checkbox", value: String(r.id), "aria-label": `Select ${r.term}` })]),
-        el("td", { text: r.term }), el("td", { text: pretty(r.match_type) || "—" }), el("td", { text: pretty(r.category) || "—" }),
-        el("td", { text: r.source === "list" ? "loaded list" : "dashboard" }),
-      ])) : [el("tr", {}, [el("td", { colspan: "5", className: "empty-note", text: "Nothing here yet." })])]));
-      document.getElementById("mod-select-all").checked = false;
-    }
-    async function loadList() {
-      const { ok, data } = await rpc("admin_list_terms", { p_list: current });
-      if (!ok) return;
-      rows = data || [];
-      renderRows();
-      loadCounts();
+    function report(text, kind) {
+      listStatus.textContent = text;
+      listStatus.dataset.kind = kind || "";
     }
     function drawListControls() {
       const spec = LISTS[current];
       listTabs.replaceChildren(...Object.entries(LISTS).map(([key, list]) => el("button", {
         type: "button", className: key === current ? "is-active" : "", "aria-pressed": String(key === current), text: list.label,
-        onclick: () => { current = key; drawListControls(); loadList(); } })));
-      bulkMatch.replaceChildren(...(spec.matchTypes ? [el("label", { for: "mod-bulk-match", text: "Match type" }), select("mod-bulk-match", spec.matchTypes, true)] : []));
-      bulkCategory.replaceChildren(...(spec.categories ? [el("label", { for: "mod-bulk-category", text: "Category" }), select("mod-bulk-category", CATEGORIES, true)] : []));
-      addMatch.replaceChildren(...(spec.matchTypes ? [el("label", { for: "mod-add-match", text: "Match type" }), select("mod-add-match", spec.matchTypes, false)] : []));
-      addCategory.replaceChildren(...(spec.categories ? [el("label", { for: "mod-add-category", text: "Category" }), select("mod-add-category", CATEGORIES, false)] : []));
-      bulkStatus.textContent = "";
+        onclick: () => { current = key; drawListControls(); } })));
+      matchField.replaceChildren(...(spec.matchTypes ? [el("label", { for: "mod-match", text: "Match type" }),
+        select("mod-match", spec.matchTypes, true)] : []));
+      categoryField.replaceChildren(...(spec.categories ? [el("label", { for: "mod-category", text: "Category" }),
+        select("mod-category", CATEGORIES, true)] : []));
+      document.getElementById("mod-change")?.toggleAttribute("hidden", current === "allowed");
+      report("");
     }
-    const value = (id) => { const node = document.getElementById(id); return node && node.value ? node.value : null; };
+    async function act(kind) {
+      const terms = typedEntries();
+      if (!terms.length) { report("Type at least one entry first.", "error"); return; }
+      let result;
+      if (kind === "add") {
+        result = await rpc("admin_add_terms", { p_list: current, p_terms: terms, p_match_type: value("mod-match"), p_category: value("mod-category") });
+        if (result.ok) report(`Added ${result.data}.${result.data < terms.length ? ` ${terms.length - result.data} already there.` : ""}`, "success");
+      } else if (kind === "remove") {
+        if (!window.confirm(`Remove the ${terms.length} typed entr${terms.length === 1 ? "y" : "ies"} from ${LISTS[current].label.toLowerCase()}?`)) return;
+        result = await rpc("admin_remove_terms", { p_list: current, p_terms: terms, p_match_type: null });
+        if (result.ok) report(`Removed ${result.data.removed}.${result.data.not_found ? ` Not found: ${result.data.not_found}.` : ""}`, result.data.removed ? "success" : "error");
+      } else {
+        if (!value("mod-match") && !value("mod-category")) { report("Choose a match type or category to change to.", "error"); return; }
+        result = await rpc("admin_update_terms", { p_list: current, p_terms: terms, p_match_type: value("mod-match"), p_category: value("mod-category") });
+        if (result.ok) report(`Changed ${result.data.changed}.${result.data.not_found ? ` Not found: ${result.data.not_found}.` : ""}`, result.data.changed ? "success" : "error");
+      }
+      if (result && result.ok) { entries.value = ""; loadCounts(); }
+    }
 
     const lists = el("section", { className: "admin-subsection mod-section", "aria-labelledby": "mod-lists-title" }, [
-      el("h3", { id: "mod-lists-title", text: "Lists" }),
-      el("p", { className: "panel-lead", text: "Word entries match whole words; substring entries match inside words (use only for terms that never appear in ordinary words); phrases match word sequences. Allowlist entries are removed before matching. Reserved names apply to display and in-game names." }),
+      el("h3", { id: "mod-lists-title", text: "Edit the lists" }),
+      el("p", { className: "panel-lead", text: "The lists are never shown on the site, to anyone. Type or paste entries to add, remove or change them; you'll only see counts. Word entries match whole words; substring entries match inside words (only for terms that never appear in ordinary words); phrases match word sequences. The allowlist is removed before matching. Reserved names apply to display and in-game names." }),
       listTabs,
-      el("div", { className: "form-field admin-search" }, [el("label", { for: "mod-filter", text: "Filter" }), filter]),
-      el("div", { className: "admin-table-wrap" }, [table]),
-      el("div", { className: "mod-bulk" }, [
-        bulkMatch, bulkCategory,
-        el("div", { className: "form-actions" }, [
-          el("button", { type: "button", className: "button button-outline", text: "Change selected", onclick: async () => {
-            const ids = selectedIds();
-            if (!ids.length) { bulkStatus.textContent = "Select entries first."; return; }
-            const { ok, data } = await rpc("admin_update_terms", { p_list: current, p_ids: ids, p_match_type: value("mod-bulk-match"), p_category: value("mod-bulk-category") });
-            if (ok) { bulkStatus.textContent = `${data} changed.`; bulkStatus.dataset.kind = "success"; loadList(); }
-          } }),
-          el("button", { type: "button", className: "button button-outline button-danger", text: "Remove selected", onclick: async () => {
-            const ids = selectedIds();
-            if (!ids.length) { bulkStatus.textContent = "Select entries first."; return; }
-            if (!window.confirm(`Remove ${ids.length} entr${ids.length === 1 ? "y" : "ies"}?`)) return;
-            const { ok, data } = await rpc("admin_remove_terms", { p_list: current, p_ids: ids });
-            if (ok) { bulkStatus.textContent = `${data} removed.`; bulkStatus.dataset.kind = "success"; loadList(); }
-          } }),
-        ]),
-        bulkStatus,
+      el("div", { className: "form-field" }, [el("label", { for: "mod-entries", text: "Entries" }), entries]),
+      el("div", { className: "roster-form-grid" }, [matchField, categoryField]),
+      el("p", { className: "field-help", text: "Match type and category apply when adding or changing. Removing matches the exact entry, ignoring case, accents and spacing." }),
+      el("div", { className: "form-actions" }, [
+        el("button", { type: "button", className: "button button-primary", text: "Add", onclick: () => act("add") }),
+        el("button", { type: "button", className: "button button-outline", id: "mod-change", text: "Change", onclick: () => act("change") }),
+        el("button", { type: "button", className: "button button-outline button-danger", text: "Remove", onclick: () => act("remove") }),
       ]),
-      el("div", { className: "mod-add" }, [
-        el("div", { className: "form-field" }, [el("label", { for: "mod-add-text", text: "Add entries" }), addText]),
-        el("div", { className: "roster-form-grid" }, [addMatch, addCategory]),
-        el("div", { className: "form-actions" }, [el("button", { type: "button", className: "button button-primary", text: "Add to this list", onclick: async () => {
-          const terms = addText.value.split("\n").map((t) => t.trim()).filter(Boolean);
-          if (!terms.length) return;
-          const { ok, data } = await rpc("admin_add_terms", { p_list: current, p_terms: terms, p_match_type: value("mod-add-match"), p_category: value("mod-add-category") });
-          if (ok) { addText.value = ""; bulkStatus.textContent = `${data} added${data < terms.length ? " (the rest were already there)" : ""}.`; bulkStatus.dataset.kind = "success"; loadList(); }
-        } })]),
-      ]),
+      listStatus,
     ]);
-    filter.addEventListener("input", renderRows);
-    table.addEventListener("change", (event) => {
-      if (event.target.id === "mod-select-all") tableBody.querySelectorAll("input[type=checkbox]").forEach((box) => { box.checked = event.target.checked; });
-    });
 
     // ---------- owner: names ----------
     let names = null;
@@ -209,6 +177,6 @@
 
     panel.replaceChildren(counts, tester, lists, names);
     drawListControls();
-    loadList();
+    loadCounts();
   };
 })();

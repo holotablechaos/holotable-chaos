@@ -69,7 +69,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'owner_id', 'role', 'authenticated')::text, true);
 select is(public.admin_add_terms('blocked', array['Frak'], 'word', 'profanity'), 1, 'admins can add a blocked word');
-select is((select array_agg(term) from public.admin_list_terms('blocked')), array['Frak'], 'the term is listed');
+select is((public.admin_moderation_counts() -> 'blocked_by_category' ->> 'profanity')::int, 1, 'the term is counted (lists themselves are never readable)');
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claims', json_build_object('sub', :'a_id', 'role', 'authenticated')::text, true);

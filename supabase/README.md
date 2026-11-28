@@ -63,9 +63,13 @@ update private.owner_claim set email = lower('NEW-OWNER-EMAIL@example.com');
 ## Moderation lists, reserved names and unique display names
 
 - Blocked terms (with a match type and category), an allowlist and reserved names live in private
-  tables. **The lists are not in this repository.** The owner keeps them in files outside the repo
-  and loads them with a private loader script through the linked CLI; admins can also edit them on
-  the dashboard's Moderation tab. Tests use fictional words only.
+  tables. **The lists are not in this repository and can't be viewed on the site or through the
+  API by anyone, including the owner.** No function, view, export, audit entry or error message
+  returns an entry. They are edited only by the owner's private loader script (files kept outside
+  the repo) or by typing entries on the dashboard's Moderation tab (add, remove or change match
+  type/category), which reports counts only. The filter tester says whether text would be blocked
+  and in which category, never which entry matched. `tests/09_lists_not_readable.test.sql` proves
+  admin and owner sessions can't retrieve any entry. Tests use fictional words only.
 - All checks share one normalisation (`private.norm_words`, `private.name_key`): NFKC, lower case,
   accents and zero-width characters removed, common character swaps mapped, spaced or dotted
   letters joined, repeated letters collapsed where safe. Symbol-censored words ("gr*bble",
