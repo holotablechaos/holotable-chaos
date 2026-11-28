@@ -316,3 +316,24 @@ footer .brand{min-height:44px}
 .status-pill.is-off{border-color:#9aa8ba55;color:var(--muted)}
 .confirm-dialog p{color:#c2d2e3}
 @media(max-width:560px){.detail-list{grid-template-columns:1fr}.detail-list dt{padding-bottom:2px;border-bottom:0}.detail-list dd{padding-top:0}}
+/* ---------- Question of the Week answers ---------- */
+.qotw-answer-slot{margin:18px 0 16px;padding:16px;border:1px solid #60c9ff33;background:#071321}
+.qotw-answer-slot h3{margin:0 0 8px;font-size:18px}
+.qotw-signin-note{margin:0;color:#c2d2e3;font-size:14px}
+.qotw-archive-note{margin:0 0 14px}
+.qotw-answer-body{margin:6px 0;color:var(--ink);font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.qotw-answer-form textarea{min-height:120px}
+.qotw-me{margin:28px 0 8px;display:grid;gap:12px;min-width:0}
+.qotw-badge{font-size:12px;padding:5px 10px}
+.qotw-mine-list,.qotw-answer-list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.qotw-mine-item,.qotw-answer-item{min-width:0;padding:14px;border:1px solid var(--line);background:#071321}
+.qotw-mine-item .card-kicker{margin:0}.qotw-mine-question{margin:4px 0;color:#aab8c9;font-size:13px}
+.qotw-answers-slot{margin-top:12px}
+.qotw-show-answers{min-height:44px;margin:0;cursor:pointer;font-family:inherit}
+.qotw-answer-list{margin-top:12px}
+.qotw-answer-item.is-featured{border-color:#f5b94a66;background:linear-gradient(135deg,#1a1608,#071321)}
+.qotw-answer-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;min-width:0}
+.qotw-answer-foot{display:flex;justify-content:flex-end}
+.qotw-vote{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:56px;padding:0 12px;border:1px solid var(--line);background:#0a1726;color:#c2d2e3;font:600 13px 'DM Sans',sans-serif;cursor:pointer}
+.qotw-vote.is-voted{border-color:var(--blue);color:var(--blue);background:#60c9ff14}
+.qotw-vote:focus-visible,.qotw-show-answers:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
