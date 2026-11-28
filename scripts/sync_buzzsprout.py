@@ -28,9 +28,13 @@ ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE_PATH = ROOT / "content" / "episodes.json"
 PODCAST_INDEX = ROOT / "podcast" / "index.html"
 EPISODES_DIR = ROOT / "podcast" / "episodes"
+HOME_INDEX = ROOT / "index.html"
 FEED_URL = "https://rss.buzzsprout.com/2606659.rss"
 MANAGED_START = "<!-- BUZZSPROUT_IMPORTS_START -->"
 MANAGED_END = "<!-- BUZZSPROUT_IMPORTS_END -->"
+HOME_LATEST_START = "<!-- LATEST_EPISODE_HOME_START -->"
+HOME_LATEST_END = "<!-- LATEST_EPISODE_HOME_END -->"
+HOME_FALLBACK_SUMMARY = "Listen to the latest Holotable Chaos episode."
 EPISODE_NAV_START = "<!-- HOLOTABLE_EPISODE_NAV_START -->"
 EPISODE_NAV_END = "<!-- HOLOTABLE_EPISODE_NAV_END -->"
 UNWANTED_TITLE_PREFIX = re.compile(r"^\s*about\s+episode\s+15\b", re.IGNORECASE)
@@ -401,6 +405,55 @@ def validate_index(path: Path = PODCAST_INDEX) -> None:
         raise FeedError("The podcast archive markers are out of order.")
 
 
+def latest_episode(episodes: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """The newest episode: the highest episode number, whatever order the archive is in."""
+    candidates = [episode for episode in episodes if str(episode.get("episode_number") or "").strip().isdigit()]
+    if not candidates:
+        return None
+    return max(candidates, key=lambda episode: (int(episode["episode_number"]), str(episode.get("published_at") or "")))
+
+
+def render_home_latest(episodes: list[dict[str, Any]]) -> str:
+    """The home page "Start here" card for the newest episode (footer-free, never "None")."""
+    episode = latest_episode(episodes)
+    if episode is None:
+        return ('<article class="latest-card"><span class="card-kicker">LATEST EPISODE</span><h3>Holotable Chaos</h3>'
+                f'<p>{html.escape(HOME_FALLBACK_SUMMARY)}</p><a class="card-link" href="podcast/index.html">Browse all episodes <span>↗</span></a></article>')
+    number = int(episode["episode_number"])
+    title = str(episode.get("title") or "").strip() or f"Episode {number}"
+    description = _episode_display_description(episode.get("description") or "")
+    if description:
+        summary = _clean_summary(description)
+    else:
+        summary = strip_show_footer(str(episode.get("summary") or "")) or HOME_FALLBACK_SUMMARY
+    return (
+        f'<article class="latest-card"><span class="card-kicker">LATEST EPISODE / {number}</span>'
+        f'<h3>{html.escape(title)}</h3><p>{html.escape(summary)}</p>'
+        f'<a class="card-link" href="podcast/episodes/episode-{number}.html">Open episode {number} <span>↗</span></a></article>'
+    )
+
+
+def validate_home(path: Path = HOME_INDEX) -> None:
+    current = path.read_text(encoding="utf-8")
+    if current.count(HOME_LATEST_START) != 1 or current.count(HOME_LATEST_END) != 1:
+        raise FeedError("The home page is missing its latest-episode markers.")
+    if current.index(HOME_LATEST_END) < current.index(HOME_LATEST_START):
+        raise FeedError("The home page latest-episode markers are out of order.")
+
+
+def update_home(episodes: list[dict[str, Any]], path: Path = HOME_INDEX) -> bool:
+    """Regenerate the home page latest-episode card between its markers; write only on change."""
+    validate_home(path)
+    current = path.read_text(encoding="utf-8")
+    start = current.index(HOME_LATEST_START) + len(HOME_LATEST_START)
+    end = current.index(HOME_LATEST_END)
+    updated = current[:start] + "\n          " + render_home_latest(episodes) + "\n          " + current[end:]
+    if updated == current:
+        return False
+    _write_atomic(path, updated)
+    return True
+
+
 def _episode_page(episode: dict[str, Any]) -> str:
     number = int(episode["episode_number"])
     title = episode.get("title") or f"Episode {number}"
@@ -587,11 +640,14 @@ def add_pages(additions: list[dict[str, Any]], episodes_dir: Path = EPISODES_DIR
 
 
 def sync(url: str = FEED_URL, feed_file: Path | None = None, archive_path: Path = ARCHIVE_PATH,
-         index_path: Path = PODCAST_INDEX, episodes_dir: Path = EPISODES_DIR, dry_run: bool = False) -> dict[str, int]:
+         index_path: Path = PODCAST_INDEX, episodes_dir: Path = EPISODES_DIR, dry_run: bool = False,
+         home_path: Path | None = None) -> dict[str, int]:
     feed_items = parse_feed(read_feed(url, feed_file))  # Validate the complete feed before loading/writing outputs.
     archive = read_archive(archive_path)
     merged, additions, updated = merge_items(archive, feed_items)
     validate_index(index_path)
+    if home_path is not None:
+        validate_home(home_path)
     existing_numbers = {
         int(item["episode_number"]) for item in merged["episodes"] if item.get("source") == "manual"
     }
@@ -614,6 +670,8 @@ def sync(url: str = FEED_URL, feed_file: Path | None = None, archive_path: Path 
                 add_pages([episode], episodes_dir)
         update_episode_navigation(merged["episodes"], episodes_dir)
         update_index(merged["episodes"], index_path)
+        if home_path is not None:
+            update_home(merged["episodes"], home_path)
         save_archive(merged, archive_path)
     return {"feed_items": len(feed_items), "added": len(additions), "metadata_filled": updated, "archived": len(merged["episodes"])}
 
@@ -625,7 +683,7 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true", help="Parse and merge in memory without changing files.")
     args = parser.parse_args()
     try:
-        result = sync(args.url, args.feed_file, dry_run=args.dry_run)
+        result = sync(args.url, args.feed_file, dry_run=args.dry_run, home_path=HOME_INDEX)
     except FeedError as exc:
         print(f"RSS sync stopped safely: {exc}", file=sys.stderr)
         return 1
