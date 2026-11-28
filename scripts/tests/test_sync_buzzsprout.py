@@ -356,5 +356,123 @@ class ShowFooterTests(unittest.TestCase):
                 with self.subTest(episode=episode["episode_number"]):
                     self.assertIn("Question of the Week:", syncer.strip_show_footer(description))
 
+
+class HomeLatestEpisodeTests(unittest.TestCase):
+    """The home page "Start here" card always shows the newest episode. Fictional episodes only."""
+
+    HOME = (
+        '<div class="latest-grid">\n'
+        f"          {syncer.HOME_LATEST_START}\n"
+        '          <article class="latest-card">old card</article>\n'
+        f"          {syncer.HOME_LATEST_END}\n"
+        '          <article class="latest-card">toolkit card stays</article>\n</div>\n'
+    )
+
+    @staticmethod
+    def episode(number, title="Fictional Episode", description="A fictional chat about fictional teams.", **extra):
+        return {"episode_number": number, "title": title, "description": description, "source": "buzzsprout", **extra}
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent)
+        self.home = Path(self.temp.name) / "index.html"
+        self.home.write_text(self.HOME, encoding="utf-8")
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def card(self):
+        text = self.home.read_text(encoding="utf-8")
+        return text[text.index(syncer.HOME_LATEST_START):text.index(syncer.HOME_LATEST_END)]
+
+    def test_newest_episode_is_picked_whatever_the_order_in_the_file(self):
+        episodes = [self.episode(7, "Seventh Fictional Show"), self.episode(41, "Newest Fictional Show"),
+                    self.episode("12", "Twelfth Fictional Show"), self.episode(3, "Third Fictional Show")]
+        for ordering in (episodes, list(reversed(episodes)), sorted(episodes, key=lambda e: str(e["title"]))):
+            with self.subTest(order=[e["episode_number"] for e in ordering]):
+                self.home.write_text(self.HOME, encoding="utf-8")
+                syncer.update_home(ordering, self.home)
+                card = self.card()
+                self.assertIn("LATEST EPISODE / 41", card)
+                self.assertIn("Newest Fictional Show", card)
+                self.assertIn('href="podcast/episodes/episode-41.html"', card)
+                self.assertIn("Open episode 41", card)
+                self.assertNotIn("Seventh", card)
+        self.assertIn("toolkit card stays", self.home.read_text(encoding="utf-8"))
+
+    def test_show_notes_footer_is_not_shown(self):
+        notes = f"We rank fictional raid teams. Question of the Week: Which fictional droid is best? {PROMO_COPY}"
+        syncer.update_home([self.episode(5, description=notes)], self.home)
+        card = self.card()
+        self.assertIn("We rank fictional raid teams.", card)
+        for footer_bit in ("holotablechaos@gmail.com", "Discord", "Want your roster reviewed"):
+            self.assertNotIn(footer_bit, card)
+
+    def test_empty_or_missing_descriptions_never_print_null_or_undefined(self):
+        variants = [
+            self.episode(9, description=""),
+            self.episode(9, description=None),
+            {"episode_number": 9, "source": "buzzsprout"},
+            self.episode(9, title=None, description=None, summary=None),
+            self.episode(9, description=PROMO_COPY),  # only a footer
+        ]
+        for variant in variants:
+            with self.subTest(variant=variant):
+                self.home.write_text(self.HOME, encoding="utf-8")
+                syncer.update_home([variant], self.home)
+                card = self.card()
+                self.assertNotRegex(card, r"(?i)\bnone\b|null|undefined|nan\b|<p></p>|<h3></h3>")
+                self.assertIn("LATEST EPISODE / 9", card)
+                self.assertRegex(card, r"<h3>[^<]+</h3><p>[^<]+</p>")
+        syncer.update_home([], self.home)
+        self.assertNotRegex(self.card(), r"(?i)\bnone\b|null|undefined")
+
+    def test_titles_and_descriptions_are_escaped(self):
+        syncer.update_home([self.episode(2, title="Fictional <b>Show</b>", description="Ships & <script>x</script>")], self.home)
+        card = self.card()
+        self.assertNotIn("<script>", card)
+        self.assertIn("Fictional &lt;b&gt;Show&lt;/b&gt;", card)
+
+    def test_rerun_with_no_new_episode_changes_nothing(self):
+        episodes = [self.episode(4), self.episode(6, "Fictional Six")]
+        self.assertTrue(syncer.update_home(episodes, self.home))
+        before = self.home.read_bytes()
+        stamp = self.home.stat().st_mtime_ns
+        self.assertFalse(syncer.update_home(list(reversed(episodes)), self.home))
+        self.assertEqual(self.home.read_bytes(), before)
+        self.assertEqual(self.home.stat().st_mtime_ns, stamp)
+
+    def test_missing_markers_stop_the_import_before_anything_is_written(self):
+        self.home.write_text("<p>no markers</p>", encoding="utf-8")
+        with self.assertRaises(syncer.FeedError):
+            syncer.update_home([self.episode(1)], self.home)
+        self.assertEqual(self.home.read_text(encoding="utf-8"), "<p>no markers</p>")
+
+    def test_full_sync_updates_the_home_card_and_a_rerun_changes_nothing(self):
+        work = Path(self.temp.name)
+        archive_path, index_path, pages = work / "episodes.json", work / "podcast-index.html", work / "episodes"
+        archive_path.write_text(json.dumps({"episodes": [
+            {**self.episode(n, f"Fictional Legacy {n}"), "guid": f"legacy:fictional-{n}", "alternate_guids": [], "source": "manual"}
+            for n in (2, 1, 17, 3)
+        ]}), encoding="utf-8")
+        index_path.write_text(f"{syncer.MANAGED_START}{syncer.MANAGED_END}", encoding="utf-8")
+        run = lambda: syncer.sync(feed_file=FIXTURES / "buzzsprout-sample.xml", archive_path=archive_path,
+                                  index_path=index_path, episodes_dir=pages, home_path=self.home)
+        run()
+        newest = max(int(e["episode_number"]) for e in json.loads(archive_path.read_text(encoding="utf-8"))["episodes"])
+        self.assertGreater(newest, 17)
+        self.assertIn(f"LATEST EPISODE / {newest}", self.card())
+        before = self.home.read_bytes()
+        repeat = run()
+        self.assertEqual(repeat["added"], 0)
+        self.assertEqual(self.home.read_bytes(), before)
+
+    def test_live_home_page_shows_the_newest_archived_episode(self):
+        archive = syncer.read_archive(PROJECT_ROOT / "content" / "episodes.json")
+        newest = syncer.latest_episode(archive["episodes"])
+        home = (PROJECT_ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn(syncer.render_home_latest(archive["episodes"]), home)
+        self.assertIn(f"LATEST EPISODE / {int(newest['episode_number'])}", home)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -12,7 +12,7 @@ Run the actual import after reviewing the preview:
 python scripts/sync_buzzsprout.py
 ```
 
-The script reads the Buzzsprout RSS feed, merges items into `content/episodes.json`, adds new cards inside the marked RSS-managed area in `podcast/index.html`, and creates a page only for a new episode whose page does not already exist. Offline fixture mode is available with:
+The script reads the Buzzsprout RSS feed, merges items into `content/episodes.json`, adds new cards inside the marked RSS-managed area in `podcast/index.html`, and creates a page only for a new episode whose page does not already exist. It also regenerates the homepage "Start here" latest-episode card between the `LATEST_EPISODE_HOME_START`/`LATEST_EPISODE_HOME_END` markers in `index.html`: the episode with the highest number, its title, a short footer-free description and a link to its episode page. The file is only rewritten when the card changes, so a run with no new episode leaves it untouched. `--dry-run` never touches it. Offline fixture mode is available with:
 
 ```powershell
 python scripts/sync_buzzsprout.py --dry-run --feed-file scripts/fixtures/buzzsprout-sample.xml
