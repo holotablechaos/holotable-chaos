@@ -60,6 +60,26 @@ select private.transfer_ownership('NEW-OWNER-ACCOUNT-ID');
 update private.owner_claim set email = lower('NEW-OWNER-EMAIL@example.com');
 ```
 
+## Moderation lists, reserved names and unique display names
+
+- Blocked terms (with a match type and category), an allowlist and reserved names live in private
+  tables. **The lists are not in this repository.** The owner keeps them in files outside the repo
+  and loads them with a private loader script through the linked CLI; admins can also edit them on
+  the dashboard's Moderation tab. Tests use fictional words only.
+- All checks share one normalisation (`private.norm_words`, `private.name_key`): NFKC, lower case,
+  accents and zero-width characters removed, common character swaps mapped, spaced or dotted
+  letters joined, repeated letters collapsed where safe.
+- The filter applies to display names, in-game names and bios now, and to every later public text
+  (answers, roster requests, comments). It never applies to ally codes or links, which are
+  validated by format.
+- Display names are unique on `display_name_key` (lookalikes collide; a unique index guards
+  simultaneous saves), can change once every 30 days, and are freed when an account is deleted.
+  Without a display name, people show as their provider name or "Listener" plus " · 1234" from
+  their account id. The owner can look up and reclaim a name on the Moderation tab.
+- `tests/07_false_positives.test.sql` checks every SwGoH unit name, tag and common game term against
+  whatever list is loaded; run `supabase test db supabase/tests/07_false_positives.test.sql` after
+  loading the real lists into the local stack.
+
 ## Applying database changes
 
 Migrations are applied from a maintainer's computer, so no deploy token is stored in GitHub:
