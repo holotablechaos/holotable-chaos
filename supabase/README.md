@@ -68,7 +68,9 @@ update private.owner_claim set email = lower('NEW-OWNER-EMAIL@example.com');
   the dashboard's Moderation tab. Tests use fictional words only.
 - All checks share one normalisation (`private.norm_words`, `private.name_key`): NFKC, lower case,
   accents and zero-width characters removed, common character swaps mapped, spaced or dotted
-  letters joined, repeated letters collapsed where safe.
+  letters joined, repeated letters collapsed where safe. Symbol-censored words ("gr*bble",
+  "gr**ble", "gr#bble") are caught when the masks sit inside a word with at least two real letters;
+  masks at the edges (**bold**, 4*) and digit-only text (5*3) are ignored.
 - The filter applies to display names, in-game names and bios now, and to every later public text
   (answers, roster requests, comments). It never applies to ally codes or links, which are
   validated by format.
