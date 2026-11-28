@@ -108,5 +108,6 @@
 
   const api = { recipient, emailSubject, messageTypes, validateMessage, formatMessage, buildMailto, init };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
+  if (typeof window !== "undefined") window.HCGeneralFeedback = api;
   if (typeof document !== "undefined") init(document);
 })();

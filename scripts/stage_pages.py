@@ -36,6 +36,7 @@ PAGES = (
 ASSETS = (
     "styles.css",
     "New Logo.JPG",
+    "community/feedback-account.js",
     "community/general-feedback.js",
     "community/qotw.js",
     "community/qotw.json",
