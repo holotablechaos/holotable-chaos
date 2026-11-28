@@ -37,7 +37,10 @@
           <p>Have a question, suggestion, or feedback about the podcast or website? Send a note to the crew here.</p>
         </div>
         <div class="roster-form-card feedback-form-card">
-          <p class="form-notice" id="feedback-submission-explainer">This form prepares an email draft. After preparing it, choose Open email app, then review and send the message yourself. The website does not receive or store messages.</p>
+          <p class="form-notice" id="feedback-submission-explainer">This form prepares an email draft. After preparing it, choose Open email app, then review and send the message yourself; the website does not receive or store messages sent by email.</p>
+          <p class="form-notice feedback-account-note" id="feedback-account-note">Signed in? <a class="card-link" href="../account/index.html">Send this with your Holotable Chaos account instead.</a></p>
+          <noscript><p class="form-notice">JavaScript is off, so this form can’t prepare a draft. Email your question or feedback to <a href="mailto:holotablechaos@gmail.com">holotablechaos@gmail.com</a> instead.</p></noscript>
+          <div id="feedback-account" class="feedback-account" hidden></div>
           <form id="general-feedback-form" aria-describedby="feedback-submission-explainer" novalidate>
             <div class="roster-form-grid">
               <div class="form-field">
@@ -94,5 +97,6 @@
     <footer><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">HC</span><span class="brand-name">HOLOTABLE <b>CHAOS</b></span></a><span>Because Nothing Ever Goes to Plan</span><span class="footer-links"><a href="../privacy/index.html">Privacy</a> · <a href="../terms/index.html">Terms</a></span><span>© 2026 Holotable Chaos</span></footer>
     <script src="general-feedback.js"></script>
     <script src="../assets/js/supabase-config.js" defer></script><script src="../assets/js/account-core.js" defer></script><script src="../assets/js/site-header.js" defer></script><script src="../assets/js/beta-notice.js" defer></script>
+    <script src="../assets/js/edit-mode.js" defer></script><script src="feedback-account.js" defer></script>
   </body>
 </html>

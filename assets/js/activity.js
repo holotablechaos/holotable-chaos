@@ -1,5 +1,5 @@
-// Account page "Your activity": Question of the Week stats and recent answers (and, later, roster
-// request status). Called by account.js after sign-in; missing data just leaves the empty notes.
+// Account page "Your activity": Question of the Week stats and recent answers, plus the latest roster
+// request's and feedback message's status. Called by account.js after sign-in; missing data just leaves the empty notes.
 window.HCActivity = async function (client, state) {
   "use strict";
   const A = window.HCAccount;
@@ -15,6 +15,18 @@ window.HCActivity = async function (client, state) {
         latest.status === "aired" && latest.aired_episode
           ? el("a", { className: "card-link", href: `../podcast/episodes/episode-${latest.aired_episode}.html`, text: `Listen to episode ${latest.aired_episode}` })
           : el("a", { className: "card-link", href: "../roster-review/index.html", text: "View your request" })]));
+    }
+  }
+  const feedback = document.getElementById("activity-feedback");
+  if (feedback && state && state.user) {
+    const LABELS = { received: "Received", read: "Read", resolved: "Resolved", archived: "Archived" };
+    const { data: messages } = await client.from("feedback").select("status, message_type, created_at")
+      .eq("user_id", state.user.id).order("created_at", { ascending: false }).limit(1);
+    const latest = messages && messages[0];
+    if (latest && LABELS[latest.status]) {
+      A.fill(feedback, el("p", {}, [el("span", { className: "status-pill", text: LABELS[latest.status] }),
+        ` · ${latest.message_type} · sent ${A.formatDate(latest.created_at)} `,
+        el("a", { className: "card-link", href: "../community/index.html#general-questions-feedback", text: "View your message" })]));
     }
   }
   const target = document.getElementById("activity-qotw");

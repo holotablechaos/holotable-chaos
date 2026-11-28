@@ -1,16 +1,19 @@
-// Admin dashboard additions: QotW answers (feature, CSV), roster requests (status, CSV), overview
+// Admin dashboard additions: QotW answers (feature, CSV), roster requests and feedback (status, CSV), overview
 // counts, alert status and the owner's "Export everything". Permissions are enforced by the database.
 (() => {
   "use strict";
   const STATUSES = ["received", "queued", "reviewed", "aired", "declined", "closed"];
   const STATUS_LABEL = { received: "Received", queued: "In the queue", reviewed: "Reviewed", aired: "Aired", declined: "Not selected", closed: "Closed" };
+  const FEEDBACK_STATUSES = ["received", "read", "resolved", "archived"];
+  const FEEDBACK_LABEL = { received: "Received", read: "Read", resolved: "Resolved", archived: "Archived" };
 
   // Overview counts (called by admin.js).
   window.HCAdminStats = async (client) => {
     const { data } = await client.rpc("admin_content_counts");
     if (!data) return [];
     return [["QotW answers", data.answers], ["Answers to the open question", data.answers_open_question],
-            ["Open roster requests", data.roster_open], ["Requests to triage", data.roster_received]];
+            ["Open roster requests", data.roster_open], ["Requests to triage", data.roster_received],
+            ["New feedback", data.feedback_received]];
   };
 
   // CSV with formula-injection protection (cells starting with = + - @ are prefixed with ').
@@ -44,7 +47,7 @@
       const extras = el("div", { className: "admin-subsection" }, [
         el("h3", { text: "Discord alerts" }),
         el("p", { className: "panel-lead", id: "admin-alerts-status", text: alerts
-          ? "On: new answers and roster requests are posted to the admin channel."
+          ? "On: new answers, roster requests and feedback are posted to the admin channel."
           : "Off: no webhook is set yet, so new submissions aren't posted to Discord. Everything else works." }),
       ]);
       if (state.isOwner) {
@@ -190,6 +193,71 @@
             ["Listener", (r) => r.author.name], ["Ally code (self-reported)", (r) => A.formatAllyCode(r.ally_code)], ["SWGOH.GG", (r) => r.swgoh_gg_url],
             ["In-game name", (r) => r.in_game_name], ["Goals", (r) => r.goals], ["Current projects", (r) => r.current_projects],
             ["Status", (r) => STATUS_LABEL[r.status]], ["Aired episode", (r) => r.aired_episode], ["Sent", (r) => r.created_at], ["Status changed", (r) => r.status_changed_at],
+          ]), "text/csv;charset=utf-8") }), status]),
+        list,
+      );
+      await load();
+    });
+
+    // ---------- feedback sent with an account ----------
+    addTab("feedback", "Feedback", async (panel) => {
+      const filter = el("select", { id: "admin-feedback-filter" }, [
+        el("option", { value: "open", text: "Open (received, read)" }), el("option", { value: "", text: "All" }),
+        ...FEEDBACK_STATUSES.map((s) => el("option", { value: s, text: FEEDBACK_LABEL[s] })),
+      ]);
+      const list = el("ul", { className: "admin-list", id: "admin-feedback-list" });
+      const status = el("p", { className: "save-status", role: "status", "aria-live": "polite" });
+      let rows = [];
+      async function load() {
+        const { ok, data } = await rpc("admin_feedback", { p_status: filter.value || null });
+        if (!ok) return;
+        rows = data || [];
+        A.fill(list, ...(rows.length ? rows.map((row) => {
+          const id = row.id.slice(0, 8);
+          const select = el("select", { id: `fb-status-${id}`, "aria-label": "New status" },
+            FEEDBACK_STATUSES.map((s) => el("option", { value: s, text: FEEDBACK_LABEL[s], selected: s === row.status })));
+          return el("li", { className: "admin-row admin-feedback-row" }, [
+            el("div", { className: "admin-row-main" }, [
+              A.personChip(row.author, { detail: `Sent ${A.formatDate(row.created_at)} · ${FEEDBACK_LABEL[row.status] || row.status}` }),
+              el("dl", { className: "detail-list" }, [
+                el("dt", { text: "Type" }), el("dd", { text: row.message_type }),
+                el("dt", { text: "Subject" }), el("dd", { text: row.subject }),
+                el("dt", { text: "Message" }), el("dd", { className: "detail-bio", text: row.message }),
+              ]),
+            ]),
+            el("div", { className: "admin-roster-controls" }, [
+              el("div", { className: "form-field" }, [el("label", { for: select.id, text: "Status" }), select]),
+              el("button", { type: "button", className: "button button-primary", text: "Update", onclick: async () => {
+                const result = await rpc("admin_set_feedback_status", { p_feedback: row.id, p_status: select.value });
+                if (!result.ok) return;
+                status.textContent = `Status updated to ${FEEDBACK_LABEL[select.value]}.`;
+                status.dataset.kind = "success";
+                load();
+              } }),
+              el("button", { type: "button", className: "button button-outline button-danger", text: "Delete message", "aria-label": `Delete ${A.displayName(row.author)}'s message`,
+                onclick: async () => {
+                  const go = await window.HCEdit.confirm({ title: "Delete this message?", danger: true, confirmLabel: "Delete", cancelLabel: "Cancel",
+                    message: `This permanently deletes ${A.displayName(row.author)}'s ${row.message_type.toLowerCase()} message (status: ${FEEDBACK_LABEL[row.status] || row.status}). It can't be undone, and nobody is notified.` });
+                  if (!go) return;
+                  const result = await rpc("admin_delete_feedback", { p_feedback: row.id });
+                  if (!result.ok) return;
+                  status.textContent = "Message deleted.";
+                  status.dataset.kind = "success";
+                  load();
+                } }),
+            ]),
+          ]);
+        }) : [el("li", { className: "empty-note", text: "No messages here." })]));
+      }
+      filter.addEventListener("change", load);
+      A.fill(panel,
+        el("h2", { text: "Feedback" }),
+        el("p", { className: "panel-lead", text: "Questions and feedback listeners sent with their account. Only admins and the sender can read them. Senders can edit a message until you change its status; every change is audited. The site can't reply, so use a Discord name if the sender gave one." }),
+        el("div", { className: "roster-form-grid" }, [el("div", { className: "form-field" }, [el("label", { for: "admin-feedback-filter", text: "Show" }), filter])]),
+        el("div", { className: "form-actions" }, [el("button", { type: "button", className: "button button-outline", id: "admin-feedback-csv", text: "Download CSV",
+          onclick: () => download(`feedback-${filter.value || "all"}-${stamp()}.csv`, csv(rows, [
+            ["Listener", (r) => r.author.name], ["Type", (r) => r.message_type], ["Subject", (r) => r.subject], ["Message", (r) => r.message],
+            ["Status", (r) => FEEDBACK_LABEL[r.status] || r.status], ["Sent", (r) => r.created_at], ["Status changed", (r) => r.status_changed_at],
           ]), "text/csv;charset=utf-8") }), status]),
         list,
       );
