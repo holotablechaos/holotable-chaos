@@ -83,8 +83,8 @@
       ["Banned", state.accounts.filter((a) => a.banned).length],
       ...(window.HCAdminStats ? await window.HCAdminStats(client) : []),
     ];
-    $("stat-grid").replaceChildren(...stats.map(([label, value]) => el("div", { className: "stat-tile" }, [
-      el("span", { className: "stat-value", text: String(value) }), el("span", { className: "stat-label", text: label }),
+    A.fill($("stat-grid"), ...stats.map(([label, value]) => el("div", { className: "stat-tile" }, [
+      el("span", { className: "stat-value", text: String(value ?? 0) }), el("span", { className: "stat-label", text: label }),
     ])));
   }
   state.loaders["tab-overview"] = loadOverview;
@@ -113,7 +113,7 @@
     const query = $("account-search").value.trim().toLowerCase();
     const rows = state.accounts.filter((a) => !query || [a.display_name, a.email, a.id].some((v) => v && v.toLowerCase().includes(query)));
     $("account-count").textContent = `(${state.accounts.length})`;
-    $("account-list").replaceChildren(...(rows.length ? rows.map((account) => {
+    A.fill($("account-list"), ...(rows.length ? rows.map((account) => {
       const detail = [(account.providers || []).map(A.providerLabel).join(" + ") || "No sign-in",
                       `joined ${A.formatDate(account.created_at)}`, `last seen ${A.formatDate(account.last_sign_in_at)}`].join(" · ");
       return el("li", { className: "admin-row" }, [
@@ -162,7 +162,7 @@
     if (!state.isOwner) return;
     const { data, error } = await client.from("admin_invites").select("id, kind, value, created_at").order("created_at");
     if (error) { reportError(error); return; }
-    $("invite-list").replaceChildren(...(data.length ? data.map((invite) => el("li", {}, [
+    A.fill($("invite-list"), ...(data.length ? data.map((invite) => el("li", {}, [
       `${invite.kind === "discord" ? "Discord ID" : "Email"}: ${invite.value} · ${A.formatDate(invite.created_at)} `,
       el("button", { type: "button", className: "edit-application-link", text: "Cancel invite",
         onclick: async () => { if ((await rpc("admin_delete_invite", { p_invite: invite.id })).ok) loadInvites(); } }),
@@ -185,7 +185,7 @@
     if (window.HCModeration) { window.HCModeration(panel, { client, rpc, el, A, state, reportError }); return; }
     const result = await rpc("admin_list_blocked_words");
     if (!result.ok) return;
-    panel.replaceChildren(el("p", { className: "panel-lead", text: `${result.data.length} blocked words.` }));
+    A.fill(panel, el("p", { className: "panel-lead", text: `${result.data.length} blocked words.` }));
   }
   state.loaders["tab-moderation"] = loadModeration;
 
@@ -195,7 +195,7 @@
       .select("created_at, action, actor_id, target_id").order("created_at", { ascending: false }).limit(200);
     if (error) { reportError(error); return; }
     await ensureCards(data.flatMap((row) => [row.actor_id, row.target_id]));
-    $("audit-list").replaceChildren(...(data.length ? data.map((row) => el("li", { className: "audit-row" }, [
+    A.fill($("audit-list"), ...(data.length ? data.map((row) => el("li", { className: "audit-row" }, [
       el("time", { datetime: row.created_at, text: new Date(row.created_at).toLocaleString() }),
       el("span", { className: "audit-action", text: row.action.replace(/_/g, " ") }),
       el("span", { className: "audit-people" }, [
@@ -223,7 +223,7 @@
     state.card = card;
     $("admin-gate").hidden = true;
     $("admin-panel").hidden = false;
-    $("admin-whoami").replaceChildren(A.personChip(card, { detail: state.isOwner ? "Signed in as the owner" : "Signed in as an admin" }));
+    A.fill($("admin-whoami"), A.personChip(card, { detail: state.isOwner ? "Signed in as the owner" : "Signed in as an admin" }));
     window.HCAdmin = { client, rpc, el, A, state, addTab, reportError, ensureCards, cardFor };
     window.dispatchEvent(new Event("hc-admin-ready"));
     const fromHash = () => {

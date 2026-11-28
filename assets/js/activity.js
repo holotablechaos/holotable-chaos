@@ -11,7 +11,7 @@ window.HCActivity = async function (client, state) {
       .eq("user_id", state.user.id).order("created_at", { ascending: false }).limit(1);
     const latest = requests && requests[0];
     if (latest) {
-      roster.replaceChildren(el("p", {}, [el("span", { className: "status-pill", text: LABELS[latest.status] }), ` · sent ${A.formatDate(latest.created_at)} `,
+      A.fill(roster, el("p", {}, [el("span", { className: "status-pill", text: LABELS[latest.status] }), ` · sent ${A.formatDate(latest.created_at)} `,
         latest.status === "aired" && latest.aired_episode
           ? el("a", { className: "card-link", href: `../podcast/episodes/episode-${latest.aired_episode}.html`, text: `Listen to episode ${latest.aired_episode}` })
           : el("a", { className: "card-link", href: "../roster-review/index.html", text: "View your request" })]));
@@ -21,7 +21,7 @@ window.HCActivity = async function (client, state) {
   if (!target) return;
   const [{ data: stats }, { data: answers }] = await Promise.all([client.rpc("my_qotw_stats"), client.rpc("my_qotw_answers")]);
   if (!stats || !stats.answers) return;
-  target.replaceChildren(
+  A.fill(target, 
     el("p", { className: "field-help" }, [
       `${stats.answers} answer${stats.answers === 1 ? "" : "s"} · current streak ${stats.current_streak} · best ${stats.best_streak} `,
       stats.badge ? el("span", { className: "account-badge", text: `${stats.badge} badge` }) : null]),

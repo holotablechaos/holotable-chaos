@@ -258,6 +258,13 @@
     return node;
   }
 
+  // Replace a node's children, skipping null / undefined / false so missing optional parts never
+  // render as the text "null" (DOM replaceChildren/append would stringify them).
+  function fill(node, ...children) {
+    node.replaceChildren(...children.flat().filter((child) => child !== null && child !== undefined && child !== false && child !== ""));
+    return node;
+  }
+
   function formatDate(value) {
     if (!value) return "—";
     const date = new Date(value);
@@ -292,6 +299,7 @@
     SUPABASE_SRI,
     returnUrl,
     el,
+    fill,
     formatDate,
   };
 

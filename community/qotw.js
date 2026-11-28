@@ -17,7 +17,7 @@
   function signedOutView() {
     if (answerSlot) {
       answerSlot.hidden = false;
-      answerSlot.replaceChildren(el("p", { className: "qotw-signin-note" }, [
+      A.fill(answerSlot, el("p", { className: "qotw-signin-note" }, [
         "Have a Holotable Chaos account? ", el("a", { className: "card-link", href: accountHref, text: "Sign in to answer here on the site" }),
         ". Or email your answer below.",
       ]));
@@ -48,7 +48,7 @@
     answerSlot.hidden = false;
     const email = document.getElementById("qotw-email-answer");
     if (!question || question.closed_at) {
-      answerSlot.replaceChildren(el("p", { className: "qotw-signin-note" },
+      A.fill(answerSlot, el("p", { className: "qotw-signin-note" },
         ["Answering on the site opens shortly for this question. You can email your answer meanwhile."]));
       return;
     }
@@ -74,7 +74,7 @@
     const updateCount = () => { count.textContent = `${textarea.value.length} / 1000`; };
     textarea.addEventListener("input", updateCount);
     function renderView() {
-      view.replaceChildren(
+      A.fill(view, 
         el("h3", { text: "Your answer" }),
         saved ? el("p", { className: "qotw-answer-body", text: saved.body })
               : el("p", { className: "empty-note", text: "You haven't answered yet." }),
@@ -109,7 +109,7 @@
       },
     });
     renderView();
-    answerSlot.replaceChildren(view, form, status, announcer);
+    A.fill(answerSlot, view, form, status, announcer);
   }
 
   // ---------- your answers, streak and badge ----------
@@ -120,13 +120,13 @@
     if (!stats) return;
     mySection.hidden = false;
     const tiles = [["Answers", stats.answers], ["Current streak", stats.current_streak], ["Best streak", stats.best_streak]];
-    mySection.replaceChildren(
+    A.fill(mySection, 
       el("div", { className: "section-heading" }, [el("div", {}, [
         el("p", { className: "eyebrow", text: "YOUR QUESTION OF THE WEEK" }),
         el("h2", { id: "qotw-me-title" }, ["Your ", el("em", { text: "answers." })]),
       ]), stats.badge ? el("p", {}, [el("span", { className: "account-badge qotw-badge", text: `${stats.badge} badge` })]) : null]),
       el("div", { className: "stat-grid" }, tiles.map(([label, value]) => el("div", { className: "stat-tile" }, [
-        el("span", { className: "stat-value", text: String(value) }), el("span", { className: "stat-label", text: label })]))),
+        el("span", { className: "stat-value", text: String(value ?? 0) }), el("span", { className: "stat-label", text: label })]))),
       el("p", { className: "field-help", text: "Streaks count consecutive questions you answered; an open question doesn't break a streak until it closes." }),
       answers && answers.length
         ? el("ol", { className: "qotw-mine-list" }, answers.map((a) => el("li", { className: "qotw-mine-item" }, [
@@ -161,14 +161,14 @@
         toggle.setAttribute("aria-expanded", "true");
         toggle.textContent = "Hide answers";
       });
-      slot.replaceChildren(toggle, list);
+      A.fill(slot, toggle, list);
     });
   }
 
   async function renderAnswers(episode, list) {
     const { data, error } = await client.rpc("qotw_answers_for", { p_episode: episode });
-    if (error) { list.replaceChildren(el("li", { className: "account-error", text: A.friendlyError(error) })); return; }
-    list.replaceChildren(...data.map((answer) => {
+    if (error) { A.fill(list, el("li", { className: "account-error", text: A.friendlyError(error) })); return; }
+    A.fill(list, ...data.map((answer) => {
       const voteButton = answer.mine ? null : el("button", {
         type: "button", className: `qotw-vote${answer.voted ? " is-voted" : ""}`, "aria-pressed": String(answer.voted),
         "aria-label": `Upvote this answer (${answer.votes} so far)`,

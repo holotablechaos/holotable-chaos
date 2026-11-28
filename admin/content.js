@@ -78,7 +78,7 @@
         const { ok, data } = await rpc("admin_answers_export", { p_episode: episode });
         if (!ok) return;
         rows = data || [];
-        list.replaceChildren(...(rows.length ? rows.map((row) => {
+        A.fill(list, ...(rows.length ? rows.map((row) => {
           const feature = el("button", { type: "button", className: `button button-outline${row.featured ? " is-active" : ""}`, "aria-pressed": String(row.featured),
             text: row.featured ? "Featured ✓" : "Feature",
             onclick: async () => {
@@ -95,12 +95,23 @@
             el("div", { className: "qotw-answer-head" }, [A.personChip(row.author, { size: 32 }),
               el("span", { className: "card-kicker", text: `QOTW #${row.episode}${row.open ? " · OPEN" : ""}` })]),
             el("p", { className: "qotw-answer-body", text: row.answer }),
-            el("div", { className: "admin-row-actions" }, [el("span", { className: "field-help", text: `${row.votes} upvote${row.votes === 1 ? "" : "s"} · ${A.formatDate(row.updated_at)}` }), feature]),
+            el("div", { className: "admin-row-actions" }, [el("span", { className: "field-help", text: `${row.votes} upvote${row.votes === 1 ? "" : "s"} · ${A.formatDate(row.updated_at)}` }), feature,
+              el("button", { type: "button", className: "button button-outline button-danger", text: "Delete", "aria-label": `Delete ${A.displayName(row.author)}'s answer to QotW #${row.episode}`,
+                onclick: async () => {
+                  const go = await window.HCEdit.confirm({ title: "Delete this answer?", danger: true, confirmLabel: "Delete", cancelLabel: "Cancel",
+                    message: `This permanently deletes ${A.displayName(row.author)}'s answer to QotW #${row.episode}, including its upvotes. It can't be undone, and nobody is notified.` });
+                  if (!go) return;
+                  const result = await rpc("admin_delete_answer", { p_answer: row.id });
+                  if (!result.ok) return;
+                  status.textContent = "Answer deleted.";
+                  status.dataset.kind = "success";
+                  load();
+                } })]),
           ]);
         }) : [el("li", { className: "empty-note", text: "No answers yet." })]));
       }
       picker.addEventListener("change", load);
-      panel.replaceChildren(
+      A.fill(panel, 
         el("h2", { text: "QotW answers" }),
         el("p", { className: "panel-lead", text: "Admins can read answers to the open question; listeners see others' answers only after it closes. Featured answers show first and get a badge." }),
         el("div", { className: "roster-form-grid" }, [el("div", { className: "form-field" }, [el("label", { for: "admin-qotw-question", text: "Question" }), picker])]),
@@ -127,7 +138,7 @@
         const { ok, data } = await rpc("admin_roster_requests", { p_status: filter.value || null });
         if (!ok) return;
         rows = data || [];
-        list.replaceChildren(...(rows.length ? rows.map((row) => {
+        A.fill(list, ...(rows.length ? rows.map((row) => {
           const id = row.id.slice(0, 8);
           const select = el("select", { id: `rr-status-${id}`, "aria-label": "New status" }, STATUSES.map((s) => el("option", { value: s, text: STATUS_LABEL[s], selected: s === row.status })));
           const episode = el("input", { id: `rr-episode-${id}`, type: "number", min: "1", inputmode: "numeric", placeholder: "Episode", value: row.aired_episode || "", "aria-label": "Aired in episode" });
@@ -154,12 +165,23 @@
                 status.dataset.kind = "success";
                 load();
               } }),
+              el("button", { type: "button", className: "button button-outline button-danger", text: "Delete request", "aria-label": `Delete ${A.displayName(row.author)}'s roster request`,
+                onclick: async () => {
+                  const go = await window.HCEdit.confirm({ title: "Delete this roster request?", danger: true, confirmLabel: "Delete", cancelLabel: "Cancel",
+                    message: `This permanently deletes ${A.displayName(row.author)}'s roster review request (status: ${STATUS_LABEL[row.status]}). It can't be undone, and nobody is notified.` });
+                  if (!go) return;
+                  const result = await rpc("admin_delete_roster_request", { p_request: row.id });
+                  if (!result.ok) return;
+                  status.textContent = "Request deleted.";
+                  status.dataset.kind = "success";
+                  load();
+                } }),
             ]),
           ]);
         }) : [el("li", { className: "empty-note", text: "No requests here." })]));
       }
       filter.addEventListener("change", load);
-      panel.replaceChildren(
+      A.fill(panel, 
         el("h2", { text: "Roster requests" }),
         el("p", { className: "panel-lead", text: "Move requests through received, queued, reviewed and aired (with the episode number), or decline or close them. Listeners see the status on their account and the roster page. Every change is audited." }),
         el("div", { className: "roster-form-grid" }, [el("div", { className: "form-field" }, [el("label", { for: "admin-roster-filter", text: "Show" }), filter])]),

@@ -53,7 +53,7 @@
   // ---------- profile header ----------
   function renderHeader() {
     const card = state.card;
-    $("profile-card").replaceChildren(A.personChip(card, { large: true }));
+    A.fill($("profile-card"), A.personChip(card, { large: true }));
     $("account-member-since").textContent = card.member_since ? `Member since ${A.formatDate(card.member_since)}` : "";
     $("account-email").textContent = state.user.email || "";
     $("admin-link").hidden = !card.role;
@@ -87,7 +87,7 @@
     const choices = avatarChoices();
     const saved = state.profile && state.profile.avatar_source;
     const current = choices.some((c) => c.value === saved) ? saved : (choices[0] && choices[0].value);
-    $("avatar-options").replaceChildren(...choices.map((choice) => A.el("label", { className: "avatar-option" }, [
+    A.fill($("avatar-options"), ...choices.map((choice) => A.el("label", { className: "avatar-option" }, [
       A.el("input", { type: "radio", name: "avatarSource", value: choice.value, checked: choice.value === current }),
       A.avatar({ id: state.user.id, name: fields.displayName.value || state.card.name, avatar_url: choice.url }, 48),
       A.el("span", { text: choice.label }),
@@ -166,7 +166,7 @@
     const choices = avatarChoices();
     const chosen = choices.find((c) => c.value === p.avatar_source) || choices[0];
     const unverified = () => A.el("span", { className: "unverified-tag", text: "Self-reported · unverified" });
-    $("profile-details").replaceChildren(
+    A.fill($("profile-details"), 
       ...detail("Picture", A.el("span", { className: "detail-picture" }, [
         A.avatar({ id: state.user.id, name: state.card.name, avatar_url: chosen && chosen.url }, 40),
         A.el("span", { text: chosen ? chosen.label : "Initials" })])),
@@ -255,7 +255,7 @@
   // ---------- sign-in methods ----------
   function renderMethods() {
     const identities = state.user.identities || [];
-    $("method-list").replaceChildren(...Object.keys(A.PROVIDERS).map((provider) => {
+    A.fill($("method-list"), ...Object.keys(A.PROVIDERS).map((provider) => {
       const identity = identities.find((item) => item.provider === provider);
       const email = identity && identity.identity_data && identity.identity_data.email;
       const action = identity
@@ -292,7 +292,7 @@
                         roster_aired_dm: "Your roster review aired", weekly_digest: "Weekly digest" };
   function renderAlertsView() {
     const prefs = state.prefs || {};
-    $("alerts-summary").replaceChildren(...PREFS.map((key) => A.el("li", { className: "alert-summary-row" }, [
+    A.fill($("alerts-summary"), ...PREFS.map((key) => A.el("li", { className: "alert-summary-row" }, [
       A.el("span", { text: PREF_LABELS[key] }),
       A.el("span", { className: `status-pill${prefs[key] ? "" : " is-off"}`, text: prefs[key] ? "On" : "Off" }),
     ])));

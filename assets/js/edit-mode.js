@@ -95,7 +95,7 @@
   }
 
   // A small accessible confirmation dialog with custom button labels. Resolves true or false.
-  function confirmDialog({ title, message, confirmLabel = "Save", cancelLabel = "Cancel" }) {
+  function confirmDialog({ title, message, confirmLabel = "Save", cancelLabel = "Cancel", danger = false }) {
     const doc = root.document;
     return new Promise((resolve) => {
       const dialog = doc.createElement("dialog");
@@ -119,7 +119,7 @@
       cancel.textContent = cancelLabel;
       const ok = doc.createElement("button");
       ok.value = "ok";
-      ok.className = "button button-primary";
+      ok.className = danger ? "button button-danger-solid" : "button button-primary";
       ok.textContent = confirmLabel;
       actions.append(cancel, ok);
       form.append(heading, text, actions);

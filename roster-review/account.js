@@ -19,7 +19,7 @@
 
   function signedOut() {
     panel.hidden = false;
-    panel.replaceChildren(el("div", { className: "roster-form-card roster-account-card" }, [
+    A.fill(panel, el("div", { className: "roster-form-card roster-account-card" }, [
       el("p", { className: "card-kicker", text: "APPLY WITH YOUR ACCOUNT" }),
       el("p", { className: "qotw-signin-note" }, ["Have a Holotable Chaos account? ",
         el("a", { className: "card-link", href: "../account/index.html", text: "Sign in to apply on the site and follow your request" }),
@@ -124,7 +124,7 @@
     editButton.textContent = open ? "Edit request" : "Apply on the site";
     editButton.hidden = Boolean(open && open.status !== "received");
     editButton.disabled = banned === true;
-    view.replaceChildren(...summary, actions,
+    A.fill(view, ...summary, actions,
       banned === true ? el("p", { className: "account-error", text: "Your account is suspended, so you can't send requests right now." }) : null,
       open && open.status !== "received" ? el("p", { className: "field-help", text: "Your request is with the crew, so it can't be edited now." }) : null);
     renderHistory();
@@ -132,7 +132,7 @@
 
   function renderHistory() {
     const past = all.filter((r) => !open || r.id !== open.id);
-    history.replaceChildren(...(past.length ? [el("h3", { text: "Earlier requests" }), el("ul", { className: "account-list" }, past.map((r) => el("li", {}, [
+    A.fill(history, ...(past.length ? [el("h3", { text: "Earlier requests" }), el("ul", { className: "account-list" }, past.map((r) => el("li", {}, [
       el("strong", { text: `${STATUS[r.status][0]} ` }), `· sent ${A.formatDate(r.created_at)} `,
       r.status === "aired" && r.aired_episode ? el("a", { className: "card-link", href: `../podcast/episodes/episode-${r.aired_episode}.html`, text: `Listen to episode ${r.aired_episode}` }) : null,
     ])))] : []));
@@ -179,5 +179,5 @@
 
   renderView();
   panel.hidden = false;
-  panel.replaceChildren(el("div", { className: "roster-form-card roster-account-card" }, [view, form, status, announcer, history]));
+  A.fill(panel, el("div", { className: "roster-form-card roster-account-card" }, [view, form, status, announcer, history]));
 })();
