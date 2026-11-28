@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import stage_pages  # noqa: E402
 
 ACCOUNT_PAGES = ("account/index.html", "admin/index.html", "privacy/index.html", "terms/index.html")
-ACCOUNT_ASSETS = ("assets/js/supabase-config.js", "assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "account/account.js", "admin/admin.js", "admin/moderation.js")
+ACCOUNT_ASSETS = ("assets/js/supabase-config.js", "assets/js/account-core.js", "assets/js/site-header.js", "assets/js/beta-notice.js", "assets/js/edit-mode.js", "account/account.js", "admin/admin.js", "admin/moderation.js")
 SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"
 
 
@@ -176,6 +176,27 @@ class AccountPageTests(unittest.TestCase):
         export = migration[migration.index("admin_export_everything"):]
         self.assertNotRegex(export.split("$$;")[0], r"blocked_terms|allowed_terms|reserved_names")
 
+    def test_beta_notice_has_one_switch_and_plain_html_fallbacks(self):
+        script = self.read("assets/js/beta-notice.js")
+        self.assertEqual(len(re.findall(r"^  enabled: (?:true|false),$", script, re.M)), 1)
+        self.assertEqual(len(re.findall(r"^  alertsComingSoon: (?:true|false),$", script, re.M)), 1)
+        self.assertIn("sessionStorage", script)
+        self.assertNotIn("localStorage", script)
+        account = self.read("account/index.html")
+        self.assertRegex(account, r'class="beta-notice" role="note" data-beta-notice="full"')
+        self.assertLess(account.index('data-beta-notice="full"'), account.index("account-sign-in-buttons"))
+        self.assertIn('id="beta-banner"', account)
+        self.assertIn('data-beta-notice="alerts"', account)
+        for path in ("terms/index.html", "privacy/index.html"):
+            self.assertIn('data-beta-notice="legal"', self.read(path))
+        pages = [p for p in stage_pages.PAGES if not p.startswith("podcast/episodes/")]
+        pages += [p.relative_to(ROOT).as_posix() for p in (ROOT / "podcast" / "episodes").glob("episode-*.html")]
+        for path in pages:
+            with self.subTest(page=path):
+                self.assertEqual(self.read(path).count("assets/js/beta-notice.js"), 1)
+        for script_path in ("scripts/build_qotw.py", "scripts/sync_buzzsprout.py"):
+            self.assertIn("assets/js/beta-notice.js", self.read(script_path))
+
     def test_admin_page_is_not_indexed(self):
         self.assertIn('name="robots" content="noindex, nofollow"', self.read("admin/index.html"))
 
@@ -210,7 +231,7 @@ class AccountPageTests(unittest.TestCase):
         self.assertNotRegex(page.lower(), r"we (?:will )?send you (?:an )?email")
 
     def test_scripts_never_write_untrusted_text_as_html(self):
-        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js", "roster-review/account.js", "admin/content.js"):
+        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js", "roster-review/account.js", "admin/content.js", "assets/js/beta-notice.js"):
             self.assertNotRegex(self.read(path), r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", path)
 
 
