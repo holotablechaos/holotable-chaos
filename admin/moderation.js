@@ -33,7 +33,7 @@
         data.reserved_name ? "Matches a reserved name (allowed only for the owner, admins and excepted accounts)" : null,
         data.name_taken ? "As a display name: already taken" : null,
       ].filter(Boolean);
-      testResult.replaceChildren(
+      A.fill(testResult, 
         el("p", { className: `status-pill${data.blocked ? " is-banned" : ""}`, text: data.blocked ? "Would be blocked" : "Allowed" }),
         reasons.length ? el("ul", { className: "account-list" }, reasons.map((r) => el("li", { text: r }))) : null,
       );
@@ -55,8 +55,8 @@
         ...CATEGORIES.map((key) => [pretty(key), (data.blocked_by_category || {})[key] || 0]),
         ["allowlist", data.allowed], ["reserved names", data.reserved], ["name exceptions", data.name_exceptions],
       ];
-      counts.replaceChildren(...tiles.map(([label, value]) => el("div", { className: "stat-tile" }, [
-        el("span", { className: "stat-value", text: String(value) }), el("span", { className: "stat-label", text: label })])));
+      A.fill(counts, ...tiles.map(([label, value]) => el("div", { className: "stat-tile" }, [
+        el("span", { className: "stat-value", text: String(value ?? 0) }), el("span", { className: "stat-label", text: label })])));
     }
 
     // ---------- blind list management: type entries in, get counts out. Nothing is ever displayed. ----------
@@ -75,9 +75,9 @@
     // Match type and category fields follow the chosen list (allowlist has neither; reserved has match only).
     function syncFields(listId, matchWrapId, categoryWrapId, keepOption) {
       const spec = LISTS[value(listId)];
-      document.getElementById(matchWrapId).replaceChildren(...(spec.matchTypes
+      A.fill(document.getElementById(matchWrapId), ...(spec.matchTypes
         ? [el("label", { for: `${matchWrapId}-select`, text: "Match type" }), select(`${matchWrapId}-select`, spec.matchTypes, keepOption)] : []));
-      document.getElementById(categoryWrapId).replaceChildren(...(spec.categories
+      A.fill(document.getElementById(categoryWrapId), ...(spec.categories
         ? [el("label", { for: `${categoryWrapId}-select`, text: "Category" }), select(`${categoryWrapId}-select`, CATEGORIES, keepOption)] : []));
     }
     function box(title, id, lead, controls, button, statusId) {
@@ -156,7 +156,7 @@
       async function loadExceptions() {
         const { ok, data } = await rpc("admin_list_name_exceptions");
         if (!ok) return;
-        exceptionList.replaceChildren(...(data.length ? data.map((card) => el("li", { className: "admin-row" }, [
+        A.fill(exceptionList, ...(data.length ? data.map((card) => el("li", { className: "admin-row" }, [
           el("div", { className: "admin-row-main" }, [A.personChip(card, { detail: card.note || "No note" })]),
           el("div", { className: "admin-row-actions" }, [el("button", { type: "button", className: "button button-outline", text: "Remove exception",
             onclick: async () => { if ((await rpc("admin_remove_name_exception", { p_user: card.id })).ok) { loadExceptions(); loadCounts(); } } })]),
@@ -170,13 +170,13 @@
           el("button", { type: "button", className: "button button-outline", text: "Look up", onclick: async () => {
             const { ok, data } = await rpc("admin_lookup_name", { p_name: lookupInput.value });
             if (!ok) return;
-            lookupResult.replaceChildren(data
+            A.fill(lookupResult, data
               ? el("div", { className: "admin-row" }, [
                   el("div", { className: "admin-row-main" }, [A.personChip(data, { detail: `ID ${data.id}` })]),
                   el("div", { className: "admin-row-actions" }, [el("button", { type: "button", className: "button button-outline button-danger", text: "Reclaim name",
                     onclick: async () => {
                       if (!window.confirm(`Clear the display name "${data.name}"? The listener isn't notified.`)) return;
-                      if ((await rpc("admin_reclaim_name", { p_user: data.id })).ok) lookupResult.replaceChildren(el("p", { className: "save-status", "data-kind": "success", text: "Name reclaimed." }));
+                      if ((await rpc("admin_reclaim_name", { p_user: data.id })).ok) A.fill(lookupResult, el("p", { className: "save-status", "data-kind": "success", text: "Name reclaimed." }));
                     } })]),
                 ])
               : el("p", { className: "empty-note", text: "Nobody holds that name." }));
@@ -199,7 +199,7 @@
       loadExceptions();
     }
 
-    panel.replaceChildren(counts, tester, addBox, removeBox, changeBox, names);
+    A.fill(panel, counts, tester, addBox, removeBox, changeBox, names);
     syncFields("mod-add-list", "mod-add-match", "mod-add-category", false);
     syncFields("mod-change-list", "mod-change-match", "mod-change-category", true);
     document.getElementById("mod-add-list").addEventListener("change", () => syncFields("mod-add-list", "mod-add-match", "mod-add-category", false));

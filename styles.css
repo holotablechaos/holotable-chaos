@@ -369,3 +369,6 @@ footer .brand{min-height:44px}
 .beta-alerts{margin:-6px 0 16px}
 .beta-tag{position:absolute;top:-9px;right:-6px;z-index:3;padding:1px 5px;border:1px solid #60c9ff88;background:#07111f;color:var(--blue);font:700 11px/1.2 'Barlow Condensed',sans-serif;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
 @media(max-width:359px){.beta-tag{display:none}}
+.button-danger-solid{border:0;background:#c9404c;color:#fff;cursor:pointer;font-family:inherit}
+.button-danger-solid:hover{background:#e0505c}
+.button-danger-solid:focus-visible{outline:2px solid #ffb7bc;outline-offset:2px}
