@@ -186,16 +186,14 @@ select is(private.display_name_for('11111111-1111-1111-1111-111111111111'), 'Twi
 set local role authenticated;
 select pg_temp.as_user(:'admin_id');
 select is((public.admin_test_text('what a gr0bble') ->> 'blocked')::boolean, true, 'the tester flags blocked text');
-select is(public.admin_test_text('what a gr0bble') -> 'blocked_terms' -> 0 ->> 'category', 'profanity', 'and says which entry and category');
+select is(public.admin_test_text('what a gr0bble') -> 'categories', '["profanity"]'::jsonb, 'and says which category, never the term');
 select is((public.admin_test_text('Zebra Crew', true) ->> 'reserved_name')::boolean, true, 'and reports reserved names');
 select is((public.admin_test_text('Cassian and Plo Koon') ->> 'blocked')::boolean, false, 'clean text passes');
 select is(public.admin_add_terms('blocked', array['wibblet', 'grobble', '  '], 'word', 'profanity'), 1, 'bulk add skips duplicates and blanks');
-reset role;
-select id as wibblet_id from private.blocked_terms where term = 'wibblet' \gset
-set local role authenticated;
-select pg_temp.as_user(:'admin_id');
-select is(public.admin_update_terms('blocked', array[:'wibblet_id']::bigint[], 'substring', 'harassment'), 1, 'match type and category can change');
-select is(public.admin_remove_terms('blocked', array[:'wibblet_id']::bigint[]), 1, 'terms can be removed');
+select is(public.admin_update_terms('blocked', array['Wibblet', 'nothere'], 'substring', 'harassment'), '{"changed": 1, "not_found": 1}'::jsonb,
+  'match type and category change by typing the term');
+select is(public.admin_remove_terms('blocked', array['WIBBLET', 'nothere']), '{"removed": 1, "not_found": 1}'::jsonb,
+  'terms are removed by typing them; only counts come back');
 select is(public.admin_add_terms('allowed', array['Grobbleshire']), 1, 'allowlist entries can be added');
 select is(public.admin_add_terms('reserved', array['Night Desk'], 'word'), 1, 'reserved names can be added');
 select is((public.admin_moderation_counts() -> 'blocked_by_category' ->> 'profanity')::int, 1, 'counts by category');
