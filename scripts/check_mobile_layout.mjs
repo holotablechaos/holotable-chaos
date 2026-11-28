@@ -32,12 +32,17 @@ function htmlPages(dir) {
 }
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// GitHub's Ubuntu runners block Chrome's sandbox; the runner is a throwaway machine, so skip it there only.
+const sandbox = process.platform === "linux" && process.env.CI ? ["--no-sandbox"] : [];
+let chromeErrors = "";
 const chrome = spawn(CHROME, ["--headless=new", `--remote-debugging-port=${PORT}`, "--no-first-run", "--no-default-browser-check",
-  "--disable-gpu", "--hide-scrollbars", `--user-data-dir=${mkdtempSync(join(tmpdir(), "hc-layout-"))}`, "about:blank"], { stdio: "ignore" });
+  "--disable-gpu", "--hide-scrollbars", ...sandbox, `--user-data-dir=${mkdtempSync(join(tmpdir(), "hc-layout-"))}`, "about:blank"],
+  { stdio: ["ignore", "ignore", "pipe"] });
+chrome.stderr.on("data", (chunk) => { chromeErrors = (chromeErrors + chunk).slice(-2000); });
 
 let socket; let nextId = 0; const waiting = new Map(); const events = [];
 async function connect() {
-  for (let attempt = 0; attempt < 100; attempt++) {
+  for (let attempt = 0; attempt < 300; attempt++) {
     try {
       const targets = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json();
       const page = targets.find((target) => target.type === "page");
@@ -45,7 +50,7 @@ async function connect() {
     } catch { /* Chrome is still starting */ }
     await sleep(100);
   }
-  if (!socket) throw new Error("Could not connect to Chrome");
+  if (!socket) throw new Error(`Could not connect to Chrome. Its last output:\n${chromeErrors}`);
   await new Promise((resolve, reject) => { socket.onopen = resolve; socket.onerror = reject; });
   socket.onmessage = (message) => {
     const data = JSON.parse(message.data);
