@@ -357,6 +357,69 @@
     if (typeof window.HCActivity === "function") await window.HCActivity(client, state);
   }
 
+  // ---------- tabs (same WAI-ARIA pattern as the admin dashboard) ----------
+  // Each tab panel keeps its old section id, so links like #alerts open the matching tab. With no
+  // matching hash the page opens on Profile and the URL is left alone (sign-in returns use the hash).
+  const tablist = $("account-tabs");
+  const TABS = ["profile", "sign-in-methods", "alerts", "activity", "your-data"];
+  const ALIASES = { "sign-in": "sign-in-methods", data: "your-data" };
+  let currentTab = "profile";
+  const tabButton = (id) => $(`account-tab-${id}`);
+  function tabFromHash() {
+    let wanted = "";
+    try { wanted = decodeURIComponent((window.location.hash || "").replace(/^#/, "")); } catch { return null; }
+    const id = ALIASES[wanted] || wanted;
+    return TABS.includes(id) ? id : null;
+  }
+  function selectTab(id, { focus = false, updateHash = false } = {}) {
+    TABS.forEach((tab) => {
+      const selected = tab === id;
+      tabButton(tab).setAttribute("aria-selected", String(selected));
+      tabButton(tab).tabIndex = selected ? 0 : -1;
+      $(tab).hidden = !selected;
+    });
+    currentTab = id;
+    if (focus) tabButton(id).focus();
+    if (updateHash) { try { history.replaceState(null, "", `#${id}`); } catch { /* ignore */ } }
+  }
+  // Switching tabs with unsaved edits asks first; Leave discards them.
+  async function requestTab(id, { focus = false } = {}) {
+    if (id === currentTab) return true;
+    if (window.HCEdit && window.HCEdit.anyDirty()) {
+      const leave = await window.HCEdit.confirm({ title: "Unsaved changes", message: "You have unsaved changes. Leave without saving?",
+        confirmLabel: "Leave", cancelLabel: "Cancel" });
+      if (!leave) {
+        try { history.replaceState(null, "", `#${currentTab}`); } catch { /* ignore */ }
+        tabButton(currentTab).focus();
+        return false;
+      }
+      window.HCEdit.discardAll();
+      focus = true;  // the discarded form's Edit button is about to be hidden
+    }
+    selectTab(id, { focus, updateHash: true });
+    return true;
+  }
+  if (tablist) {
+    tablist.addEventListener("click", (event) => {
+      const tab = event.target.closest('[role="tab"]');
+      if (tab) requestTab(tab.getAttribute("aria-controls"));
+    });
+    tablist.addEventListener("keydown", (event) => {
+      const list = TABS.map(tabButton);
+      const index = list.indexOf(document.activeElement);
+      if (index < 0) return;
+      const next = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: list.length - 1 }[event.key];
+      if (next === undefined) return;
+      event.preventDefault();
+      requestTab(TABS[(next + list.length) % list.length], { focus: true });
+    });
+    window.addEventListener("hashchange", () => {
+      const id = tabFromHash();
+      if (id && id !== currentTab) requestTab(id);
+    });
+    selectTab(tabFromHash() || "profile");
+  }
+
   // ---------- load ----------
   async function load() {
     const { data } = await client.auth.getUser();

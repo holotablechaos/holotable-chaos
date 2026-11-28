@@ -220,9 +220,6 @@ footer .brand{min-height:44px}
 .profile-header{display:grid;gap:6px;border-color:#60c9ff44;background:radial-gradient(ellipse at 85% 10%,#168fe32e,transparent 50%),linear-gradient(135deg,#0e2135,#091522)}
 .profile-header-meta{display:flex;flex-wrap:wrap;gap:4px 18px;margin:4px 0 0;color:var(--muted);font-size:13px}
 .profile-header-meta span:empty{display:none}
-.section-tabs{display:flex;flex-wrap:wrap;gap:8px;max-width:900px}
-.section-tabs a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);background:#0a1726;color:#c2d2e3;font-size:13px;font-weight:600}
-.section-tabs a:hover,.section-tabs a:focus-visible{border-color:#60c9ff88;color:var(--blue)}
 .account-page .panel{scroll-margin-top:16px}
 .avatar-picker{margin:0 0 20px;padding:0;border:0;min-width:0}
 .avatar-picker legend{margin-bottom:10px;color:var(--ink);font-size:13px;font-weight:600}
@@ -257,7 +254,6 @@ footer .brand{min-height:44px}
 @media(max-width:760px){
 .account-signed-out-layout{grid-template-columns:1fr}
 .switch-row{min-height:64px}
-.section-tabs a{min-height:44px}
 }
 /* ---------- Admin dashboard ---------- */
 .admin-layout{display:grid;gap:16px;min-width:0;max-width:1100px}
@@ -377,3 +373,5 @@ footer .brand{min-height:44px}
 .feedback-latest{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
 .feedback-send-account{margin:22px 0 0 10px;cursor:pointer;font-family:inherit}
 @media(max-width:480px){.feedback-send-account{margin-left:0}}
+.account-tabs{max-width:900px;padding-bottom:0;border-bottom:0}
+@media(max-width:560px){.account-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.account-tabs [role="tab"]{padding:0 6px}}
