@@ -167,6 +167,15 @@ class AccountPageTests(unittest.TestCase):
         self.assertIn("roster-review/account.js", stage_pages.ASSETS)
         self.assertNotRegex(self.read("roster-review/account.js"), r'type="file"|type: "file"|storage\.from')  # no uploads
 
+    def test_admin_exports_guard_csv_formulas_and_never_include_lists(self):
+        content = self.read("admin/content.js")
+        self.assertIn("admin/content.js", stage_pages.ASSETS)
+        self.assertIn("formula-injection", content)
+        self.assertNotRegex(content, r"admin_list_terms|blocked_terms|allowed_terms|reserved_names")
+        migration = self.read("supabase/migrations/20261205000000_admin_tools.sql")
+        export = migration[migration.index("admin_export_everything"):]
+        self.assertNotRegex(export.split("$$;")[0], r"blocked_terms|allowed_terms|reserved_names")
+
     def test_admin_page_is_not_indexed(self):
         self.assertIn('name="robots" content="noindex, nofollow"', self.read("admin/index.html"))
 
@@ -201,7 +210,7 @@ class AccountPageTests(unittest.TestCase):
         self.assertNotRegex(page.lower(), r"we (?:will )?send you (?:an )?email")
 
     def test_scripts_never_write_untrusted_text_as_html(self):
-        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js", "roster-review/account.js"):
+        for path in ("assets/js/account-core.js", "assets/js/site-header.js", "assets/js/edit-mode.js", "assets/js/activity.js", "account/account.js", "admin/admin.js", "admin/moderation.js", "community/qotw.js", "roster-review/account.js", "admin/content.js"):
             self.assertNotRegex(self.read(path), r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", path)
 
 
