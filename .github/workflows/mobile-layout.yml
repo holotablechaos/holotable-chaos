@@ -1,0 +1,33 @@
+name: Mobile Layout Check
+
+# Builds the published site and loads every page in headless Chrome at 320, 375 and 430px.
+# Fails if any page scrolls sideways or the home hero's text overlaps the logo. No secrets.
+
+on:
+  push:
+    branches: [main]
+    paths: ["**.html", "**.css", "**.js", "scripts/stage_pages.py", "scripts/check_mobile_layout.mjs", ".github/workflows/mobile-layout.yml"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Build the allowlisted site
+        run: python3 scripts/stage_pages.py
+      - name: Check every page at phone widths
+        run: |
+          python3 -m http.server 8000 --bind 127.0.0.1 -d _site >/dev/null 2>&1 &
+          sleep 1
+          node scripts/check_mobile_layout.mjs _site http://127.0.0.1:8000
